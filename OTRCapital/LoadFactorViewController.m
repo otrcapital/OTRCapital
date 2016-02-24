@@ -10,6 +10,9 @@
 #import "ImageAdjustmentViewController.h"
 #import "OTRManager.h"
 #import "DocumentOptionalPropertiesViewController.h"
+#import "AssetsLibrary/AssetsLibrary.h"
+
+#define SCAN_SOURCE_ALERT_VIEW_TAG 101
 
 @interface LoadFactorViewController ()
 {
@@ -299,33 +302,48 @@
     else
     {
         [self saveInfo];
-        [self checkForPermission];
+        [self showAlertViewWithScanSourceType];
     }
 }
 
-- (void) checkForPermission{
+- (void) checkForCameraPermission{
     AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-    if(authStatus == AVAuthorizationStatusAuthorized)
-    {
-        [self openCameraPicker];
-    }
-    else
-    {
+    if(authStatus == AVAuthorizationStatusAuthorized){
+        [self openScanPickerWithSourceType:MAImagePickerControllerSourceTypeCamera];
+    } else {
         [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
             if(granted){
-                [self openCameraPicker];
+                [self openScanPickerWithSourceType:MAImagePickerControllerSourceTypeCamera];
             } else {
-                [self showAlertViewWithTitle:@"Camera Permission not Granted." andWithMessage:@"Error"];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self showAlertViewWithTitle:@"Camera Permission not Granted." andWithMessage:@"Error"];
+                });
             }
         }];
     }
 }
 
-- (void) openCameraPicker{
+- (void) checkForPhotoLibraryPermission{
+    ALAuthorizationStatus authStatus = [ALAssetsLibrary authorizationStatus];
+    if(authStatus == ALAuthorizationStatusAuthorized){
+        [self openScanPickerWithSourceType:MAImagePickerControllerSourceTypePhotoLibrary];
+    } else {
+        ALAssetsLibrary *lib = [[ALAssetsLibrary alloc] init];
+        [lib enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
+            [self openScanPickerWithSourceType:MAImagePickerControllerSourceTypePhotoLibrary];
+        } failureBlock:^(NSError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self showAlertViewWithTitle:@"Photo Library Permission not Granted." andWithMessage:@"Error"];
+            });
+        }];
+    }
+}
+
+- (void) openScanPickerWithSourceType:(MAImagePickerControllerSourceType*)sourceType{
     MAImagePickerController *imagePicker = [[MAImagePickerController alloc] init];
     
     [imagePicker setDelegate:self];
-    [imagePicker setSourceType:MAImagePickerControllerSourceTypeCamera];
+    [imagePicker setSourceType:sourceType];
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imagePicker];
     
@@ -400,6 +418,31 @@
                                           cancelButtonTitle:@"OK"
                                           otherButtonTitles:nil];
     [alert show];
+}
+
+- (void) showAlertViewWithScanSourceType{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Scanning Source"
+                                                    message:nil
+                                                     delegate:self
+                                            cancelButtonTitle:@"Cancel"
+                                            otherButtonTitles:@"Camera", @"Photo Library", nil];
+    alert.tag = SCAN_SOURCE_ALERT_VIEW_TAG;
+    [alert show];
+}
+
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if(alertView.tag == SCAN_SOURCE_ALERT_VIEW_TAG){
+        if(buttonIndex == 1) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self checkForCameraPermission];
+            });
+        }
+        else if(buttonIndex == 2) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self checkForPhotoLibraryPermission];
+            });
+        }
+    }
 }
 
 @end

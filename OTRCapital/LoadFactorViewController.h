@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MAImagePickerController.h"
 
-@interface LoadFactorViewController : UIViewController<UINavigationControllerDelegate, MAImagePickerControllerDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface LoadFactorViewController : UIViewController<UINavigationControllerDelegate, MAImagePickerControllerDelegate, UITextFieldDelegate, UITableViewDelegate, UIAlertViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, retain) NSDictionary *data;
 
