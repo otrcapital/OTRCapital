@@ -12,8 +12,6 @@
 #import "DocumentOptionalPropertiesViewController.h"
 #import "AssetsLibrary/AssetsLibrary.h"
 
-#define SCAN_SOURCE_ALERT_VIEW_TAG 101
-
 @interface LoadFactorViewController ()
 {
     NSMutableArray *muary_Interest_Main;
@@ -293,26 +291,39 @@
 }
 
 - (IBAction)onScanButtonPressed:(id)sender {
-    if (![self isValidInfo]) {
-        [self showAlertViewWithTitle:@"Information Missing" andWithMessage:@"Some of required fields are missing. Or Broker Name is incorect. Kindly correct it out to continue."];
-    }
-    else if(![self isValidInvioceAmount]) {
-        [self showAlertViewWithTitle:@"Invalid Invoice Value" andWithMessage:@"One of the Total Pay or Total Deduction amount is invalid, kindly recheck the amount."];
-    }
-    else
-    {
-        [self saveInfo];
-        [self showAlertViewWithScanSourceType];
+    if ([self validateAllFields]) {
+        [self checkForCameraPermission];
     }
 }
 
-- (void) checkForCameraPermission{
+- (IBAction)onPhotoGalleryButtonPressed:(id)sender {
+    if ([self validateAllFields]) {
+        [self checkForPhotoLibraryPermission];
+    }
+}
+
+- (BOOL)validateAllFields {
+    if (![self isValidInfo]) {
+        [self showAlertViewWithTitle:@"Information Missing" andWithMessage:@"Some of required fields are missing. Or Broker Name is incorect. Kindly correct it out to continue."];
+        return false;
+    }
+    else if(![self isValidInvioceAmount]) {
+        [self showAlertViewWithTitle:@"Invalid Invoice Value" andWithMessage:@"One of the Total Pay or Total Deduction amount is invalid, kindly recheck the amount."];
+        return false;
+    }
+    else {
+        [self saveInfo];
+        return true;
+    }
+}
+
+- (void)checkForCameraPermission {
     AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
-    if(authStatus == AVAuthorizationStatusAuthorized){
+    if(authStatus == AVAuthorizationStatusAuthorized) {
         [self openScanPickerWithSourceType:MAImagePickerControllerSourceTypeCamera];
     } else {
         [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
-            if(granted){
+            if(granted) {
                 [self openScanPickerWithSourceType:MAImagePickerControllerSourceTypeCamera];
             } else {
                 dispatch_async(dispatch_get_main_queue(), ^{
@@ -323,9 +334,9 @@
     }
 }
 
-- (void) checkForPhotoLibraryPermission{
+- (void)checkForPhotoLibraryPermission {
     ALAuthorizationStatus authStatus = [ALAssetsLibrary authorizationStatus];
-    if(authStatus == ALAuthorizationStatusAuthorized){
+    if(authStatus == ALAuthorizationStatusAuthorized) {
         [self openScanPickerWithSourceType:MAImagePickerControllerSourceTypePhotoLibrary];
     } else {
         ALAssetsLibrary *lib = [[ALAssetsLibrary alloc] init];
@@ -339,12 +350,10 @@
     }
 }
 
-- (void) openScanPickerWithSourceType:(MAImagePickerControllerSourceType*)sourceType{
+- (void)openScanPickerWithSourceType:(MAImagePickerControllerSourceType*)sourceType {
     MAImagePickerController *imagePicker = [[MAImagePickerController alloc] init];
-    
     [imagePicker setDelegate:self];
     [imagePicker setSourceType:sourceType];
-    
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imagePicker];
     
     [self presentViewController:navigationController animated:YES completion:nil];
@@ -418,31 +427,6 @@
                                           cancelButtonTitle:@"OK"
                                           otherButtonTitles:nil];
     [alert show];
-}
-
-- (void) showAlertViewWithScanSourceType{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Scanning Source"
-                                                    message:nil
-                                                     delegate:self
-                                            cancelButtonTitle:@"Cancel"
-                                            otherButtonTitles:@"Camera", @"Photo Library", nil];
-    alert.tag = SCAN_SOURCE_ALERT_VIEW_TAG;
-    [alert show];
-}
-
-- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if(alertView.tag == SCAN_SOURCE_ALERT_VIEW_TAG){
-        if(buttonIndex == 1) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self checkForCameraPermission];
-            });
-        }
-        else if(buttonIndex == 2) {
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [self checkForPhotoLibraryPermission];
-            });
-        }
-    }
 }
 
 @end

@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		183CEEAA1BCEC56A00C02FF7 /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 183CEEA91BCEC56A00C02FF7 /* TTTAttributedLabel.m */; settings = {ASSET_TAGS = (); }; };
+		183CEEAA1BCEC56A00C02FF7 /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 183CEEA91BCEC56A00C02FF7 /* TTTAttributedLabel.m */; };
 		185D7C251B5A1BE300CB196A /* BrokerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 185D7C241B5A1BE300CB196A /* BrokerDetailViewController.m */; };
 		18641A361B64DE6900B70791 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1864FBC61B6349B100855C09 /* opencv2.framework */; };
 		1864FBCB1B634A1400855C09 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1864FBC81B6349C800855C09 /* ImageIO.framework */; };
@@ -70,7 +70,7 @@
 		1864FCA81B636D0A00855C09 /* f-setting-tray@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 1864FC921B636D0A00855C09 /* f-setting-tray@2x.png */; };
 		18696DD21B6CAC160001E49A /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 18696DD11B6CAC160001E49A /* Reachability.m */; };
 		18696DD51B6CAFAF0001E49A /* SplashScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18696DD41B6CAFAF0001E49A /* SplashScreenViewController.m */; };
-		187605DA1BD5385C009BA76D /* OTR_Broker_Info_Default.txt in Resources */ = {isa = PBXBuildFile; fileRef = 187605D91BD5385C009BA76D /* OTR_Broker_Info_Default.txt */; settings = {ASSET_TAGS = (); }; };
+		187605DA1BD5385C009BA76D /* OTR_Broker_Info_Default.txt in Resources */ = {isa = PBXBuildFile; fileRef = 187605D91BD5385C009BA76D /* OTR_Broker_Info_Default.txt */; };
 		1879EEAE1B6518700094553F /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1879EEAD1B6518700094553F /* AsyncImageView.m */; };
 		1879EEB51B65250B0094553F /* arrow_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 1879EEAF1B65250B0094553F /* arrow_blue.png */; };
 		1879EEB61B65250B0094553F /* arrow_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 1879EEB01B65250B0094553F /* arrow_white.png */; };
@@ -141,7 +141,7 @@
 		18B8FB5F1B52DB47002A5670 /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B8FB5E1B52DB47002A5670 /* HistoryViewController.m */; };
 		18B8FB631B52DE92002A5670 /* HistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18B8FB621B52DE92002A5670 /* HistoryTableViewCell.xib */; };
 		18B8FB661B52E0B9002A5670 /* HistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B8FB651B52E0B9002A5670 /* HistoryTableViewCell.m */; };
-		18CF17931BC43575006A1B46 /* email_icon_doc.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CF17921BC43575006A1B46 /* email_icon_doc.png */; settings = {ASSET_TAGS = (); }; };
+		18CF17931BC43575006A1B46 /* email_icon_doc.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CF17921BC43575006A1B46 /* email_icon_doc.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -627,7 +627,7 @@
 				TargetAttributes = {
 					18B8FA9E1B5248D3002A5670 = {
 						CreatedOnToolsVersion = 6.2;
-						DevelopmentTeam = 6K4B4QV4HQ;
+						DevelopmentTeam = 8CAPV7PE6E;
 					};
 				};
 			};
@@ -938,8 +938,8 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
