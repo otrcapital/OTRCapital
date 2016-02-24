@@ -1,0 +1,30 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "1AC26867960426C073C96ADD5D4AA06C00EDC51B",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "1DE8D864AFD4431B18FD1926F616406819D3A98E" : 0,
+    "1AC26867960426C073C96ADD5D4AA06C00EDC51B" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "7DDE0CF7-1557-4F7F-AFB8-7BB88B83FC65",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "1DE8D864AFD4431B18FD1926F616406819D3A98E" : "OTRCapital",
+    "1AC26867960426C073C96ADD5D4AA06C00EDC51B" : "iOS\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "OTRCapital",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "OTRCapital.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/otrcapital\/OTRCapital",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1AC26867960426C073C96ADD5D4AA06C00EDC51B"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/bitbucket.org\/zeeshansafder\/overtsolutions.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "1DE8D864AFD4431B18FD1926F616406819D3A98E"
+    }
+  ]
+}
