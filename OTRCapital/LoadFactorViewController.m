@@ -41,7 +41,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, 568);
+    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 800);
+    self.scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     self.title = @"Factor a Load";
     self.txtFdBrokerName.delegate = self;
     self.txtFdLoadNo.delegate = self;
