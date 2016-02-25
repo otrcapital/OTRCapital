@@ -47,8 +47,8 @@
     [super viewDidLoad];
     
     self.slidersView.frame = CGRectMake(self.slidersView.frame.origin.x, self.slidersView.frame.origin.y - 10, self.slidersView.frame.size.width, self.slidersView.frame.size.height);
-    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 750);
     self.scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height + 100);
     self.title = @"Fuel Advance";
     self.txtFdBrokerName.delegate = self;
     self.txtFdLoadNo.delegate = self;
