@@ -19,6 +19,7 @@
     UITableView *tbl_Search;
     UITapGestureRecognizer *tapper;
 }
+@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UILabel *lblBrokerName;
 @property (strong, nonatomic) IBOutlet UITextField *txtFdBrokerName;
 @property (strong, nonatomic) IBOutlet UITextField *txtFdLoadNo;
@@ -40,6 +41,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 800);
+    self.scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     self.title = @"Factor a Load";
     self.txtFdBrokerName.delegate = self;
     self.txtFdLoadNo.delegate = self;
