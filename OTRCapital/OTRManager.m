@@ -368,7 +368,7 @@
     
     [apiInvoiceDataJson setObject:mcn forKey:@"CustomerMCNumber"];
     [apiInvoiceDataJson setObject:loadNumber forKey:@"PoNumber"];
-    [apiInvoiceDataJson setObject:pKey forKey:@"PKey"];
+    [apiInvoiceDataJson setObject:pKey forKey:@"CustomerPKey"];
     [apiInvoiceDataJson setObject:invoiceAmount forKey:@"InvoiceAmount"];
     [apiInvoiceDataJson setObject:[self getUserName] forKey:@"ClientLogin"];
     [apiInvoiceDataJson setObject:[self getPasswrodEncoded] forKey:@"ClientPassword"];
