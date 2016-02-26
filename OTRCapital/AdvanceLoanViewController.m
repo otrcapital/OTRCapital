@@ -311,6 +311,7 @@
     vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self.navigationController pushViewController:vc animated:YES];
 }
+
 - (IBAction)onSwitchPressed:(id)sender {
     UISwitch* switcher = (UISwitch*)sender;
     [self.EFSswitch setOn:NO animated:self.EFSswitch.isOn];

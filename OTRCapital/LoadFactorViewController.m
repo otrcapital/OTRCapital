@@ -19,6 +19,11 @@
     UITableView *tbl_Search;
     UITapGestureRecognizer *tapper;
 }
+@property (weak, nonatomic) IBOutlet UISwitch *comdataFuelCardSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *EFSSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *wireSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *ACHswitch;
+@property (strong, nonatomic) IBOutlet UIView *slidersView;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UILabel *lblBrokerName;
 @property (strong, nonatomic) IBOutlet UITextField *txtFdBrokerName;
@@ -41,8 +46,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 800);
+    self.slidersView.frame = CGRectMake(self.slidersView.frame.origin.x, self.slidersView.frame.origin.y - 10, self.slidersView.frame.size.width, self.slidersView.frame.size.height);
     self.scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height + 100);
     self.title = @"Factor a Load";
     self.txtFdBrokerName.delegate = self;
     self.txtFdLoadNo.delegate = self;
@@ -291,6 +297,15 @@
     [vc initLoadFactor];
     vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (IBAction)onSwitchPressed:(id)sender {
+    UISwitch* switcher = (UISwitch*)sender;
+    [self.ACHswitch setOn:NO animated:self.ACHswitch.isOn];
+    [self.wireSwitch setOn:NO animated:self.wireSwitch.isOn];
+    [self.EFSSwitch setOn:NO animated:self.EFSSwitch.isOn];
+    [self.comdataFuelCardSwitch setOn:NO animated:self.comdataFuelCardSwitch.isOn];
+    [switcher setOn:!switcher.isOn animated:YES];
 }
 
 - (IBAction)onScanButtonPressed:(id)sender {
