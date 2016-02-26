@@ -22,6 +22,10 @@
     UITableView *tbl_Search;
     UITapGestureRecognizer *tapper;
 }
+@property (weak, nonatomic) IBOutlet UISwitch *comdataFuelCardSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *emailSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *textComcheckSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *EFSswitch;
 @property (strong, nonatomic) IBOutlet UIView *slidersView;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UILabel *lblBrokerName;
@@ -306,6 +310,14 @@
     [vc initAdvanceLoan];
     vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self.navigationController pushViewController:vc animated:YES];
+}
+- (IBAction)onSwitchPressed:(id)sender {
+    UISwitch* switcher = (UISwitch*)sender;
+    [self.EFSswitch setOn:NO animated:self.EFSswitch.isOn];
+    [self.textComcheckSwitch setOn:NO animated:self.textComcheckSwitch.isOn];
+    [self.emailSwitch setOn:NO animated:self.emailSwitch.isOn];
+    [self.comdataFuelCardSwitch setOn:NO animated:self.comdataFuelCardSwitch.isOn];
+    [switcher setOn:!switcher.isOn animated:YES];
 }
 
 - (IBAction)onScanButtonPressed:(id)sender {

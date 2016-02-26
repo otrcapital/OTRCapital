@@ -1751,9 +1751,12 @@
                                                 <rect key="frame" x="2" y="2" width="60" height="49"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                 <subviews>
-                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="Elg-om-jpe">
+                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="Elg-om-jpe">
                                                         <rect key="frame" x="1" y="1" width="51" height="31"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                        <connections>
+                                                            <action selector="onSwitchPressed:" destination="1SS-Lh-2LN" eventType="valueChanged" id="jY8-gO-REY"/>
+                                                        </connections>
                                                     </switch>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EFS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="5xo-Oe-Gn9">
                                                         <rect key="frame" x="11" y="24" width="28" height="21"/>
@@ -1770,12 +1773,15 @@
                                                 <rect key="frame" x="70" y="2" width="60" height="49"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                 <subviews>
-                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="Yth-wJ-6ic">
+                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="Yth-wJ-6ic">
                                                         <rect key="frame" x="1" y="1" width="51" height="31"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                        <connections>
+                                                            <action selector="onSwitchPressed:" destination="1SS-Lh-2LN" eventType="valueChanged" id="qUe-YP-1Fj"/>
+                                                        </connections>
                                                     </switch>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EFS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WO4-fQ-3mH">
-                                                        <rect key="frame" x="11" y="24" width="28" height="21"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text Comcheck" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WO4-fQ-3mH">
+                                                        <rect key="frame" x="-2" y="24" width="62" height="30"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1789,12 +1795,15 @@
                                                 <rect key="frame" x="138" y="2" width="60" height="49"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                 <subviews>
-                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="ity-tm-cVz">
+                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="ity-tm-cVz">
                                                         <rect key="frame" x="1" y="1" width="51" height="31"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                        <connections>
+                                                            <action selector="onSwitchPressed:" destination="1SS-Lh-2LN" eventType="valueChanged" id="4DY-kv-z06"/>
+                                                        </connections>
                                                     </switch>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EFS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bdH-ce-Fsa">
-                                                        <rect key="frame" x="11" y="24" width="28" height="21"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Email Comcheck" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="bdH-ce-Fsa">
+                                                        <rect key="frame" x="-8" y="25" width="66" height="30"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1808,12 +1817,15 @@
                                                 <rect key="frame" x="206" y="2" width="60" height="49"/>
                                                 <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                 <subviews>
-                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" id="kcf-ju-lm1">
+                                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="kcf-ju-lm1">
                                                         <rect key="frame" x="1" y="1" width="51" height="31"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                        <connections>
+                                                            <action selector="onSwitchPressed:" destination="1SS-Lh-2LN" eventType="valueChanged" id="Evf-X0-5jK"/>
+                                                        </connections>
                                                     </switch>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EFS" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mxd-Am-VL6">
-                                                        <rect key="frame" x="11" y="24" width="28" height="21"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Comdata Fuel Card" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mxd-Am-VL6">
+                                                        <rect key="frame" x="-13" y="23" width="76" height="35"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1834,10 +1846,14 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <connections>
+                        <outlet property="EFSswitch" destination="Elg-om-jpe" id="j2E-cL-GsE"/>
+                        <outlet property="comdataFuelCardSwitch" destination="kcf-ju-lm1" id="Ydv-Oh-e6C"/>
+                        <outlet property="emailSwitch" destination="ity-tm-cVz" id="oSr-6o-UEx"/>
                         <outlet property="lblBrokerName" destination="VJm-fj-gT3" id="Mcb-Yo-Z3e"/>
                         <outlet property="lblDescription" destination="oEC-CZ-6an" id="3Px-iW-IXP"/>
                         <outlet property="scrollView" destination="X8u-vb-kGJ" id="gC6-ER-K7a"/>
                         <outlet property="slidersView" destination="non-jd-ZVJ" id="7mC-dE-qUM"/>
+                        <outlet property="textComcheckSwitch" destination="Yth-wJ-6ic" id="wOt-t1-osX"/>
                         <outlet property="txtFdBrokerName" destination="qRA-iZ-TFe" id="wqp-ce-ONh"/>
                         <outlet property="txtFdLoadNo" destination="IuU-jO-gqd" id="8vl-Ql-GtK"/>
                         <outlet property="txtFdTotalDeduction" destination="c0j-b2-E9N" id="WwS-w0-ZWq"/>
