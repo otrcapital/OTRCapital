@@ -143,6 +143,7 @@
     {
         self.view.layer.cornerRadius = 8;
         self.view.layer.masksToBounds = YES;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(MAImagePickerChosen:) name:@"MAIPCSuccessInternal" object:nil];
         
         _invokeCamera = [[UIImagePickerController alloc] init];
         _invokeCamera.delegate = self;
