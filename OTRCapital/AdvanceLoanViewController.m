@@ -12,6 +12,9 @@
 #import "DocumentOptionalPropertiesViewController.h"
 #import "AssetsLibrary/AssetsLibrary.h"
 
+#define TOTAL_PAY_TEXTFIELD_TAG 10
+#define TOTAL_DEDUCTION_TEXTFIELD_TAG 11
+
 @interface AdvanceLoanViewController ()
 {
     NSMutableArray *muary_Interest_Main;
@@ -19,6 +22,11 @@
     UITableView *tbl_Search;
     UITapGestureRecognizer *tapper;
 }
+@property (weak, nonatomic) IBOutlet UISwitch *comdataFuelCardSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *emailSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *textComcheckSwitch;
+@property (weak, nonatomic) IBOutlet UISwitch *EFSswitch;
+@property (strong, nonatomic) IBOutlet UIView *slidersView;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UILabel *lblBrokerName;
 @property (strong, nonatomic) IBOutlet UITextField *txtFdBrokerName;
@@ -41,13 +49,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, 800);
+    
+    self.slidersView.frame = CGRectMake(self.slidersView.frame.origin.x, self.slidersView.frame.origin.y - 10, self.slidersView.frame.size.width, self.slidersView.frame.size.height);
     self.scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height + 100);
     self.title = @"Fuel Advance";
     self.txtFdBrokerName.delegate = self;
     self.txtFdLoadNo.delegate = self;
     self.txtFdTotalPay.delegate = self;
+    self.txtFdTotalPay.tag = TOTAL_PAY_TEXTFIELD_TAG;
     self.txtFdTotalDeduction.delegate = self;
+    self.txtFdTotalDeduction.tag = TOTAL_DEDUCTION_TEXTFIELD_TAG;
     self.lblDescription.text = @"";
     self.originalCenter = self.view.center;
     self.brokerList = [[OTRManager sharedManager] getBrokersList];
@@ -125,7 +137,9 @@
     else if (textField == self.txtFdTotalPay) {
         [self.txtFdTotalDeduction becomeFirstResponder];
     }
-    
+    if (textField.tag == TOTAL_DEDUCTION_TEXTFIELD_TAG || textField.tag == TOTAL_PAY_TEXTFIELD_TAG) {
+        self.slidersView.frame = CGRectMake(self.slidersView.frame.origin.x, self.slidersView.frame.origin.y - 10, self.slidersView.frame.size.width, self.slidersView.frame.size.height);
+    }
     return YES;
 }
 
@@ -160,6 +174,7 @@
         frameRect.origin.x = self.lblDescription.frame.origin.x;
         frameRect.size = self.sizeLblDescription;
         self.lblDescription.frame = frameRect;
+        self.slidersView.frame = CGRectMake(self.slidersView.frame.origin.x, self.slidersView.frame.origin.y + 10, self.slidersView.frame.size.width, self.slidersView.frame.size.height);
     }
     else if (textField == self.txtFdTotalDeduction) {
         
@@ -172,6 +187,7 @@
         frameRect.origin.x = self.lblDescription.frame.origin.x;
         frameRect.size = self.sizeLblDescription;
         self.lblDescription.frame = frameRect;
+        self.slidersView.frame = CGRectMake(self.slidersView.frame.origin.x, self.slidersView.frame.origin.y + 10, self.slidersView.frame.size.width, self.slidersView.frame.size.height);
     }
 }
 
@@ -190,6 +206,9 @@
     frameRect = self.viewTotalDeduction.frame;
     frameRect.origin.y = self.positionYTxtTotalDeduction;
     self.viewTotalDeduction.frame = frameRect;
+    if (textField.tag == TOTAL_DEDUCTION_TEXTFIELD_TAG || textField.tag == TOTAL_PAY_TEXTFIELD_TAG) {
+        self.slidersView.frame = CGRectMake(self.slidersView.frame.origin.x, self.slidersView.frame.origin.y - 10, self.slidersView.frame.size.width, self.slidersView.frame.size.height);
+    }
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
@@ -291,6 +310,15 @@
     [vc initAdvanceLoan];
     vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self.navigationController pushViewController:vc animated:YES];
+}
+
+- (IBAction)onSwitchPressed:(id)sender {
+    UISwitch* switcher = (UISwitch*)sender;
+    [self.EFSswitch setOn:NO animated:self.EFSswitch.isOn];
+    [self.textComcheckSwitch setOn:NO animated:self.textComcheckSwitch.isOn];
+    [self.emailSwitch setOn:NO animated:self.emailSwitch.isOn];
+    [self.comdataFuelCardSwitch setOn:NO animated:self.comdataFuelCardSwitch.isOn];
+    [switcher setOn:!switcher.isOn animated:YES];
 }
 
 - (IBAction)onScanButtonPressed:(id)sender {
