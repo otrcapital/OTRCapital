@@ -372,6 +372,7 @@
     [apiInvoiceDataJson setObject:invoiceAmount forKey:@"InvoiceAmount"];
     [apiInvoiceDataJson setObject:[self getUserName] forKey:@"ClientLogin"];
     [apiInvoiceDataJson setObject:[self getPasswrodEncoded] forKey:@"ClientPassword"];
+    [apiInvoiceDataJson setObject:[otrInfo objectForKey:KEY_ADVANCED_REQUEST_TYPE] forKey:KEY_ADVANCED_REQUEST_TYPE];
     
     if (advReqAmount) {
         [apiInvoiceDataJson setObject:advReqAmount forKey:@"AdvanceRequestAmount"];

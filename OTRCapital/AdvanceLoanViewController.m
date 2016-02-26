@@ -428,6 +428,18 @@
 
 - (void) saveInfo{
     NSString *brokerName = self.txtFdBrokerName.text;
+    NSString *switchValue = @"";
+    if (self.EFSswitch.isOn) {
+        switchValue = @"EFS";
+    } else if (self.textComcheckSwitch.isOn) {
+        switchValue = @"Text Comcheck";
+    }  else if (self.emailSwitch.isOn) {
+        switchValue = @"Email Comcheck";
+    } else if (self.comdataFuelCardSwitch.isOn) {
+        switchValue = @"Comdata Fuel Card";
+    }
+    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:switchValue forKey:KEY_ADVANCED_REQUEST_TYPE];
+    
     [[OTRManager sharedManager] setOTRInfoValueOfTypeString:brokerName forKey:KEY_BROKER_NAME];
     NSString *mcn = [[OTRManager sharedManager] getMCNumberByBrokerName:brokerName];
     [[OTRManager sharedManager] setOTRInfoValueOfTypeString:mcn forKey:KEY_MC_NUMBER];

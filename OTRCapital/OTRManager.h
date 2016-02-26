@@ -25,6 +25,7 @@
 #define KEY_INVOICE_AMOUNT                      @"invoiceAmount"
 #define KEY_MC_NUMBER                           @"mc_number"
 #define KEY_PKEY                                @"PKey"
+#define KEY_ADVANCED_REQUEST_TYPE               @"AdvanceRequestType"
 #define KEY_IMAGE_FILE_NAME                     @"image_name"
 #define KEY_DOC_PROPERTY_DELIVERY_PROOF         @"delivery_proof"
 #define KEY_DOC_PROPERTY_LANING_BILL            @"landing_bill"
