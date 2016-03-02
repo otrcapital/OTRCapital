@@ -15,6 +15,8 @@
 #define TOTAL_PAY_TEXTFIELD_TAG 10
 #define TOTAL_DEDUCTION_TEXTFIELD_TAG 11
 
+#define TEXT_COMCHECK_PHONE_NUMBER_ALERT_VIEW_TAG 101
+
 @interface AdvanceLoanViewController ()
 {
     NSMutableArray *muary_Interest_Main;
@@ -38,6 +40,7 @@
 @property (strong, nonatomic) IBOutlet UIView *viewTotalDeduction;
 @property (nonatomic) CGPoint originalCenter;
 @property (nonatomic) NSArray *brokerList;
+@property (strong, nonatomic) NSString *textComcheckPhoneNumber;
 @property int tblSearchX;
 @property int tblSearchY;
 @property int positionYTxtTotalPay;
@@ -321,6 +324,20 @@
     [switcher setOn:!switcher.isOn animated:YES];
 }
 
+- (IBAction)onTextComcheckPressed:(id)sender {
+    UISwitch* switcher = (UISwitch*)sender;
+    [self onSwitchPressed:sender];
+    if (switcher.isOn) {
+        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Phone" message:@"Please enter phone number" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
+        [alert textFieldAtIndex:0].keyboardType = UIKeyboardTypePhonePad;
+        [alert textFieldAtIndex:0].text = self.textComcheckPhoneNumber;
+        [alert setTag:TEXT_COMCHECK_PHONE_NUMBER_ALERT_VIEW_TAG];
+        [alert show];
+    }
+}
+
+
 - (IBAction)onScanButtonPressed:(id)sender {
     if ([self validateAllFields]) {
         [self checkForCameraPermission];
@@ -439,7 +456,9 @@
         switchValue = @"Comdata Fuel Card";
     }
     [[OTRManager sharedManager] setOTRInfoValueOfTypeString:switchValue forKey:KEY_ADVANCED_REQUEST_TYPE];
-    
+    if (self.textComcheckPhoneNumber != nil) {
+        [[OTRManager sharedManager] setOTRInfoValueOfTypeString:self.textComcheckPhoneNumber forKey:KEY_TEXT_COMCHECK_PHONE_NUMBER];
+    }
     [[OTRManager sharedManager] setOTRInfoValueOfTypeString:brokerName forKey:KEY_BROKER_NAME];
     NSString *mcn = [[OTRManager sharedManager] getMCNumberByBrokerName:brokerName];
     [[OTRManager sharedManager] setOTRInfoValueOfTypeString:mcn forKey:KEY_MC_NUMBER];
@@ -469,5 +488,16 @@
                                           otherButtonTitles:nil];
     [alert show];
 }
+
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if(alertView.tag == TEXT_COMCHECK_PHONE_NUMBER_ALERT_VIEW_TAG){
+        if(buttonIndex == 0) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                self.textComcheckPhoneNumber = [alertView textFieldAtIndex:0].text;
+            });
+        }
+    }
+}
+
 
 @end

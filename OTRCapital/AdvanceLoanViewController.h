@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "MAImagePickerController.h"
 
-@interface AdvanceLoanViewController : UIViewController <UINavigationControllerDelegate, MAImagePickerControllerDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource>
+@interface AdvanceLoanViewController : UIViewController <UINavigationControllerDelegate, MAImagePickerControllerDelegate, UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate>
 
 @property (nonatomic, retain) NSDictionary *data;
 

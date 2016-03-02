@@ -1887,7 +1887,7 @@
                                                         <rect key="frame" x="1" y="1" width="51" height="31"/>
                                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                                                         <connections>
-                                                            <action selector="onSwitchPressed:" destination="1SS-Lh-2LN" eventType="valueChanged" id="qUe-YP-1Fj"/>
+                                                            <action selector="onTextComcheckPressed:" destination="1SS-Lh-2LN" eventType="valueChanged" id="et8-2t-JZe"/>
                                                         </connections>
                                                     </switch>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Text Comcheck" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="WO4-fQ-3mH">

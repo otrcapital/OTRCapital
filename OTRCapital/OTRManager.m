@@ -363,6 +363,7 @@
     NSString *invoiceAmount = [otrInfo objectForKey:KEY_INVOICE_AMOUNT];
     NSNumber *pKey = [otrInfo objectForKey:KEY_PKEY];
     NSString *advReqAmount = [otrInfo objectForKey:KEY_ADV_REQ_AMOUT];
+    NSString *textComcheckPhoneNumber = [otrInfo objectForKey:KEY_TEXT_COMCHECK_PHONE_NUMBER];
     
     NSMutableDictionary *apiInvoiceDataJson = [NSMutableDictionary new];
     
@@ -373,6 +374,9 @@
     [apiInvoiceDataJson setObject:[self getUserName] forKey:@"ClientLogin"];
     [apiInvoiceDataJson setObject:[self getPasswrodEncoded] forKey:@"ClientPassword"];
     [apiInvoiceDataJson setObject:[otrInfo objectForKey:KEY_ADVANCED_REQUEST_TYPE] forKey:KEY_ADVANCED_REQUEST_TYPE];
+    if (textComcheckPhoneNumber != nil) {
+        [apiInvoiceDataJson setObject:textComcheckPhoneNumber forKey:KEY_TEXT_COMCHECK_PHONE_NUMBER];
+    }
     
     if (advReqAmount) {
         [apiInvoiceDataJson setObject:advReqAmount forKey:@"AdvanceRequestAmount"];
