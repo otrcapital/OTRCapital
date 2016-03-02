@@ -9,6 +9,7 @@
 #import "DocumentOptionalPropertiesViewController.h"
 #import "OTRManager.h"
 #import "ImageAdjustmentViewController.h"
+#import "AssetsLibrary/AssetsLibrary.h"
 
 #define TAG_ALERT_VIEW_INFO_SEND_SUCCESS        1
 #define TAG_ALERT_VIEW_INFO_SEND_FAIL           2
@@ -334,11 +335,50 @@
 }
 
 - (IBAction)onScanMoreDocumentButtonPressed:(id)sender {
+    [self checkForCameraPermission];
+}
+
+- (IBAction)onPhotoGalleryButtonPressed:(id)sender {
+    [self checkForPhotoLibraryPermission];
+}
+
+- (void)checkForCameraPermission {
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    if(authStatus == AVAuthorizationStatusAuthorized) {
+        [self openScanPickerWithSourceType:MAImagePickerControllerSourceTypeCamera];
+    } else {
+        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+            if(granted) {
+                [self openScanPickerWithSourceType:MAImagePickerControllerSourceTypeCamera];
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [self showAlertViewWithTitle:@"Camera Permission not Granted." andWithMessage:@"Error"];
+                });
+            }
+        }];
+    }
+}
+
+- (void)checkForPhotoLibraryPermission {
+    ALAuthorizationStatus authStatus = [ALAssetsLibrary authorizationStatus];
+    if(authStatus == ALAuthorizationStatusAuthorized) {
+        [self openScanPickerWithSourceType:MAImagePickerControllerSourceTypePhotoLibrary];
+    } else {
+        ALAssetsLibrary *lib = [[ALAssetsLibrary alloc] init];
+        [lib enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
+            [self openScanPickerWithSourceType:MAImagePickerControllerSourceTypePhotoLibrary];
+        } failureBlock:^(NSError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self showAlertViewWithTitle:@"Photo Library Permission not Granted." andWithMessage:@"Error"];
+            });
+        }];
+    }
+}
+
+- (void)openScanPickerWithSourceType:(MAImagePickerControllerSourceType*)sourceType {
     MAImagePickerController *imagePicker = [[MAImagePickerController alloc] init];
-    
     [imagePicker setDelegate:self];
-    [imagePicker setSourceType:MAImagePickerControllerSourceTypeCamera];
-    
+    [imagePicker setSourceType:sourceType];
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imagePicker];
     
     [self presentViewController:navigationController animated:YES completion:nil];
@@ -434,6 +474,15 @@
                                           cancelButtonTitle:@"OK"
                                           otherButtonTitles:@"Retry", nil];
     [alert setTag:tag];
+    [alert show];
+}
+
+- (void) showAlertViewWithTitle: (NSString*)title andWithMessage: (NSString*) msg{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
+                                                    message:msg
+                                                   delegate:nil
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
     [alert show];
 }
 
