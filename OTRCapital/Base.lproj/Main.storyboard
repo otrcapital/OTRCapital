@@ -1411,7 +1411,7 @@
                                 <autoresizingMask key="autoresizingMask"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="otr_logo.png" id="LhQ-52-0Se">
-                                        <rect key="frame" x="10" y="42" width="300" height="123"/>
+                                        <rect key="frame" x="10" y="42" width="300" height="122"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <view contentMode="scaleToFill" id="4Bz-aV-dt9" userLabel="BookerFieldView">
@@ -1661,10 +1661,9 @@
                                 <color key="tintColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             </scrollView>
                         </subviews>
-                        <color key="backgroundColor" red="0.23529411759999999" green="0.23529411759999999" blue="0.23529411759999999" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
-                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="ACHswitch" destination="Lu7-iY-TUA" id="6VE-J9-yUd"/>
                         <outlet property="EFSSwitch" destination="6cO-e3-dCG" id="Zc4-O6-RW2"/>

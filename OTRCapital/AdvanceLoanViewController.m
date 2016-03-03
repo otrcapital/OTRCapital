@@ -12,6 +12,8 @@
 #import "DocumentOptionalPropertiesViewController.h"
 #import "AssetsLibrary/AssetsLibrary.h"
 
+#define SLIDER_VIEW_SHIFT_BY_Y 10
+
 #define TOTAL_PAY_TEXTFIELD_TAG 10
 #define TOTAL_DEDUCTION_TEXTFIELD_TAG 11
 
@@ -53,7 +55,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.slidersView.frame = CGRectMake(self.slidersView.frame.origin.x, self.slidersView.frame.origin.y - 10, self.slidersView.frame.size.width, self.slidersView.frame.size.height);
+    self.slidersView.frame = CGRectMake(self.slidersView.frame.origin.x, self.slidersView.frame.origin.y - SLIDER_VIEW_SHIFT_BY_Y, self.slidersView.frame.size.width, self.slidersView.frame.size.height);
     self.scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
     self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height + 100);
     self.title = @"Fuel Advance";
@@ -141,7 +143,7 @@
         [self.txtFdTotalDeduction becomeFirstResponder];
     }
     if (textField.tag == TOTAL_DEDUCTION_TEXTFIELD_TAG || textField.tag == TOTAL_PAY_TEXTFIELD_TAG) {
-        self.slidersView.frame = CGRectMake(self.slidersView.frame.origin.x, self.slidersView.frame.origin.y - 10, self.slidersView.frame.size.width, self.slidersView.frame.size.height);
+        self.slidersView.frame = CGRectMake(self.slidersView.frame.origin.x, self.slidersView.frame.origin.y - SLIDER_VIEW_SHIFT_BY_Y, self.slidersView.frame.size.width, self.slidersView.frame.size.height);
     }
     return YES;
 }
@@ -177,7 +179,7 @@
         frameRect.origin.x = self.lblDescription.frame.origin.x;
         frameRect.size = self.sizeLblDescription;
         self.lblDescription.frame = frameRect;
-        self.slidersView.frame = CGRectMake(self.slidersView.frame.origin.x, self.slidersView.frame.origin.y + 10, self.slidersView.frame.size.width, self.slidersView.frame.size.height);
+        self.slidersView.frame = CGRectMake(self.slidersView.frame.origin.x, self.slidersView.frame.origin.y + SLIDER_VIEW_SHIFT_BY_Y, self.slidersView.frame.size.width, self.slidersView.frame.size.height);
     }
     else if (textField == self.txtFdTotalDeduction) {
         
@@ -190,7 +192,7 @@
         frameRect.origin.x = self.lblDescription.frame.origin.x;
         frameRect.size = self.sizeLblDescription;
         self.lblDescription.frame = frameRect;
-        self.slidersView.frame = CGRectMake(self.slidersView.frame.origin.x, self.slidersView.frame.origin.y + 10, self.slidersView.frame.size.width, self.slidersView.frame.size.height);
+        self.slidersView.frame = CGRectMake(self.slidersView.frame.origin.x, self.slidersView.frame.origin.y + SLIDER_VIEW_SHIFT_BY_Y, self.slidersView.frame.size.width, self.slidersView.frame.size.height);
     }
 }
 
@@ -210,7 +212,7 @@
     frameRect.origin.y = self.positionYTxtTotalDeduction;
     self.viewTotalDeduction.frame = frameRect;
     if (textField.tag == TOTAL_DEDUCTION_TEXTFIELD_TAG || textField.tag == TOTAL_PAY_TEXTFIELD_TAG) {
-        self.slidersView.frame = CGRectMake(self.slidersView.frame.origin.x, self.slidersView.frame.origin.y - 10, self.slidersView.frame.size.width, self.slidersView.frame.size.height);
+        self.slidersView.frame = CGRectMake(self.slidersView.frame.origin.x, self.slidersView.frame.origin.y - SLIDER_VIEW_SHIFT_BY_Y, self.slidersView.frame.size.width, self.slidersView.frame.size.height);
     }
 }
 
