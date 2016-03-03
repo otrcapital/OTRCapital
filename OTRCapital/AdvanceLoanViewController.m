@@ -18,6 +18,7 @@
 #define TOTAL_DEDUCTION_TEXTFIELD_TAG 11
 
 #define TEXT_COMCHECK_PHONE_NUMBER_ALERT_VIEW_TAG 101
+#define PHONE_NUMBER_PATTERN  @"(###) ### - ####"
 
 @interface AdvanceLoanViewController ()
 {
@@ -43,6 +44,7 @@
 @property (nonatomic) CGPoint originalCenter;
 @property (nonatomic) NSArray *brokerList;
 @property (strong, nonatomic) NSString *textComcheckPhoneNumber;
+@property (strong, nonatomic) UIAlertView *textComcheckAlert;
 @property int tblSearchX;
 @property int tblSearchY;
 @property int positionYTxtTotalPay;
@@ -221,7 +223,64 @@
     if (textField == self.txtFdBrokerName) {
         [self searchText:textField replacementString:string];
     }
+    else if (textField == [self.textComcheckAlert textFieldAtIndex:0]) {
+        NSString *filter = PHONE_NUMBER_PATTERN;
+        NSString *changedString = [textField.text stringByReplacingCharactersInRange:range withString:string];
+        
+        if(range.length == 1 && string.length < range.length &&
+           [[textField.text substringWithRange:range] rangeOfCharacterFromSet:[NSCharacterSet characterSetWithCharactersInString:@"0123456789"]].location == NSNotFound) {
+            NSInteger location = changedString.length - 1;
+            if(location > 0) {
+                for(; location > 0; location--) {
+                    if(isdigit([changedString characterAtIndex:location])) {
+                        break;
+                    }
+                }
+                changedString = [changedString substringToIndex:location];
+            }
+        }
+        textField.text = [self filteredPhoneStringFromString:changedString andWithFilter:filter];
+        [textField sendActionsForControlEvents:UIControlEventEditingChanged];
+        return NO;
+    }
     return YES;
+}
+
+- (NSMutableString*)filteredPhoneStringFromString:(NSString*)string andWithFilter:(NSString*)filter
+{
+    NSUInteger onOriginal = 0, onFilter = 0, onOutput = 0;
+    char outputString[([filter length])];
+    BOOL done = NO;
+    
+    while(onFilter < [filter length] && !done){
+        char filterChar = [filter characterAtIndex:onFilter];
+        char originalChar = onOriginal >= string.length ? '\0' : [string characterAtIndex:onOriginal];
+        switch (filterChar) {
+            case '#':
+                if(originalChar=='\0'){
+                    done = YES;
+                    break;
+                }
+                if(isdigit(originalChar)){
+                    outputString[onOutput] = originalChar;
+                    onOriginal++;
+                    onFilter++;
+                    onOutput++;
+                } else {
+                    onOriginal++;
+                }
+                break;
+            default:
+                outputString[onOutput] = filterChar;
+                onOutput++;
+                onFilter++;
+                if(originalChar == filterChar)
+                    onOriginal++;
+                break;
+        }
+    }
+    outputString[onOutput] = '\0';
+    return [NSMutableString stringWithUTF8String:outputString];
 }
 
 -(void) searchText:(UITextField *)textField replacementString:(NSString *)string
@@ -324,18 +383,24 @@
     [self.emailSwitch setOn:NO animated:self.emailSwitch.isOn];
     [self.comdataFuelCardSwitch setOn:NO animated:self.comdataFuelCardSwitch.isOn];
     [switcher setOn:!switcher.isOn animated:YES];
+    if (switcher != self.textComcheckSwitch) {
+        self.textComcheckPhoneNumber = nil;
+    }
 }
 
 - (IBAction)onTextComcheckPressed:(id)sender {
     UISwitch* switcher = (UISwitch*)sender;
     [self onSwitchPressed:sender];
     if (switcher.isOn) {
-        UIAlertView *alert = [[UIAlertView alloc]initWithTitle:@"Phone" message:@"Please enter phone number" delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
-        alert.alertViewStyle = UIAlertViewStylePlainTextInput;
-        [alert textFieldAtIndex:0].keyboardType = UIKeyboardTypePhonePad;
-        [alert textFieldAtIndex:0].text = self.textComcheckPhoneNumber;
-        [alert setTag:TEXT_COMCHECK_PHONE_NUMBER_ALERT_VIEW_TAG];
-        [alert show];
+        self.textComcheckAlert = [[UIAlertView alloc]initWithTitle:@"Phone" message:@"Please enter phone number" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+        self.textComcheckAlert.alertViewStyle = UIAlertViewStylePlainTextInput;
+        [self.textComcheckAlert textFieldAtIndex:0].keyboardType = UIKeyboardTypePhonePad;
+        [self.textComcheckAlert textFieldAtIndex:0].text = self.textComcheckPhoneNumber;
+        [self.textComcheckAlert textFieldAtIndex:0].delegate = self;
+        [self.textComcheckAlert textFieldAtIndex:0].placeholder = @"xxx-xxx-xxxx";
+        [self.textComcheckAlert setTag:TEXT_COMCHECK_PHONE_NUMBER_ALERT_VIEW_TAG];
+        [self.textComcheckAlert show];
+    
     }
 }
 
@@ -400,6 +465,10 @@
     }
     else if(![self isValidInvioceAmount]) {
         [self showAlertViewWithTitle:@"Invalid Invoice Value" andWithMessage:@"One of the Total Pay or Total Deduction amount is invalid, kindly recheck the amount."];
+        return false;
+    }
+    else if (!self.EFSswitch.isOn && !self.textComcheckSwitch.isOn && !self.emailSwitch.isOn && !self.comdataFuelCardSwitch.isOn) {
+        [self showAlertViewWithTitle:@"Invalid Value" andWithMessage:@"Please, turn on one of the sliders."];
         return false;
     }
     else {
@@ -482,7 +551,7 @@
     [[OTRManager sharedManager] setOTRInfoValueOfTypeString:totalDeduction forKey:KEY_ADV_REQ_AMOUT];
 }
 
-- (void) showAlertViewWithTitle: (NSString*)title andWithMessage: (NSString*) msg{
+- (void) showAlertViewWithTitle: (NSString*)title andWithMessage: (NSString*) msg {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
                                                     message:msg
                                                    delegate:nil
@@ -491,14 +560,31 @@
     [alert show];
 }
 
-- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(alertView.tag == TEXT_COMCHECK_PHONE_NUMBER_ALERT_VIEW_TAG){
         if(buttonIndex == 0) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (self.textComcheckPhoneNumber == nil) {
+                    [self.textComcheckSwitch setOn:NO animated:YES];
+                }
+                self.textComcheckPhoneNumber = [alertView textFieldAtIndex:0].text;
+            });
+        }
+        else if(buttonIndex == 1) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 self.textComcheckPhoneNumber = [alertView textFieldAtIndex:0].text;
             });
         }
     }
+}
+
+- (BOOL)alertViewShouldEnableFirstOtherButton:(UIAlertView *)alertView
+{
+    if(alertView.tag == TEXT_COMCHECK_PHONE_NUMBER_ALERT_VIEW_TAG){
+        return ([[[alertView textFieldAtIndex:0] text] length]  < PHONE_NUMBER_PATTERN.length) ? NO : YES;
+    }
+    else return YES;
+    
 }
 
 

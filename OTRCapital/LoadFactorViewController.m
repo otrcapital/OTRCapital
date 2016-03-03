@@ -345,6 +345,10 @@
         [self showAlertViewWithTitle:@"Invalid Invoice Value" andWithMessage:@"One of the Total Pay or Total Deduction amount is invalid, kindly recheck the amount."];
         return false;
     }
+    else if (!self.ACHswitch.isOn && !self.wireSwitch.isOn && !self.EFSSwitch.isOn && !self.comdataFuelCardSwitch.isOn) {
+        [self showAlertViewWithTitle:@"Invalid Value" andWithMessage:@"Please, turn on one of the sliders."];
+        return false;
+    }
     else {
         [self saveInfo];
         return true;
