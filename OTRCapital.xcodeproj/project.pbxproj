@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0755678B1D991DC500310996 /* libturbojpeg.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0755678A1D991DC500310996 /* libturbojpeg.a */; };
+		0755678E1D9920ED00310996 /* CrashlyticsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0755678D1D9920ED00310996 /* CrashlyticsManager.m */; };
 		183CEEAA1BCEC56A00C02FF7 /* TTTAttributedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 183CEEA91BCEC56A00C02FF7 /* TTTAttributedLabel.m */; };
 		185D7C251B5A1BE300CB196A /* BrokerDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 185D7C241B5A1BE300CB196A /* BrokerDetailViewController.m */; };
 		18641A361B64DE6900B70791 /* opencv2.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1864FBC61B6349B100855C09 /* opencv2.framework */; };
@@ -142,9 +144,13 @@
 		18B8FB631B52DE92002A5670 /* HistoryTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 18B8FB621B52DE92002A5670 /* HistoryTableViewCell.xib */; };
 		18B8FB661B52E0B9002A5670 /* HistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B8FB651B52E0B9002A5670 /* HistoryTableViewCell.m */; };
 		18CF17931BC43575006A1B46 /* email_icon_doc.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CF17921BC43575006A1B46 /* email_icon_doc.png */; };
+		6958D233A238E67833DCEA18 /* libPods-OTRCapital.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5C61C32737AA0210762CEA4 /* libPods-OTRCapital.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0755678A1D991DC500310996 /* libturbojpeg.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libturbojpeg.a; sourceTree = "<group>"; };
+		0755678C1D9920ED00310996 /* CrashlyticsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CrashlyticsManager.h; sourceTree = "<group>"; };
+		0755678D1D9920ED00310996 /* CrashlyticsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CrashlyticsManager.m; sourceTree = "<group>"; };
 		183CEEA81BCEC56A00C02FF7 /* TTTAttributedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTTAttributedLabel.h; sourceTree = "<group>"; };
 		183CEEA91BCEC56A00C02FF7 /* TTTAttributedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTTAttributedLabel.m; sourceTree = "<group>"; };
 		185D7C231B5A1BE300CB196A /* BrokerDetailViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerDetailViewController.h; sourceTree = "<group>"; };
@@ -314,6 +320,9 @@
 		18B8FB641B52E0B9002A5670 /* HistoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryTableViewCell.h; sourceTree = "<group>"; };
 		18B8FB651B52E0B9002A5670 /* HistoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryTableViewCell.m; sourceTree = "<group>"; };
 		18CF17921BC43575006A1B46 /* email_icon_doc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = email_icon_doc.png; sourceTree = "<group>"; };
+		5E5E25A9F26354A175F67485 /* Pods-OTRCapital.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OTRCapital.release.xcconfig"; path = "Pods/Target Support Files/Pods-OTRCapital/Pods-OTRCapital.release.xcconfig"; sourceTree = "<group>"; };
+		F46E2154CD0AFA3A75DDED9A /* Pods-OTRCapital.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OTRCapital.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OTRCapital/Pods-OTRCapital.debug.xcconfig"; sourceTree = "<group>"; };
+		F5C61C32737AA0210762CEA4 /* libPods-OTRCapital.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OTRCapital.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -326,6 +335,8 @@
 				1864FBCD1B634A2600855C09 /* CoreImage.framework in Frameworks */,
 				1864FBCC1B634A1E00855C09 /* QuartzCore.framework in Frameworks */,
 				1864FBCB1B634A1400855C09 /* ImageIO.framework in Frameworks */,
+				0755678B1D991DC500310996 /* libturbojpeg.a in Frameworks */,
+				6958D233A238E67833DCEA18 /* libPods-OTRCapital.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -344,11 +355,13 @@
 		1864FBCA1B6349E000855C09 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				0755678A1D991DC500310996 /* libturbojpeg.a */,
 				1864FC481B63545000855C09 /* AssetsLibrary.framework */,
 				1864FBC81B6349C800855C09 /* ImageIO.framework */,
 				1864FBC61B6349B100855C09 /* opencv2.framework */,
 				1864FBC41B63499400855C09 /* QuartzCore.framework */,
 				1864FBC21B63498C00855C09 /* CoreImage.framework */,
+				F5C61C32737AA0210762CEA4 /* libPods-OTRCapital.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -427,6 +440,7 @@
 				1864FBCA1B6349E000855C09 /* Frameworks */,
 				18B8FAA11B5248D3002A5670 /* OTRCapital */,
 				18B8FAA01B5248D3002A5670 /* Products */,
+				A5F00A22C495ADCA54F814A8 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -462,6 +476,8 @@
 				18B8FB4A1B52C03F002A5670 /* OTRManager.m */,
 				18B8FB621B52DE92002A5670 /* HistoryTableViewCell.xib */,
 				189900D71B5925F600C007EF /* HistoryDetailCell.xib */,
+				0755678C1D9920ED00310996 /* CrashlyticsManager.h */,
+				0755678D1D9920ED00310996 /* CrashlyticsManager.m */,
 			);
 			path = OTRCapital;
 			sourceTree = "<group>";
@@ -596,6 +612,15 @@
 			name = ImageCropper;
 			sourceTree = "<group>";
 		};
+		A5F00A22C495ADCA54F814A8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				F46E2154CD0AFA3A75DDED9A /* Pods-OTRCapital.debug.xcconfig */,
+				5E5E25A9F26354A175F67485 /* Pods-OTRCapital.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -603,9 +628,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 18B8FAC21B5248D3002A5670 /* Build configuration list for PBXNativeTarget "OTRCapital" */;
 			buildPhases = (
+				0E178F33FC0402D0E73B3B77 /* [CP] Check Pods Manifest.lock */,
 				18B8FA9B1B5248D3002A5670 /* Sources */,
 				18B8FA9C1B5248D3002A5670 /* Frameworks */,
 				18B8FA9D1B5248D3002A5670 /* Resources */,
+				B40DAA1839B690675C3C99FA /* [CP] Embed Pods Frameworks */,
+				6619E1DE600FE254E59291C3 /* [CP] Copy Pods Resources */,
+				075567891D991AC900310996 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -757,6 +786,67 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		075567891D991AC900310996 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "${PODS_ROOT}/Fabric/run 02e263e038a91f7d4e860c48bc3670eb70371e63 67789c89bf8ef2c8c920a576e3ad9b8375d4de4600021a28ff89e965940dcd43";
+		};
+		0E178F33FC0402D0E73B3B77 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		6619E1DE600FE254E59291C3 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OTRCapital/Pods-OTRCapital-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		B40DAA1839B690675C3C99FA /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-OTRCapital/Pods-OTRCapital-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		18B8FA9B1B5248D3002A5670 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -769,6 +859,7 @@
 				18B8FB1E1B524EEB002A5670 /* AdvanceLoanViewController.m in Sources */,
 				18696DD21B6CAC160001E49A /* Reachability.m in Sources */,
 				185D7C251B5A1BE300CB196A /* BrokerDetailViewController.m in Sources */,
+				0755678E1D9920ED00310996 /* CrashlyticsManager.m in Sources */,
 				1864FC401B634DDA00855C09 /* MAConstants.m in Sources */,
 				1864FC471B634DDA00855C09 /* UIImageView+ContentFrame.m in Sources */,
 				18B8FB481B52A02F002A5670 /* DocumentOptionalPropertiesViewController.m in Sources */,
@@ -898,6 +989,7 @@
 		};
 		18B8FAC31B5248D3002A5670 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F46E2154CD0AFA3A75DDED9A /* Pods-OTRCapital.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -921,7 +1013,12 @@
 				INFOPLIST_FILE = OTRCapital/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.otrcapital.otrmobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -932,6 +1029,7 @@
 		};
 		18B8FAC41B5248D3002A5670 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5E5E25A9F26354A175F67485 /* Pods-OTRCapital.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -955,7 +1053,12 @@
 				INFOPLIST_FILE = OTRCapital/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = "";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)",
+				);
+				OTHER_LDFLAGS = "$(inherited)";
+				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.otrcapital.otrmobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";

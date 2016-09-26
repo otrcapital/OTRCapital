@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "OTRManager.h"
 #import <stdio.h>
+#import "CrashlyticsManager.h"
 
 #define TAG_SPINNER_VIEW    99
 #define KEY_OTR_RECORD_FETCH_DATE           @"otr_record_fetch_date"
@@ -558,6 +559,11 @@
     }
 }
 - (void) onOTRRequestFailWithError: (NSString *)error;{
+    NSDictionary *userInfo = @{
+                               NSLocalizedDescriptionKey: error,
+                               NSLocalizedFailureReasonErrorKey: error
+                               };
+    [[CrashlyticsManager sharedManager]logException:[NSError errorWithDomain:NSURLErrorDomain code:self.responseCode userInfo:userInfo]];
     if ([self.delegate respondsToSelector:@selector(onOTRRequestFailWithError:)]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.delegate onOTRRequestFailWithError:error];

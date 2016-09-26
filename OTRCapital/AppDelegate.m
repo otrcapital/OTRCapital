@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import "OTRManager.h"
 #import "Reachability.h"
+#import <Fabric/Fabric.h>
+#import <Crashlytics/Crashlytics.h>
 
 @interface AppDelegate ()
 
@@ -50,6 +52,12 @@
     [self.window makeKeyAndVisible];
     
     [self testInternetConnection];
+    
+#ifdef DEBUG
+    [[Fabric sharedSDK] setDebug: YES];
+#endif
+    [Fabric with:@[[Crashlytics class]]];
+    
     return YES;
 }
 

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
 #import "OTRManager.h"
+#import "CrashlyticsManager.h"
 
 @interface LoginViewController : UIViewController <UITextFieldDelegate, MFMailComposeViewControllerDelegate, OTRManagerDelegate>
 - (IBAction)loginButtonPressed:(id)sender;

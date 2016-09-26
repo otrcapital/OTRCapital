@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 #import "AppDelegate.h"
+#import <Crashlytics/Crashlytics.h>
 
 @interface LoginViewController ()
 @property (strong, nonatomic) IBOutlet UITextField *emailTextField;
@@ -121,6 +122,7 @@
         CGPoint viewCenter = self.view.center;
         UIView *spinner = [[OTRManager sharedManager] getSpinnerViewBlockerWithPosition:viewCenter];
         [self.view addSubview:spinner];
+        [[CrashlyticsManager sharedManager]setUserEmail:email];
         [[OTRManager sharedManager] loginWithUserName:email andPassword:password];
     }
 }
@@ -165,6 +167,7 @@
     NSString *isValid = [data objectForKey:@"IsValidUser"];
     
     if ([isValid boolValue]) {
+        [[CrashlyticsManager sharedManager] setUserWithId:[data objectForKey:@"ClientId"] andName:[data objectForKey:@"Login"]];
         [[OTRManager sharedManager] saveString:[data objectForKey:@"Login"] withKey:KEY_LOGIN_USER_NAME];
         [[OTRManager sharedManager] saveString:[data objectForKey:@"Password"] withKey:KEY_LOGIN_PASSWORD];
         
