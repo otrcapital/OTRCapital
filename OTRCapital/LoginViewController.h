@@ -14,4 +14,5 @@
 @interface LoginViewController : UIViewController <UITextFieldDelegate, MFMailComposeViewControllerDelegate, OTRManagerDelegate>
 - (IBAction)loginButtonPressed:(id)sender;
 
+@property(nonatomic, retain) NSString *email;
 @end

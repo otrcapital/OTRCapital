@@ -16,4 +16,7 @@
 - (void) setUserWithId: (NSString *)userId andName:(NSString *)userName;
 - (void) logException: (NSError *)error;
 
+- (void) trackUserLoginAtempt: (NSString *)email;
+- (void) trackUserLoginWithEmail: (NSString *)email andSuccess:(BOOL)success;
+
 @end

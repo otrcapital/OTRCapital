@@ -36,7 +36,7 @@
     self.originalCenter = self.view.center;
     
     UITapGestureRecognizer *tapper = [[UITapGestureRecognizer alloc]
-                                   initWithTarget:self action:@selector(handleSingleTap:)];
+                                      initWithTarget:self action:@selector(handleSingleTap:)];
     tapper.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapper];
 }
@@ -110,20 +110,21 @@
 }
 
 - (IBAction)loginButtonPressed:(id)sender{
-    NSString *email = self.emailTextField.text;
+    self.email = self.emailTextField.text;
     NSString *password = self.passwordTextField.text;
-    if ([email isEqual:@""] || [password isEqual:@""]) {
+    if ([self.email isEqual:@""] || [password isEqual:@""]) {
         [self showAlertViewWithTitle:@"Error" andWithMessage:@"Missing e-mail or password."];
     }
-    else if (![self IsValidEmail:email]) {
+    else if (![self IsValidEmail:self.email]) {
         [self showAlertViewWithTitle:@"Error" andWithMessage:@"Incorrect e-mail. Please provide valid email to continue."];
     }
-    else{
+    else {
         CGPoint viewCenter = self.view.center;
         UIView *spinner = [[OTRManager sharedManager] getSpinnerViewBlockerWithPosition:viewCenter];
         [self.view addSubview:spinner];
-        [[CrashlyticsManager sharedManager]setUserEmail:email];
-        [[OTRManager sharedManager] loginWithUserName:email andPassword:password];
+        [[CrashlyticsManager sharedManager]setUserEmail:self.email];
+        [[CrashlyticsManager sharedManager]trackUserLoginAtempt:self.email];
+        [[OTRManager sharedManager] loginWithUserName:self.email andPassword:password];
     }
 }
 
@@ -162,6 +163,7 @@
 }
 
 - (void) onOTRRequestSuccessWithData:(NSDictionary *)data{
+    [[CrashlyticsManager sharedManager]trackUserLoginWithEmail:self.email andSuccess:YES];
     [[OTRManager sharedManager] removeSpinnerViewBlockerFromView:self.view];
     
     NSString *isValid = [data objectForKey:@"IsValidUser"];
@@ -179,6 +181,7 @@
     }
 }
 - (void) onOTRRequestFailWithError:(NSString *)error{
+    [[CrashlyticsManager sharedManager]trackUserLoginWithEmail:self.email andSuccess:NO];
     [[OTRManager sharedManager] removeSpinnerViewBlockerFromView:self.view];
     
     [self showAlertViewWithTitle:@"Error" andWithMessage:@"Failed to verify e-mail or password."];
