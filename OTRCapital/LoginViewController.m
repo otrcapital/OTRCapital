@@ -123,7 +123,6 @@
         UIView *spinner = [[OTRManager sharedManager] getSpinnerViewBlockerWithPosition:viewCenter];
         [self.view addSubview:spinner];
         [[CrashlyticsManager sharedManager]setUserEmail:self.email];
-        [[CrashlyticsManager sharedManager]trackUserLoginAtempt:self.email];
         [[OTRManager sharedManager] loginWithUserName:self.email andPassword:password];
     }
 }

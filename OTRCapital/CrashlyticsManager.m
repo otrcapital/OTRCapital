@@ -31,11 +31,6 @@
     [[Crashlytics sharedInstance] recordError:error];
 }
 
-- (void)trackUserLoginAtempt:(NSString *)email {
-    [Answers logCustomEventWithName:@"Login attempt"
-                   customAttributes:@{@"User's email" : email}];
-}
-
 - (void)trackUserLoginWithEmail:(NSString *)email andSuccess:(BOOL)success {
     [Answers logLoginWithMethod:@"GetClientInfo"
                         success:[NSNumber numberWithBool:success]
