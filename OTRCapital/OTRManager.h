@@ -96,6 +96,8 @@
 - (NSData *) makePDFOfImagesOfFolder: (NSString*)folderName;
 - (NSString *) getPDFFileName;
 
+- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
+
 - (void) initDocumnetCount;
 - (void) incrementDocumentCount;
 - (int) getDocumentCount;

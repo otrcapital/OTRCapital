@@ -148,7 +148,7 @@
     }
     
     NSString *imagePath = [NSString stringWithFormat:@"%@/%@", directoryPath,[directoryContent objectAtIndex:0]];
-    UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
+    UIImage *image = [self drawImageWithImage:[self imageWithImage:[UIImage imageWithContentsOfFile:imagePath] scaledToSize:IMAGE_SIZE] size:IMAGE_SIZE];
     
     double pageWidth = IMAGE_SIZE.width;
     double pageHeight = IMAGE_SIZE.height;
@@ -197,6 +197,51 @@
     
     return pdfFile;
 
+}
+
+- (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize {
+    UIGraphicsBeginImageContext(newSize);
+    
+    CGFloat ws = newSize.width / image.size.width;
+    CGFloat hs = newSize.height / image.size.height;
+    
+    if (ws > hs) {
+        ws = hs / ws;
+        hs = 1.0;
+    } else {
+        hs = ws / hs;
+        ws = 1.0;
+    }
+    
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextTranslateCTM(context, 0.0, newSize.height);
+    CGContextScaleCTM(context, 1.0, -1.0);
+    
+    CGContextDrawImage(context, CGRectMake(newSize.width / 2 - (newSize.width * ws) / 2,
+                                           newSize.height / 2 - (newSize.height * hs) / 2, newSize.width * ws,
+                                           newSize.height * hs), image.CGImage);
+    
+    UIImage* scaledImage = UIGraphicsGetImageFromCurrentImageContext();
+    
+    UIGraphicsEndImageContext();
+    
+    return scaledImage;
+}
+
+-(UIImage *)drawImageWithImage: (UIImage *)badge size:(CGSize)size {
+    UIGraphicsBeginImageContextWithOptions(size, NO, 0);
+    UIBezierPath* p = [UIBezierPath bezierPathWithRect:CGRectMake(0,0,size.width,size.height)];
+    [[UIColor whiteColor] setFill];
+    [p fill];
+    UIImage* im = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    
+    UIGraphicsBeginImageContextWithOptions(im.size, NO, 0.0f);
+    [im drawInRect:CGRectMake(0, 0, im.size.width, im.size.height)];
+    [badge drawInRect:CGRectMake(0, 0, badge.size.width, badge.size.height)];
+    UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
+    UIGraphicsEndImageContext();
+    return resultImage;
 }
 
 - (NSData *) makePDFOfCurrentImages{
