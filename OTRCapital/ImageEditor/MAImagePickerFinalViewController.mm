@@ -110,49 +110,37 @@
     [self storeImageToCache];
 }
 
-- (void)adjustPreviewImage
-{
+- (void)adjustPreviewImage {
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         
-        _adjustedImage = _sourceImage;
+        _adjustedImage  = [[UIImage alloc] initWithCGImage: _sourceImage.CGImage
+                                                                     scale: 1.0
+                                                               orientation: _adjustedImage.imageOrientation];
         
-        if (currentlySelected == 1)
-        {
-            
-        }
-        
-        if (currentlySelected != 1)
-        {
-            
-            cv::Mat original;
-            
-            if (currentlySelected == 2)
-            {
-                if (_imageFrameEdited)
-                {
+        switch (currentlySelected) {
+            case 2: {
+                cv::Mat original;
+                if (_imageFrameEdited){
                     original = [MAOpenCV cvMatGrayFromAdjustedUIImage:_sourceImage];
-                }
-                else
-                {
+                } else {
                     original = [MAOpenCV cvMatGrayFromUIImage:_sourceImage];
                 }
                 
                 cv::GaussianBlur(original, original, cvSize(11,11), 0);
                 cv::adaptiveThreshold(original, original, 255, cv::ADAPTIVE_THRESH_MEAN_C, cv::THRESH_BINARY, 5, 2);
-                _adjustedImage = [MAOpenCV UIImageFromCVMat:original];
+                _adjustedImage = [[UIImage alloc] initWithCGImage: [MAOpenCV UIImageFromCVMat:original].CGImage
+                                                            scale: 1.0
+                                                      orientation: _adjustedImage.imageOrientation];
                 
                 original.release();
+                break;
             }
-            
-            if (currentlySelected == 3)
-            {
-                if (_imageFrameEdited)
-                {
+            case 3: {
+                cv::Mat original;
+                if (_imageFrameEdited) {
                     original = [MAOpenCV cvMatGrayFromAdjustedUIImage:_sourceImage];
-                }
-                else
-                {
+                }else {
                     original = [MAOpenCV cvMatGrayFromUIImage:_sourceImage];
                 }
                 
@@ -161,18 +149,17 @@
                 original.convertTo(new_image, -1, 1.4, -50);
                 original.release();
                 
-                _adjustedImage = [MAOpenCV UIImageFromCVMat:new_image];
+                _adjustedImage = [[UIImage alloc] initWithCGImage: [MAOpenCV UIImageFromCVMat:new_image].CGImage
+                                                            scale: 1.0
+                                                      orientation: _adjustedImage.imageOrientation];
                 new_image.release();
+                break;
             }
-            
-            if (currentlySelected == 4)
-            {
-                if (_imageFrameEdited)
-                {
+            case 4: {
+                cv::Mat original;
+                if (_imageFrameEdited){
                     original = [MAOpenCV cvMatFromAdjustedUIImage:_sourceImage];
-                }
-                else
-                {
+                }else {
                     original = [MAOpenCV cvMatFromUIImage:_sourceImage];
                 }
                 
@@ -182,14 +169,15 @@
                 
                 original.release();
                 
-                _adjustedImage = [MAOpenCV UIImageFromCVMat:new_image];
+                _adjustedImage = [[UIImage alloc] initWithCGImage: [MAOpenCV UIImageFromCVMat:new_image].CGImage
+                                                            scale: 1.0
+                                                      orientation: _adjustedImage.imageOrientation];
                 new_image.release();
+                break;
             }
-            
         }
-        
-        dispatch_async(dispatch_get_main_queue(),
-                       ^{
+
+        dispatch_async(dispatch_get_main_queue(),^{
                            [self updateImageView];
                        });
     });
