@@ -166,8 +166,14 @@
         
         NSData *jpgImageData = UIImageJPEGRepresentation(image, 0);
         image = [UIImage imageWithData:jpgImageData];
+        mediaBox = CGRectMake(0, 0, pageHeight * (image.size.width / image.size.height), pageHeight);
+        if(pageWidth < CGRectGetWidth(mediaBox)) {
+            mediaBox.size.width = pageWidth;
+            mediaBox.size.height = pageWidth * (image.size.height / image.size.width);
+        }
         
         CGContextBeginPage(pdfContext, &mediaBox);
+        
         switch (image.imageOrientation) {
             case UIImageOrientationDown:
                 CGContextTranslateCTM(pdfContext, pageWidth, pageHeight);
@@ -189,11 +195,37 @@
             default:
                 break;
         }
+        //mediaBox.size.width = ;
+        //mediaBox.origin.x = MAX(pageWidth / 2 - CGRectGetMidX(mediaBox), 0);
         CGContextDrawImage(pdfContext, mediaBox, [image CGImage]);
         CGContextEndPage(pdfContext);
     }
     CGContextRelease(pdfContext);
     CGDataConsumerRelease(pdfConsumer);
+    
+    
+    
+//    NSMutableData *mData = [NSMutableData new];
+//    
+//    
+//    CGSize pageSize = CGSizeMake(pageWidth*5, pageHeight*5+30);
+//
+//    UIGraphicsBeginPDFContextToData(mData, CGRectMake(0, 0, pageWidth, pageHeight*3), nil);
+//    
+//    UIGraphicsBeginPDFPageWithInfo(CGRectMake(0, 0.0, pageSize.width, pageSize.height), nil);
+//    
+//    float y = 220.0;
+//    
+//    for (int i = 0; i < directoryContent.count; i++) {
+//        
+//        NSString *imagePath = [NSString stringWithFormat:@"%@/%@", directoryPath,[directoryContent objectAtIndex:i]];
+//        UIImage *myPNG = [UIImage imageWithContentsOfFile:imagePath];
+//        [myPNG drawInRect:CGRectMake(50.0, y, myPNG.size.width, myPNG.size.height)];
+//        
+//        y += myPNG.size.height + 20;
+//    }
+//    
+//    UIGraphicsEndPDFContext();
     
     return pdfFile;
 
