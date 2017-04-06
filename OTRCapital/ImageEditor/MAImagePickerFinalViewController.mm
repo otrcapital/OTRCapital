@@ -228,11 +228,8 @@
 }
 
 
-- (void)storeImageToCache
-{
-    
-    NSData* imageData = UIImagePNGRepresentation(_adjustedImage);
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"MAIPCSuccessInternal" object:imageData];
+- (void)storeImageToCache {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"MAIPCSuccessInternal" object:_adjustedImage];
 }
 
 - (IBAction) filterChanged:(id) sender withEvent:(UIEvent *) event

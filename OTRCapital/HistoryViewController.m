@@ -69,15 +69,21 @@
         NSString *directoryPath = [NSString stringWithFormat:@"%@/%@", rootDirectoryPath, folderName];
         NSArray *directoryContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directoryPath error:NULL];
         
-        if (!directoryContent) {
+        if (!directoryContent || directoryContent.count == 0) {
             continue;
         }
         
         [dic setObject:directoryPath forKey:KEY_DIR_PATH];
         [dic setObject:directoryContent forKey:KEY_DIR_CONTENT];
         
-        NSString *imagePath = [NSString stringWithFormat:@"%@/%@", directoryPath,[directoryContent objectAtIndex:0]];
-        if (imagePath) [dic setObject:imagePath forKey:KEY_IMAGE];
+        NSString *imagePath = nil;
+        @try {
+            imagePath = [NSString stringWithFormat:@"%@/%@", directoryPath,[directoryContent objectAtIndex:0]];
+        } @catch (NSException *exception) {}
+        
+        if (imagePath) {
+            [dic setObject:imagePath forKey:KEY_IMAGE];
+        }
         
         NSDictionary *otrData = [[OTRManager sharedManager] getOtrInfoWithKey:folderName];
         if (otrData) {

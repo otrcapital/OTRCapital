@@ -307,7 +307,7 @@
     [[AVAudioSession sharedInstance] setActive:NO error:nil];
     
     [self removeNotificationObservers];
-    UIImage *image = [UIImage imageWithData:[notification object]];
+    UIImage *image = [notification object];
     [_delegate imagePickerDidChooseImage:image andWithViewController:self];
 }
 

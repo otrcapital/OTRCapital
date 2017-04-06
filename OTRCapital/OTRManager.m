@@ -99,9 +99,9 @@
 {
     [self createDirectoryAtCurrentPath];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *imagePath = [NSString stringWithFormat:@"%@/%d.png", self.currentDocumentFolder, self.documentCount];
+    NSString *imagePath = [NSString stringWithFormat:@"%@/%d.jpeg", self.currentDocumentFolder, self.documentCount];
     NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:imagePath];
-    [UIImagePNGRepresentation(image) writeToFile:filePath atomically:YES];
+    [UIImageJPEGRepresentation(image, 1) writeToFile:filePath atomically:YES];
 }
 
 - (void) saveString: (NSString*)value withKey: (NSString*)key{
@@ -148,7 +148,6 @@
     }
     
     NSString *imagePath = [NSString stringWithFormat:@"%@/%@", directoryPath,[directoryContent objectAtIndex:0]];
-    UIImage *image = [self drawImageWithImage:[self imageWithImage:[UIImage imageWithContentsOfFile:imagePath] scaledToSize:IMAGE_SIZE] size:IMAGE_SIZE];
     
     double pageWidth = IMAGE_SIZE.width;
     double pageHeight = IMAGE_SIZE.height;
@@ -162,7 +161,7 @@
     for (int i = 0; i < directoryContent.count; i++) {
         
         imagePath = [NSString stringWithFormat:@"%@/%@", directoryPath,[directoryContent objectAtIndex:i]];
-        image = [UIImage imageWithContentsOfFile:imagePath];
+        UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
         
         NSData *jpgImageData = UIImageJPEGRepresentation(image, 0);
         image = [UIImage imageWithData:jpgImageData];
@@ -176,57 +175,32 @@
         
         switch (image.imageOrientation) {
             case UIImageOrientationDown:
-                CGContextTranslateCTM(pdfContext, pageWidth, pageHeight);
+                CGContextTranslateCTM(pdfContext, mediaBox.size.width, mediaBox.size.height);
                 CGContextScaleCTM(pdfContext, -1, -1);
                 break;
             case UIImageOrientationLeft:
-                mediaBox.size.width = pageHeight;
-                mediaBox.size.height = pageWidth;
-                CGContextTranslateCTM(pdfContext, pageWidth, 0);
+                CGContextTranslateCTM(pdfContext, mediaBox.size.width, 0);
                 CGContextRotateCTM(pdfContext, M_PI / 2);
+                mediaBox.size.width = mediaBox.size.height;
+                mediaBox.size.height = pageWidth;
                 break;
             case UIImageOrientationRight:
-                mediaBox.size.width = pageHeight;
-                mediaBox.size.height = pageWidth;
-                CGContextTranslateCTM(pdfContext, 0, pageHeight);
+                CGContextTranslateCTM(pdfContext, 0, mediaBox.size.height);
                 CGContextRotateCTM(pdfContext, -M_PI / 2);
+                mediaBox.size.width = mediaBox.size.height;
+                mediaBox.size.height = pageWidth;
                 break;
             case UIImageOrientationUp:
             default:
                 break;
         }
-        //mediaBox.size.width = ;
-        //mediaBox.origin.x = MAX(pageWidth / 2 - CGRectGetMidX(mediaBox), 0);
+        
         CGContextDrawImage(pdfContext, mediaBox, [image CGImage]);
         CGContextEndPage(pdfContext);
     }
     CGContextRelease(pdfContext);
     CGDataConsumerRelease(pdfConsumer);
-    
-    
-    
-//    NSMutableData *mData = [NSMutableData new];
-//    
-//    
-//    CGSize pageSize = CGSizeMake(pageWidth*5, pageHeight*5+30);
-//
-//    UIGraphicsBeginPDFContextToData(mData, CGRectMake(0, 0, pageWidth, pageHeight*3), nil);
-//    
-//    UIGraphicsBeginPDFPageWithInfo(CGRectMake(0, 0.0, pageSize.width, pageSize.height), nil);
-//    
-//    float y = 220.0;
-//    
-//    for (int i = 0; i < directoryContent.count; i++) {
-//        
-//        NSString *imagePath = [NSString stringWithFormat:@"%@/%@", directoryPath,[directoryContent objectAtIndex:i]];
-//        UIImage *myPNG = [UIImage imageWithContentsOfFile:imagePath];
-//        [myPNG drawInRect:CGRectMake(50.0, y, myPNG.size.width, myPNG.size.height)];
-//        
-//        y += myPNG.size.height + 20;
-//    }
-//    
-//    UIGraphicsEndPDFContext();
-    
+
     return pdfFile;
 
 }
