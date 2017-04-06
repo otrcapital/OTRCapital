@@ -10,33 +10,21 @@
 #import "HistoryDetailCell.h"
 #import "OTRManager.h"
 
-@interface HistoryDetailViewController ()
-
-@end
 
 @implementation HistoryDetailViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return self.directoryContents.count;
+    return self.items ? self.items.count : 0;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 451;
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UIImage *image = (UIImage *)self.items[indexPath.row];
+    float sw = [[UIScreen mainScreen] bounds].size.width;
+    return sw * (image.size.height / image.size.width);
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *simpleTableIdentifier = @"HistoryDetailCell";
     
     HistoryDetailCell *cell = (HistoryDetailCell*)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
@@ -46,10 +34,7 @@
         cell = [nib objectAtIndex:0];
     }
     
-    NSString *imagePath = [NSString stringWithFormat:@"%@/%@", self.directoryPath,[self.directoryContents objectAtIndex:indexPath.row]];
-    UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
-    
-    cell.image.image = image;
+    cell.image.image = self.items[indexPath.row];
     
     return cell;
 }

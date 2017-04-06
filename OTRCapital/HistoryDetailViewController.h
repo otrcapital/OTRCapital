@@ -13,11 +13,6 @@
 
 @interface HistoryDetailViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 
-@property (strong, nonatomic) NSArray *directoryContents;
-@property (strong, nonatomic) NSString *directoryPath;
-@property (strong, nonatomic) NSString *directoryName;
-@property (strong, nonatomic) NSMutableDictionary *otrInfo;
-@property (strong) HistoryViewController *parent;
-@property int index;
+@property (strong, nonatomic) NSArray *items;
 
 @end

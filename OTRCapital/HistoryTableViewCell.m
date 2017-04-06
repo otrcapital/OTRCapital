@@ -48,12 +48,17 @@
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     HistoryDetailViewController *vc = [sb instantiateViewControllerWithIdentifier:@"HistoryDetailViewController"];
     vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [vc setDirectoryContents:self.directoryContents];
-    [vc setDirectoryPath:self.directoryPath];
-    [vc setParent:self.parent];
-    [vc setOtrInfo:self.otrInfo];
-    [vc setIndex:self.index];
-    [vc setDirectoryName:self.directoryName];
+    
+    NSMutableArray *imagesArray = [NSMutableArray new];
+    for (NSString *item in self.directoryContents) {
+        NSString *imagePath = [NSString stringWithFormat:@"%@/%@", self.directoryPath, item];
+        UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
+        if(image) {
+            [imagesArray addObject:image];
+        }
+    }
+    [vc setItems:imagesArray];
+    
     [self.parentNavigationController pushViewController:vc animated:YES];
 }
 
