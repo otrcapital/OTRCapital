@@ -11,7 +11,7 @@
 #import "AppDelegate.h"
 #import "OTRApi.h"
 
-@interface DashboardViewController ()
+@interface DashboardViewController () <UIActionSheetDelegate>
 - (IBAction)onContactUsButtonPressed:(id)sender;
 - (IBAction)onSignOutButtonPressed:(id)sender;
 
@@ -148,12 +148,19 @@
 }
 
 - (IBAction)onSignOutButtonPressed:(id)sender {
-    [[OTRManager sharedManager] removeObjectForKey:KEY_LOGIN_USER_NAME];
-    [[OTRManager sharedManager] removeObjectForKey:KEY_LOGIN_PASSWORD];
-    
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UINavigationController *controller = [sb instantiateViewControllerWithIdentifier:@"LoginNavigationController"];
-    [self.navigationController presentViewController:controller animated:YES completion:nil];
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure you want to log out?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Log Out" otherButtonTitles:nil, nil];
+    [actionSheet showInView:self.view];
+}
+
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if(buttonIndex == 0) {
+        [[OTRManager sharedManager] removeObjectForKey:KEY_LOGIN_USER_NAME];
+        [[OTRManager sharedManager] removeObjectForKey:KEY_LOGIN_PASSWORD];
+        
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        UINavigationController *controller = [sb instantiateViewControllerWithIdentifier:@"LoginNavigationController"];
+        [self.navigationController presentViewController:controller animated:YES completion:nil];
+    }
 }
 
 @end
