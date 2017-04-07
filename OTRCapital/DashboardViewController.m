@@ -37,6 +37,9 @@
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
     
+    if(![OTRDefaults getStringForKey:KEY_LOGIN_USER_NAME]) {
+        return;
+    }
     static BOOL isListFetched = NO;
     if (!isListFetched) {
         isListFetched = YES;
@@ -147,8 +150,12 @@
 - (IBAction)onSignOutButtonPressed:(id)sender {
     [[OTRManager sharedManager] removeObjectForKey:KEY_LOGIN_USER_NAME];
     [[OTRManager sharedManager] removeObjectForKey:KEY_LOGIN_PASSWORD];
-    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    [appDelegate switchToLoginController];
+    
+    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    UIViewController *controller = [sb instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+    
+    [self.navigationController presentViewController:navController animated:YES completion:nil];
 }
 
 @end

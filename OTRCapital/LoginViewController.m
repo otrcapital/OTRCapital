@@ -124,6 +124,7 @@
         UIView *spinner = [[OTRManager sharedManager] getSpinnerViewBlockerWithPosition:viewCenter];
         [self.view addSubview:spinner];
         [[CrashlyticsManager sharedManager]setUserEmail:self.email];
+        __block LoginViewController *blockedSelf = self;
         [[OTRApi instance] loginWithUsername:self.email andPassword:password completionBlock:^(NSDictionary *responseData, NSError *error) {
             if(responseData && !error) {
                 [[CrashlyticsManager sharedManager]trackUserLoginWithEmail:self.email andSuccess:YES];
@@ -136,11 +137,10 @@
                     [OTRDefaults saveString:[responseData objectForKey:@"Login"] forKey:KEY_LOGIN_USER_NAME];
                     [OTRDefaults saveString:[responseData objectForKey:@"Password"] forKey:KEY_LOGIN_PASSWORD];
                     
-                    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-                    [appDelegate switchToDashboardController];
+                    [blockedSelf dismissViewControllerAnimated:YES completion:nil];
                 }
                 else{
-                    [self showAlertViewWithTitle:@"Error" andWithMessage:@"Failed to verify e-mail or password."];
+                    [blockedSelf showAlertViewWithTitle:@"Error" andWithMessage:@"Failed to verify e-mail or password."];
                 }
             }else {
                 [[CrashlyticsManager sharedManager]trackUserLoginWithEmail:self.email andSuccess:NO];

@@ -15,8 +15,5 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-- (void) switchToDashboardController;
-- (void) switchToLoginController;
-
 @end
 
