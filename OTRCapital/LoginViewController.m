@@ -43,22 +43,15 @@
 }
 
 - (void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES];
 }
 - (void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:NO];
 }
 
-- (void) viewDidAppear:(BOOL)animated{
-    [[OTRManager sharedManager] setDelegate:self];
-}
-
-- (void) viewDidDisappear:(BOOL)animated{
-    [[OTRManager sharedManager] setDelegate:nil];
-}
-
-- (void)handleSingleTap:(UITapGestureRecognizer *) sender
-{
+- (void)handleSingleTap:(UITapGestureRecognizer *) sender {
     [self.view endEditing:YES];
 }
 
@@ -170,20 +163,6 @@
 
 - (IBAction)onTwitterButtonPressed:(id)sender {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/otrcapitalllc"]];
-}
-
-- (IBAction)inContactUsButtonPressed:(id)sender {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"ContactUsViewController"];
-    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (IBAction)onSignUpButtonPressed:(id)sender {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"SignUpViewController"];
-    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end

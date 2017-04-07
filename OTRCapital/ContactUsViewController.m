@@ -23,16 +23,6 @@
 
 @implementation ContactUsViewController
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.title = @"Contact Us";
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (IBAction)onFbButtonPressed:(id)sender {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.facebook.com/pages/OTR-Capital/473947932696034"]];
 }

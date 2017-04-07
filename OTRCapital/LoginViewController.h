@@ -11,7 +11,7 @@
 #import "OTRManager.h"
 #import "CrashlyticsManager.h"
 
-@interface LoginViewController : UIViewController <UITextFieldDelegate, MFMailComposeViewControllerDelegate, OTRManagerDelegate>
+@interface LoginViewController : UIViewController <UITextFieldDelegate, MFMailComposeViewControllerDelegate>
 - (IBAction)loginButtonPressed:(id)sender;
 
 @property(nonatomic, retain) NSString *email;

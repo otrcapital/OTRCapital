@@ -71,11 +71,10 @@
 
 - (void) switchToLoginController {
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *controller = [sb instantiateViewControllerWithIdentifier:@"LoginViewController"];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+    UINavigationController *controller = [sb instantiateViewControllerWithIdentifier:@"LoginNavigationController"];
     
     [self switchToDashboardController];
-    [self.navigationController presentViewController:navController animated:YES completion:nil];
+    [self.navigationController presentViewController:controller animated:YES completion:nil];
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{

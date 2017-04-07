@@ -152,10 +152,8 @@
     [[OTRManager sharedManager] removeObjectForKey:KEY_LOGIN_PASSWORD];
     
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *controller = [sb instantiateViewControllerWithIdentifier:@"LoginViewController"];
-    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
-    
-    [self.navigationController presentViewController:navController animated:YES completion:nil];
+    UINavigationController *controller = [sb instantiateViewControllerWithIdentifier:@"LoginNavigationController"];
+    [self.navigationController presentViewController:controller animated:YES completion:nil];
 }
 
 @end
