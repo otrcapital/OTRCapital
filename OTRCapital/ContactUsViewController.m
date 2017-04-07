@@ -47,7 +47,7 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:OTR_CONTACT_NO]];
 }
 
-- (IBAction)onEmailButtonPressed:(id)sender {
+- (IBAction)onEmailButtonTap:(id)sender {
     NSArray *toRecipents = [NSArray arrayWithObject:@"info@otrcapital.com"];
     MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
     if (mc) {
