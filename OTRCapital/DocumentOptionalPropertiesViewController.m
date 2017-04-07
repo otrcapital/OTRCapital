@@ -310,7 +310,7 @@
         NSDictionary *otrInfo = [[OTRManager sharedManager] getOTRInfo];
         [[OTRManager sharedManager] sendDataToServer:otrInfo withPDF:pdfFile];
         
-        NSString *email = [[OTRManager sharedManager] getStringForKey:KEY_LOGIN_USER_NAME];
+        NSString *email = [OTRDefaults getStringForKey:KEY_LOGIN_USER_NAME];
         [[OTRManager sharedManager] setOTRInfoValueOfTypeString:email forKey:KEY_LOGIN_USER_NAME];
         [[OTRManager sharedManager] saveOTRInfo];
     }

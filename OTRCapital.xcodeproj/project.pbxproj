@@ -145,6 +145,8 @@
 		18B8FB661B52E0B9002A5670 /* HistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B8FB651B52E0B9002A5670 /* HistoryTableViewCell.m */; };
 		18CF17931BC43575006A1B46 /* email_icon_doc.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CF17921BC43575006A1B46 /* email_icon_doc.png */; };
 		6958D233A238E67833DCEA18 /* libPods-OTRCapital.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5C61C32737AA0210762CEA4 /* libPods-OTRCapital.a */; };
+		B6FADF4C1E978D4200773B6F /* OTRApi.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FADF4B1E978D4200773B6F /* OTRApi.m */; };
+		B6FADF501E979BCF00773B6F /* OTRDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FADF4F1E979BCF00773B6F /* OTRDefaults.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -321,6 +323,10 @@
 		18B8FB651B52E0B9002A5670 /* HistoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryTableViewCell.m; sourceTree = "<group>"; };
 		18CF17921BC43575006A1B46 /* email_icon_doc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = email_icon_doc.png; sourceTree = "<group>"; };
 		5E5E25A9F26354A175F67485 /* Pods-OTRCapital.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OTRCapital.release.xcconfig"; path = "Pods/Target Support Files/Pods-OTRCapital/Pods-OTRCapital.release.xcconfig"; sourceTree = "<group>"; };
+		B6FADF4A1E978D4200773B6F /* OTRApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRApi.h; path = Web/OTRApi.h; sourceTree = "<group>"; };
+		B6FADF4B1E978D4200773B6F /* OTRApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRApi.m; path = Web/OTRApi.m; sourceTree = "<group>"; };
+		B6FADF4E1E979BCF00773B6F /* OTRDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRDefaults.h; path = Utils/OTRDefaults.h; sourceTree = "<group>"; };
+		B6FADF4F1E979BCF00773B6F /* OTRDefaults.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRDefaults.m; path = Utils/OTRDefaults.m; sourceTree = "<group>"; };
 		F46E2154CD0AFA3A75DDED9A /* Pods-OTRCapital.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OTRCapital.debug.xcconfig"; path = "Pods/Target Support Files/Pods-OTRCapital/Pods-OTRCapital.debug.xcconfig"; sourceTree = "<group>"; };
 		F5C61C32737AA0210762CEA4 /* libPods-OTRCapital.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OTRCapital.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -455,6 +461,8 @@
 		18B8FAA11B5248D3002A5670 /* OTRCapital */ = {
 			isa = PBXGroup;
 			children = (
+				B6FADF4D1E979BA000773B6F /* Utils */,
+				B6FADF491E978CF000773B6F /* WebService */,
 				183CEEA71BCEC56A00C02FF7 /* TTTAttributedLabel */,
 				186F8EA51B594AE30084AF0A /* Files */,
 				18B8FB421B528902002A5670 /* ImageCropper */,
@@ -619,6 +627,24 @@
 				5E5E25A9F26354A175F67485 /* Pods-OTRCapital.release.xcconfig */,
 			);
 			name = Pods;
+			sourceTree = "<group>";
+		};
+		B6FADF491E978CF000773B6F /* WebService */ = {
+			isa = PBXGroup;
+			children = (
+				B6FADF4A1E978D4200773B6F /* OTRApi.h */,
+				B6FADF4B1E978D4200773B6F /* OTRApi.m */,
+			);
+			name = WebService;
+			sourceTree = "<group>";
+		};
+		B6FADF4D1E979BA000773B6F /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				B6FADF4E1E979BCF00773B6F /* OTRDefaults.h */,
+				B6FADF4F1E979BCF00773B6F /* OTRDefaults.m */,
+			);
+			name = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -857,6 +883,7 @@
 				18B8FB451B5292DA002A5670 /* ImageAdjustmentViewController.m in Sources */,
 				18B8FAAB1B5248D3002A5670 /* ViewController.m in Sources */,
 				183CEEAA1BCEC56A00C02FF7 /* TTTAttributedLabel.m in Sources */,
+				B6FADF501E979BCF00773B6F /* OTRDefaults.m in Sources */,
 				18B8FB1E1B524EEB002A5670 /* AdvanceLoanViewController.m in Sources */,
 				18696DD21B6CAC160001E49A /* Reachability.m in Sources */,
 				185D7C251B5A1BE300CB196A /* BrokerDetailViewController.m in Sources */,
@@ -879,6 +906,7 @@
 				189900DB1B59278B00C007EF /* HistoryDetailCell.m in Sources */,
 				18696DD51B6CAFAF0001E49A /* SplashScreenViewController.m in Sources */,
 				1864FC431B634DDA00855C09 /* MAImagePickerControllerAdjustViewController.mm in Sources */,
+				B6FADF4C1E978D4200773B6F /* OTRApi.m in Sources */,
 				189900F11B593F0300C007EF /* SignUpViewController.m in Sources */,
 				18B8FB4B1B52C03F002A5670 /* OTRManager.m in Sources */,
 				18B8FAD31B524993002A5670 /* DashboardViewController.m in Sources */,

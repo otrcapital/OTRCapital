@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "AppDelegate.h"
 #import <Crashlytics/Crashlytics.h>
+#import "OTRApi.h"
 
 @interface LoginViewController ()
 @property (strong, nonatomic) IBOutlet UITextField *emailTextField;
@@ -123,7 +124,31 @@
         UIView *spinner = [[OTRManager sharedManager] getSpinnerViewBlockerWithPosition:viewCenter];
         [self.view addSubview:spinner];
         [[CrashlyticsManager sharedManager]setUserEmail:self.email];
-        [[OTRManager sharedManager] loginWithUserName:self.email andPassword:password];
+        [[OTRApi instance] loginWithUsername:self.email andPassword:password completionBlock:^(NSDictionary *responseData, NSError *error) {
+            if(responseData && !error) {
+                [[CrashlyticsManager sharedManager]trackUserLoginWithEmail:self.email andSuccess:YES];
+                [[OTRManager sharedManager] removeSpinnerViewBlockerFromView:self.view];
+                
+                NSString *isValid = [responseData objectForKey:@"IsValidUser"];
+                
+                if ([isValid boolValue]) {
+                    [[CrashlyticsManager sharedManager] setUserWithId:[responseData objectForKey:@"ClientId"] andName:[responseData objectForKey:@"Login"]];
+                    [OTRDefaults saveString:[responseData objectForKey:@"Login"] forKey:KEY_LOGIN_USER_NAME];
+                    [OTRDefaults saveString:[responseData objectForKey:@"Password"] forKey:KEY_LOGIN_PASSWORD];
+                    
+                    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+                    [appDelegate switchToDashboardController];
+                }
+                else{
+                    [self showAlertViewWithTitle:@"Error" andWithMessage:@"Failed to verify e-mail or password."];
+                }
+            }else {
+                [[CrashlyticsManager sharedManager]trackUserLoginWithEmail:self.email andSuccess:NO];
+                [[OTRManager sharedManager] removeSpinnerViewBlockerFromView:self.view];
+                
+                [self showAlertViewWithTitle:@"Error" andWithMessage:@"Failed to verify e-mail or password."];
+            }
+        }];
     }
 }
 
@@ -159,31 +184,6 @@
     UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"SignUpViewController"];
     vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (void) onOTRRequestSuccessWithData:(NSDictionary *)data{
-    [[CrashlyticsManager sharedManager]trackUserLoginWithEmail:self.email andSuccess:YES];
-    [[OTRManager sharedManager] removeSpinnerViewBlockerFromView:self.view];
-    
-    NSString *isValid = [data objectForKey:@"IsValidUser"];
-    
-    if ([isValid boolValue]) {
-        [[CrashlyticsManager sharedManager] setUserWithId:[data objectForKey:@"ClientId"] andName:[data objectForKey:@"Login"]];
-        [[OTRManager sharedManager] saveString:[data objectForKey:@"Login"] withKey:KEY_LOGIN_USER_NAME];
-        [[OTRManager sharedManager] saveString:[data objectForKey:@"Password"] withKey:KEY_LOGIN_PASSWORD];
-        
-        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        [appDelegate switchToDashboardController];
-    }
-    else{
-        [self showAlertViewWithTitle:@"Error" andWithMessage:@"Failed to verify e-mail or password."];
-    }
-}
-- (void) onOTRRequestFailWithError:(NSString *)error{
-    [[CrashlyticsManager sharedManager]trackUserLoginWithEmail:self.email andSuccess:NO];
-    [[OTRManager sharedManager] removeSpinnerViewBlockerFromView:self.view];
-    
-    [self showAlertViewWithTitle:@"Error" andWithMessage:@"Failed to verify e-mail or password."];
 }
 
 @end

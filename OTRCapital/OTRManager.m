@@ -12,7 +12,6 @@
 #import "CrashlyticsManager.h"
 
 #define TAG_SPINNER_VIEW    99
-#define KEY_OTR_RECORD_FETCH_DATE           @"otr_record_fetch_date"
 #define ORT_CUSTOMER_DATA_FILE_NAME         @"otr_customer_data"
 
 @interface OTRManager()
@@ -22,9 +21,6 @@
 @property (nonatomic,retain) NSMutableDictionary *otrInfo;
 @property (nonatomic, retain) NSMutableDictionary *brokerInfo;
 @property (nonatomic, retain) NSMutableDictionary *imageCache;
-@property (nonatomic, retain) NSMutableData *responseData;
-@property NSInteger responseCode;
-@property (nonatomic, retain) NSMutableDictionary *connectionsInfo;
 @end
 
 @implementation OTRManager
@@ -41,7 +37,6 @@
 - (id) init{
     if ([super init]) {
         self.imageCache = [NSMutableDictionary new];
-        self.connectionsInfo = [NSMutableDictionary new];
         self.brokerInfo = [NSMutableDictionary new];
     }
     return self;
@@ -53,6 +48,10 @@
     [self initDocumnetCount];
     [self setCurrentDocumentFolder:TimeStamp];
     [self setOTRInfoValueOfTypeString:self.currentDocumentFolder forKey:KEY_IMAGE_FILE_NAME];
+}
+
+- (void)setDelegate:(id<OTRManagerDelegate>)delegate {
+    _delegate = delegate;
 }
 
 - (void) createDirectoryAtCurrentPath{
@@ -104,16 +103,7 @@
     [UIImageJPEGRepresentation(image, 1) writeToFile:filePath atomically:YES];
 }
 
-- (void) saveString: (NSString*)value withKey: (NSString*)key{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setValue:value forKey:key];
-    [defaults synchronize];
-}
-- (NSString*) getStringForKey: (NSString*)key{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *value = [defaults valueForKey:key];
-    return value;
-}
+
 - (void) removeObjectForKey: (NSString*)key{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults removeObjectForKey:key];
@@ -341,25 +331,9 @@
     [[view viewWithTag:TAG_SPINNER_VIEW] removeFromSuperview];
 }
 
-- (NSString*) getUserName{
-    return [self getStringForKey:KEY_LOGIN_USER_NAME];
-}
-
-- (NSString*) getPasswrodEncoded{
-    return [self getStringForKey:KEY_LOGIN_PASSWORD];
-}
-
-
--(NSString*) getPasswordDecoded{
-    NSString *encodedPassword = [self getStringForKey:KEY_LOGIN_PASSWORD];
-    NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:encodedPassword options:0];
-    NSString *decodedString = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
-    return decodedString;
-}
-
 - (void) appendAuthInfoToRequestTypeGet: (NSMutableURLRequest*)request{
     [request setHTTPMethod:@"GET"];
-    NSString *authStr = [NSString stringWithFormat:@"%@:%@", [self getUserName], [self getPasswordDecoded]];
+    NSString *authStr = [NSString stringWithFormat:@"%@:%@", [OTRDefaults getUserName], [OTRDefaults getPasswordDecoded]];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
@@ -369,7 +343,7 @@
 
 - (void) appendAuthInfoToRequestTypePost: (NSMutableURLRequest*)request{
     [request setHTTPMethod:@"POST"];
-    NSString *authStr = [NSString stringWithFormat:@"%@:%@", [self getUserName], [self getPasswordDecoded]];
+    NSString *authStr = [NSString stringWithFormat:@"%@:%@", [OTRDefaults getUserName], [OTRDefaults getPasswordDecoded]];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
@@ -377,28 +351,6 @@
     [request setValue:OTR_SERVER_URL forHTTPHeaderField:@"Host"];
 }
 
-- (void) loginWithUserName: (NSString*)userName andEncodedPassword: (NSString*)password{
-    [self saveString:userName withKey:KEY_LOGIN_USER_NAME];
-    [self saveString:password withKey:KEY_LOGIN_PASSWORD];
-    
-    NSString *url = [NSString stringWithFormat:@"%@api/GetClientInfo/%@/%@",OTR_SERVER_BASE_URL, userName, password];
-    
-    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60];
-    
-    [self appendAuthInfoToRequestTypeGet:request];
-    
-    NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    if (conn) {
-        [OTRManager logDebug: @"Request Send Successfully"];
-        [self.connectionsInfo setObject:conn forKey:@"loginWithUserName"];
-    }
-}
-
-- (void) loginWithUserName: (NSString*)userName andPassword: (NSString*)password{
-    NSData *passwordData = [password dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *encodedPassword = [NSString stringWithFormat:@"%@", [passwordData base64EncodedStringWithOptions:0]];
-    [self loginWithUserName:userName andEncodedPassword:encodedPassword];
-}
 
 - (void) sendDataToServer: (NSDictionary *)otrInfo withPDF: (NSData *)pdfData{
 #ifdef DEBUG
@@ -423,8 +375,8 @@
     [apiInvoiceDataJson setObject:loadNumber forKey:@"PoNumber"];
     [apiInvoiceDataJson setObject:pKey forKey:@"CustomerPKey"];
     [apiInvoiceDataJson setObject:invoiceAmount forKey:@"InvoiceAmount"];
-    [apiInvoiceDataJson setObject:[self getUserName] forKey:@"ClientLogin"];
-    [apiInvoiceDataJson setObject:[self getPasswrodEncoded] forKey:@"ClientPassword"];
+    [apiInvoiceDataJson setObject:[OTRDefaults getUserName] forKey:@"ClientLogin"];
+    [apiInvoiceDataJson setObject:[OTRDefaults getPasswrodEncoded] forKey:@"ClientPassword"];
     [apiInvoiceDataJson setObject:[otrInfo objectForKey:KEY_ADVANCED_REQUEST_TYPE] forKey:KEY_ADVANCED_REQUEST_TYPE];
     if (textComcheckPhoneNumber != nil) {
         [apiInvoiceDataJson setObject:textComcheckPhoneNumber forKey:KEY_TEXT_COMCHECK_PHONE_NUMBER];
@@ -486,72 +438,21 @@
     
     NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     if (conn) {
-        [OTRManager logDebug: @"Request Send Successfully"];
-        [self.connectionsInfo setObject:conn forKey:@"sendDataToServer"];
+        DLog(@"Request Send Successfully");
     }
     
 }
 
 - (void) findBrokerInfoByPkey: (NSString *) pKey{
-    NSString *url = [NSString stringWithFormat:@"%@api/BrokerCheck/%@/%@/%@",OTR_SERVER_BASE_URL,[self getUserName], [self getPasswrodEncoded], pKey];
+    NSString *url = [NSString stringWithFormat:@"%@api/BrokerCheck/%@/%@/%@",OTR_SERVER_BASE_URL,[OTRDefaults getUserName], [OTRDefaults getPasswrodEncoded], pKey];
     NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60];
     
     [self appendAuthInfoToRequestTypeGet:request];
     NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     if (conn) {
-        [OTRManager logDebug: @"Request Send Successfully"];
-        [self.connectionsInfo setObject:conn forKey:@"findBrokerInfoByMCNumber"];
+        DLog(@"Request Send Successfully");
     }
 
-}
-
-- (void) fetchCustomerDetail{
-    
-    NSString *lastFetchDate = [self getLastRecordsFetchDate];
-    
-    if ([lastFetchDate isEqualToString:OTR_BROKER_INFO_FETCH_DEFAULT_DATE]) {
-        NSString* path = [[NSBundle mainBundle] pathForResource:@"OTR_Broker_Info_Default"
-                                                         ofType:@"txt"];
-        NSString* content = [NSString stringWithContentsOfFile:path
-                                                      encoding:NSUTF8StringEncoding
-                                                         error:NULL];
-        NSError *jsonError;
-        NSData *objectData = [content dataUsingEncoding:NSUTF8StringEncoding];
-        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData
-                                                             options:NSJSONReadingMutableContainers
-                                                               error:&jsonError];
-        NSMutableDictionary *extendInfo = [json mutableCopy];
-        [extendInfo setValue:@"fetchCustomerDetail" forKey:KEY_OTR_RESPONSE_TYPE];
-        [self onOTRRequestSuccessWithData:extendInfo];
-    }
-    else {
-        NSString *url = [NSString stringWithFormat:@"%@api/GetCustomers/%@",OTR_SERVER_BASE_URL, lastFetchDate];
-        NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60];
-        
-        [self appendAuthInfoToRequestTypeGet:request];
-        NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-        if (conn) {
-            [OTRManager logDebug: @"Request Send Successfully"];
-            [self.connectionsInfo setObject:conn forKey:@"fetchCustomerDetail"];
-        }
-    }
-}
-
-- (NSString*) getLastRecordsFetchDate{
-    NSString *date = [self getStringForKey:KEY_OTR_RECORD_FETCH_DATE];
-    if (!date) {
-        return OTR_BROKER_INFO_FETCH_DEFAULT_DATE;
-    }
-    return date;
-}
-- (void) saveRecordFetchDate{
-    NSDateComponents *components = [[NSDateComponents alloc] init];
-    [components setDay:-1];
-    NSDate *yesterday = [[NSCalendar currentCalendar] dateByAddingComponents:components toDate:[NSDate date] options:0];
-    NSDateFormatter *df = [[NSDateFormatter alloc] init];
-    [df setDateFormat:@"yyyy/MM/dd"];
-    NSString *currentDate = [df stringFromDate:yesterday];
-    [self saveString:currentDate withKey:KEY_OTR_RECORD_FETCH_DATE];
 }
 
 - (void) saveCustomerDataDictionary: (NSDictionary*) data{
@@ -583,7 +484,7 @@
 
 - (NSString *) getPKeyByBrokerName: (NSString*)brokerName{
     NSDictionary *otrInfoObj = [self.brokerInfo objectForKey:brokerName];
-    [OTRManager logDebug: [NSString stringWithFormat: @"MCNumber: %@", [otrInfoObj objectForKey:KEY_OTR_RESPONSE_MC_NUMBER]]];
+    DLog(@"%@", [NSString stringWithFormat: @"MCNumber: %@", [otrInfoObj objectForKey:KEY_OTR_RESPONSE_MC_NUMBER]]);
     NSString *pKey = [otrInfoObj objectForKey:KEY_OTR_RESPONSE_PKEY];
     return pKey;
 }
@@ -610,11 +511,6 @@
     }
 }
 - (void) onOTRRequestFailWithError: (NSString *)error;{
-    NSDictionary *userInfo = @{
-                               NSLocalizedDescriptionKey: error,
-                               NSLocalizedFailureReasonErrorKey: error
-                               };
-    [[CrashlyticsManager sharedManager]logException:[NSError errorWithDomain:NSURLErrorDomain code:self.responseCode userInfo:userInfo]];
     if ([self.delegate respondsToSelector:@selector(onOTRRequestFailWithError:)]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self.delegate onOTRRequestFailWithError:error];
@@ -632,78 +528,6 @@
     return newImage;
 }
 
-+ (void) logDebug: (NSString*) msg {
-#ifdef DEBUG
-    NSLog(@"%@", msg);
-#endif
-}
-#pragma mark NSURLConnection Delegate Methods
-
-- (void)connection:(NSURLConnection *)connection didReceiveResponse:(NSURLResponse *)response {
-    NSHTTPURLResponse* httpResponse = (NSHTTPURLResponse*)response;
-    self.responseCode = [httpResponse statusCode];
-    self.responseData = [[NSMutableData alloc] init];
-}
-
-- (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-    [self.responseData appendData:data];
-}
-
-- (NSCachedURLResponse *)connection:(NSURLConnection *)connection
-                  willCacheResponse:(NSCachedURLResponse*)cachedResponse {
-    return nil;
-}
-
-- (void)connectionDidFinishLoading:(NSURLConnection *)connection {
-    NSMutableDictionary *extendInfo = nil;
-    if (self.responseCode != 200) {
-        NSString* responseString = @"Unknown Server Error, kindly contect OTR Capital for assitanace.";
-        if (self.responseData){
-            responseString = [[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding];
-        }
-        [self onOTRRequestFailWithError:responseString];
-        return;
-    }
-    if (self.responseData) {
-        NSString* responseString = [[NSString alloc] initWithData:self.responseData encoding:NSUTF8StringEncoding];
-        if ([responseString hasPrefix:@"\""]) {
-            responseString = [responseString substringFromIndex:1];
-            responseString = [responseString substringToIndex:responseString.length - 1];
-        }
-        responseString = [responseString stringByReplacingOccurrencesOfString:@"\\" withString:@""];
-        [OTRManager logDebug: [NSString stringWithFormat:@"Response String: %@", responseString]];
-        if ([responseString hasPrefix:@"["]) {
-            responseString = [NSString stringWithFormat:@"{\"data\":%@}", responseString];
-        }
-        
-        NSError *jsonError;
-        NSData *objectData = [responseString dataUsingEncoding:NSUTF8StringEncoding];
-        NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData
-                                                             options:NSJSONReadingMutableContainers
-                                                               error:&jsonError];
-        if(!jsonError)
-            extendInfo = [json mutableCopy];
-    }
-    NSArray *connKeys = [self.connectionsInfo allKeysForObject:connection];
-    if (connKeys && [connKeys count]) {
-        NSString *connKey = [connKeys objectAtIndex:0];
-        [extendInfo setValue:connKey forKey:KEY_OTR_RESPONSE_TYPE];
-        [self.connectionsInfo removeObjectForKey:connKey];
-    }
-    [self onOTRRequestSuccessWithData:extendInfo];
-    
-}
-
-- (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
-    NSArray *connKeys = [self.connectionsInfo allKeysForObject:connection];
-    if (connKeys && [connKeys count]) {
-        NSString *connKey = [connKeys objectAtIndex:0];
-        [self.connectionsInfo removeObjectForKey:connKey];
-    }
-    [OTRManager logDebug: @"HTTP Request Failed"];
-    [self onOTRRequestFailWithError:@"No Response From Server"];
-}
-
 @end
 
 @implementation NSDictionary (OTRJSONString)
@@ -715,7 +539,7 @@
                                                          error:&error];
     
     if (! jsonData) {
-        [OTRManager logDebug: [NSString stringWithFormat: @"jsonStringWithPrettyPrint: error: %@", error.localizedDescription]];
+        DLog(@"%@", [NSString stringWithFormat: @"jsonStringWithPrettyPrint: error: %@", error.localizedDescription]);
         return @"{}";
     } else {
         return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
@@ -731,7 +555,7 @@
                                                          error:&error];
     
     if (! jsonData) {
-        [OTRManager logDebug: [NSString stringWithFormat: @"jsonStringWithPrettyPrint: error: %@", error.localizedDescription]];
+        DLog(@"%@", [NSString stringWithFormat: @"jsonStringWithPrettyPrint: error: %@", error.localizedDescription]);
         return @"[]";
     } else {
         return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];

@@ -9,6 +9,7 @@
 #import "DashboardViewController.h"
 #import "OTRManager.h"
 #import "AppDelegate.h"
+#import "OTRApi.h"
 
 @interface DashboardViewController ()
 - (IBAction)onContactUsButtonPressed:(id)sender;
@@ -23,33 +24,81 @@
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
 }
 
-- (void)viewWillAppear:(BOOL)animated{
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
     [self.navigationController setNavigationBarHidden:YES];
 }
-- (void)viewWillDisappear:(BOOL)animated{
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     [self.navigationController setNavigationBarHidden:NO];
 }
 
-- (void) viewDidAppear:(BOOL)animated{
+- (void) viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
     static BOOL isListFetched = NO;
     if (!isListFetched) {
         isListFetched = YES;
         CGPoint viewCenter = self.view.center;
         UIView *spinner = [[OTRManager sharedManager] getSpinnerViewBlockerWithPosition:viewCenter];
         [self.view addSubview:spinner];
-        [[OTRManager sharedManager] setDelegate:self];
         [[OTRManager sharedManager] loadCustomerDataDictionary];
-        [[OTRManager sharedManager] fetchCustomerDetail];
+        
+        NSString *lastFetchDate = [OTRDefaults getStringForKey:KEY_OTR_RECORD_FETCH_DATE];
+        
+        if (!lastFetchDate) {
+            NSString* path = [[NSBundle mainBundle] pathForResource:@"OTR_Broker_Info_Default"
+                                                             ofType:@"txt"];
+            NSString* content = [NSString stringWithContentsOfFile:path
+                                                          encoding:NSUTF8StringEncoding
+                                                             error:NULL];
+            NSError *jsonError;
+            NSData *objectData = [content dataUsingEncoding:NSUTF8StringEncoding];
+            NSDictionary *json = [NSJSONSerialization JSONObjectWithData:objectData
+                                                                 options:NSJSONReadingMutableContainers
+                                                                   error:&jsonError];
+            if(!jsonError) {
+                [self parseCustomerDetailsData:json];
+            }
+        }
+        
+        [[OTRApi instance] fetchCustomerDetails:lastFetchDate withCompletion:^(NSDictionary *data, NSError *error) {
+            [[OTRManager sharedManager] removeSpinnerViewBlockerFromView:self.view];
+            if(data && !error) {
+                [self parseCustomerDetailsData:data];
+            }
+        }];
     }
 }
 
-- (void) viewDidDisappear:(BOOL)animated{
-    [[OTRManager sharedManager] setDelegate:nil];
+- (void)parseCustomerDetailsData:(NSDictionary *)data {
+    NSMutableDictionary *customerData = [NSMutableDictionary new];
+    NSArray *customerDetail = [data objectForKey:@"data"];
+    for (NSDictionary *obj in customerDetail) {
+        NSString *name = [obj objectForKey:KEY_OTR_RESPONSE_BROKER_NAME];
+        if (name == nil || [name isEqual:[NSNull null]] || [name isEqualToString:@""]) {
+            continue;
+        }
+        NSString *mcn = [obj objectForKey:KEY_OTR_RESPONSE_MC_NUMBER];
+        if (mcn == nil || [mcn isEqual:[NSNull null]]) {
+            mcn = @"";
+        }
+        NSNumber *pkey = [obj objectForKey:KEY_OTR_RESPONSE_PKEY];
+        if (pkey == nil || [pkey isEqual:[NSNull null]]) {
+            continue;
+        }
+        NSDictionary *otrInfoObj = @{KEY_OTR_RESPONSE_MC_NUMBER:mcn, KEY_OTR_RESPONSE_PKEY:pkey};
+        [customerData setObject:otrInfoObj forKey:name];
+    }
+    [[OTRManager sharedManager] saveCustomerDataDictionary:customerData];
+    [OTRDefaults saveRecordFetchDate];
+    [[OTRManager sharedManager] removeSpinnerViewBlockerFromView:self.view];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (void) viewDidDisappear:(BOOL)animated {
+    [super viewDidDisappear:animated];
+    [[OTRManager sharedManager] setDelegate:nil];
 }
 
 - (IBAction)factorLoadButtonPressed:(id)sender {
@@ -102,30 +151,4 @@
     [appDelegate switchToLoginController];
 }
 
-- (void) onOTRRequestSuccessWithData:(NSDictionary *)data{
-    NSMutableDictionary *customerData = [NSMutableDictionary new];
-    NSArray *customerDetail = [data objectForKey:@"data"];
-    for (NSDictionary *obj in customerDetail) {
-        NSString *name = [obj objectForKey:KEY_OTR_RESPONSE_BROKER_NAME];
-        if (name == nil || [name isEqual:[NSNull null]] || [name isEqualToString:@""]) {
-            continue;
-        }
-        NSString *mcn = [obj objectForKey:KEY_OTR_RESPONSE_MC_NUMBER];
-        if (mcn == nil || [mcn isEqual:[NSNull null]]) {
-            mcn = @"";
-        }
-        NSNumber *pkey = [obj objectForKey:KEY_OTR_RESPONSE_PKEY];
-        if (pkey == nil || [pkey isEqual:[NSNull null]]) {
-            continue;
-        }
-        NSDictionary *otrInfoObj = @{KEY_OTR_RESPONSE_MC_NUMBER:mcn, KEY_OTR_RESPONSE_PKEY:pkey};
-        [customerData setObject:otrInfoObj forKey:name];
-    }
-    [[OTRManager sharedManager] saveCustomerDataDictionary:customerData];
-    [[OTRManager sharedManager] saveRecordFetchDate];
-    [[OTRManager sharedManager] removeSpinnerViewBlockerFromView:self.view];
-}
-- (void) onOTRRequestFailWithError:(NSString *)error{
-    [[OTRManager sharedManager] removeSpinnerViewBlockerFromView:self.view];
-}
 @end

@@ -8,49 +8,54 @@
 
 #import "AppDelegate.h"
 #import "OTRManager.h"
-#import "Reachability.h"
 #import <Fabric/Fabric.h>
 #import <Crashlytics/Crashlytics.h>
-
-@interface AppDelegate ()
-
-@end
+#import "OTRApi.h"
 
 @implementation AppDelegate
 
 
-- (void) switchToDashboardController
-{
+- (void) switchToDashboardController {
+    //UINavigationController *rootViewController = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    self.viewController = [sb instantiateViewControllerWithIdentifier:@"DashboardViewController"];
-    UINavigationController *navController = [[UINavigationController alloc]
-                                             initWithRootViewController:self.viewController];
+    UIViewController *controller = [sb instantiateViewControllerWithIdentifier:@"DashboardViewController"];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+    //UIViewController *topViewController = rootViewController ? rootViewController.viewControllers.firstObject : nil;
+    
+//    if(!topViewController || [topViewController isKindOfClass:NSClassFromString(@"SplashScreenViewController")]) {
+//        self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+//        self.window.rootViewController = navController;
+//        [self.window makeKeyAndVisible];
+//    }else if([topViewController isKindOfClass:NSClassFromString(@"LoginViewController")]){
+//        [topViewController dismissViewControllerAnimated:YES completion:nil];
+//    }
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
 }
 
-- (void) switchToLoginController
-{
+- (void) switchToLoginController {
+    //UINavigationController *rootViewController = (UINavigationController *)[UIApplication sharedApplication].keyWindow.rootViewController;
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    self.viewController = [sb instantiateViewControllerWithIdentifier:@"LoginViewController"];
-    UINavigationController *navController = [[UINavigationController alloc]
-                                             initWithRootViewController:self.viewController];
+    UIViewController *controller = [sb instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:controller];
+    //UIViewController *topViewController = rootViewController ? rootViewController.viewControllers.firstObject : nil;
+    
+    
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.window.rootViewController = navController;
     [self.window makeKeyAndVisible];
-
+    
+//    if(!rootViewController || [topViewController isKindOfClass:NSClassFromString(@"SplashScreenViewController")]) {
+//        [rootViewController presentViewController:navController animated:NO completion:nil];
+//    }else if(![rootViewController presentingViewController]){
+//        [rootViewController presentViewController:navController animated:YES completion:nil];
+//    }
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    self.window = [[UIWindow alloc] initWithFrame:
-                   [[UIScreen mainScreen] bounds]];
-    
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    self.viewController = [sb instantiateViewControllerWithIdentifier:@"SplashScreen"];
-    UINavigationController *navController = [[UINavigationController alloc]
-                                             initWithRootViewController:self.viewController];
-    self.window.rootViewController = navController;
-    [self.window makeKeyAndVisible];
-    
+
     [self testInternetConnection];
     
 #ifdef DEBUG
@@ -73,27 +78,33 @@
     }
 }
 
-- (void)testInternetConnection
-{
-    Reachability *networkReachability = [Reachability reachabilityForInternetConnection];
-    NetworkStatus networkStatus = [networkReachability currentReachabilityStatus];
-    if (networkStatus == NotReachable) {
+- (void)testInternetConnection {
+    
+    if (![OTRApi hasConnection]) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self showAlertViewWithTitle:@"Oops" andWithMessage:@"No internet connection found. Kindly check your connectivity to proceed"];
         });
     }
     else {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if([[OTRManager sharedManager] getStringForKey:KEY_LOGIN_USER_NAME]){
-                NSString *email = [[OTRManager sharedManager] getStringForKey:KEY_LOGIN_USER_NAME];
-                NSString *password = [[OTRManager sharedManager] getStringForKey:KEY_LOGIN_PASSWORD];
-                [[OTRManager sharedManager] setDelegate:self];
-                [[OTRManager sharedManager] loginWithUserName:email andEncodedPassword:password];
-            }
-            else{
-                [self switchToLoginController];
-            }
-        });
+        if([OTRDefaults getStringForKey:KEY_LOGIN_USER_NAME]){
+            NSString *email = [OTRDefaults getStringForKey:KEY_LOGIN_USER_NAME];
+            NSString *password = [OTRDefaults getStringForKey:KEY_LOGIN_PASSWORD];
+            [[OTRApi instance] loginWithUsername:email encodedPassword:password completionBlock:^(NSDictionary *responseData, NSError *error) {
+                if(responseData && !error) {
+                    NSString *isValid = [responseData objectForKey:@"IsValidUser"];
+                    if ([isValid boolValue]) {
+                        [self switchToDashboardController];
+                    }else{
+                        [self switchToLoginController];
+                    }
+                }else {
+                    [self switchToLoginController];
+                }
+            }];
+        }
+        else{
+            [self switchToLoginController];
+        }
     }
 }
 
@@ -133,20 +144,5 @@
     [self testInternetConnection];
 }
 
-- (void) onOTRRequestSuccessWithData:(NSDictionary *)data{
-    [[OTRManager sharedManager] setDelegate:nil];
-    NSString *isValid = [data objectForKey:@"IsValidUser"];
-    
-    if ([isValid boolValue]) {
-        [self switchToDashboardController];
-    }
-    else{
-        [self switchToLoginController];
-    }
-}
-- (void) onOTRRequestFailWithError:(NSString *)error{
-    [[OTRManager sharedManager] setDelegate:nil];
-    [self switchToLoginController];
-}
 
 @end

@@ -9,12 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "ViewController.h"
 #import "OTRManager.h"
+#import "LoginViewController.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, OTRManagerDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) ViewController *viewController;
-@property (strong, nonatomic) UINavigationController *navController;
 
 - (void) switchToDashboardController;
 - (void) switchToLoginController;
