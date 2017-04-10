@@ -11,7 +11,7 @@
 #import "OTRManager.h"
 #import "MAImagePickerController.h"
 
-@interface DocumentOptionalPropertiesViewController : UIViewController<UINavigationControllerDelegate, MAImagePickerControllerDelegate, UITextFieldDelegate, OTRManagerDelegate, UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate>
+@interface DocumentOptionalPropertiesViewController : UIViewController<UINavigationControllerDelegate, MAImagePickerControllerDelegate, UITextFieldDelegate, UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate>
 
 - (IBAction)onUploadDocumentButtonPressed:(id)sender;
 - (IBAction)onScanMoreDocumentButtonPressed:(id)sender;

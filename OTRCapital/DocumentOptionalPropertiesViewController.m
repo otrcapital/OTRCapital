@@ -10,6 +10,7 @@
 #import "OTRManager.h"
 #import "ImageAdjustmentViewController.h"
 #import "AssetsLibrary/AssetsLibrary.h"
+#import "OTRApi.h"
 
 #define TAG_ALERT_VIEW_INFO_SEND_SUCCESS        1
 #define TAG_ALERT_VIEW_INFO_SEND_FAIL           2
@@ -92,15 +93,6 @@
     [self initSubView];
     
     [self registerForKeyboardNotifications];
-}
-
-- (void) viewDidAppear:(BOOL)animated{
-    [[OTRManager sharedManager] setDelegate:self];
-    [self.scrollView flashScrollIndicators];
-}
-
-- (void) viewWillDisappear:(BOOL)animated{
-    [[OTRManager sharedManager] setDelegate:nil];
 }
 
 - (void) initSubView{
@@ -300,20 +292,43 @@
     }
     else
     {
-        CGPoint viewCenter = self.view.center;
-        UIView *spinner = [[OTRManager sharedManager] getSpinnerViewBlockerWithPosition:viewCenter];
-        [self.view addSubview:spinner];
+        [[OTRHud hud] show];
         
         [self saveInfo];
         NSData *pdfFile = [[OTRManager sharedManager] makePDFOfCurrentImages];
         
         NSDictionary *otrInfo = [[OTRManager sharedManager] getOTRInfo];
-        [[OTRManager sharedManager] sendDataToServer:otrInfo withPDF:pdfFile];
+        [[OTRApi instance] sendDataToServer:otrInfo withPDF:pdfFile completionBlock:^(NSDictionary *responseData, NSError *error) {
+            if(!error) {
+                [self onOTRRequestSuccess];
+            }else {
+                [self onOTRRequestFailWithError:error.localizedDescription];
+            }
+        }];
         
         NSString *email = [OTRDefaults getStringForKey:KEY_LOGIN_USER_NAME];
         [[OTRManager sharedManager] setOTRInfoValueOfTypeString:email forKey:KEY_LOGIN_USER_NAME];
         [[OTRManager sharedManager] saveOTRInfo];
     }
+}
+
+- (void)onOTRRequestSuccess{
+    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:OTR_INFO_STATUS_SUCCESS forKey:KEY_OTR_INFO_STATUS];
+    [[OTRManager sharedManager] saveOTRInfo];
+    
+    [[OTRHud hud] hide];
+    
+    [self showAlertViewWithTitle:@"Success" andWithMessage:@"Information is successfuly posted to server." andWithTag:TAG_ALERT_VIEW_INFO_SEND_SUCCESS];
+}
+
+- (void)onOTRRequestFailWithError:(NSString *)error{
+    //[[OTRManager sharedManager] setOTRInfoValueOfTypeString:OTR_INFO_STATUS_FAILED forKey:KEY_OTR_INFO_STATUS];
+    //[[OTRManager sharedManager] saveOTRInfo];
+    
+    [[OTRHud hud] hide];
+    
+    NSString *errorMessage = [NSString stringWithFormat:@"%@ Press \"OK\" to save it for later try or press \"Retry\" to try again.", error];
+    [self showOptionAlertViewWithTitle:@"Failed" andWithMessage:errorMessage andWithTag:TAG_ALERT_VIEW_INFO_SEND_FAIL];
 }
 
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
@@ -327,7 +342,7 @@
             [self onOTRRequestFailWithError:nil];
             break;
         case MFMailComposeResultSent:
-            [self onOTRRequestSuccessWithData:nil];
+            [self onOTRRequestSuccess];
             break;
         default:
             break;
@@ -437,26 +452,9 @@
 }
 
 
-#pragma mark OTRMANGER DELEGATE
-- (void) onOTRRequestSuccessWithData:(NSDictionary *)data{
-    [[OTRManager sharedManager] removeSpinnerViewBlockerFromView:self.view];
-    
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:OTR_INFO_STATUS_SUCCESS forKey:KEY_OTR_INFO_STATUS];
-    [[OTRManager sharedManager] saveOTRInfo];
-    [self showAlertViewWithTitle:@"Success" andWithMessage:@"Information is successfuly posted to server." andWithTag:TAG_ALERT_VIEW_INFO_SEND_SUCCESS];
-}
-- (void) onOTRRequestFailWithError:(NSString *)error{
-    [[OTRManager sharedManager] removeSpinnerViewBlockerFromView:self.view];
-    
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:OTR_INFO_STATUS_FAILED forKey:KEY_OTR_INFO_STATUS];
-    [[OTRManager sharedManager] saveOTRInfo];
-    
-    NSString *errorMessage = [NSString stringWithFormat:@"%@ Press \"OK\" to save it for later try or press \"Retry\" to try again.", error];
-    
-    [self showOptionAlertViewWithTitle:@"Failed" andWithMessage:errorMessage andWithTag:TAG_ALERT_VIEW_INFO_SEND_FAIL];
-}
-
 #pragma mark PRIVATE METHODS
+
+
 - (void) showAlertViewWithTitle: (NSString*)title andWithMessage: (NSString*) msg andWithTag: (int) tag{
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
                                                     message:msg
@@ -464,7 +462,10 @@
                                           cancelButtonTitle:@"OK"
                                           otherButtonTitles:nil];
     [alert setTag:tag];
-    [alert show];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [alert show];
+    });
 }
 
 - (void) showOptionAlertViewWithTitle: (NSString*)title andWithMessage: (NSString*) msg andWithTag: (int) tag{
@@ -474,7 +475,10 @@
                                           cancelButtonTitle:@"OK"
                                           otherButtonTitles:@"Retry", nil];
     [alert setTag:tag];
-    [alert show];
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [alert show];
+    });
 }
 
 - (void) showAlertViewWithTitle: (NSString*)title andWithMessage: (NSString*) msg{
@@ -483,12 +487,13 @@
                                                    delegate:nil
                                           cancelButtonTitle:@"OK"
                                           otherButtonTitles:nil];
-    [alert show];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [alert show];
+    });
 }
 
 #pragma mark ALERT VIEW DELEGATE
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    [[UIApplication sharedApplication] endIgnoringInteractionEvents];
     int tag = (int) alertView.tag;
     if (tag == TAG_ALERT_VIEW_INFO_SEND_SUCCESS) {
         [self.navigationController popToRootViewControllerAnimated:YES];

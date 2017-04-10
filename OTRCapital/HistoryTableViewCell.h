@@ -11,7 +11,7 @@
 #import "OTRManager.h"
 #import "HistoryViewController.h"
 
-@interface HistoryTableViewCell : UITableViewCell <MFMailComposeViewControllerDelegate, OTRManagerDelegate, UIAlertViewDelegate>
+@interface HistoryTableViewCell : UITableViewCell <MFMailComposeViewControllerDelegate, UIAlertViewDelegate>
 @property (strong, nonatomic) IBOutlet UIImageView *image;
 @property (strong, nonatomic) IBOutlet UILabel *title;
 @property (strong, nonatomic) IBOutlet UILabel *time;

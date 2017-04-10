@@ -25,5 +25,6 @@ typedef void(^OTRAPICompletionBlock)(NSDictionary* responseData, NSError *error)
 - (void)loginWithUsername: (NSString*)username encodedPassword: (NSString*)password completionBlock:(OTRAPICompletionBlock)block;
 - (void)loginWithUsername: (NSString*)username andPassword: (NSString*)password completionBlock:(OTRAPICompletionBlock)block;
 - (void)fetchCustomerDetails:(NSString *)lastFetchDate withCompletion:(OTRAPICompletionBlock)block;
+- (void)sendDataToServer: (NSDictionary *)otrInfo withPDF: (NSData *)pdfData completionBlock:(OTRAPICompletionBlock)block;
 
 @end

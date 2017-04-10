@@ -145,6 +145,9 @@
 		18B8FB661B52E0B9002A5670 /* HistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B8FB651B52E0B9002A5670 /* HistoryTableViewCell.m */; };
 		18CF17931BC43575006A1B46 /* email_icon_doc.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CF17921BC43575006A1B46 /* email_icon_doc.png */; };
 		6958D233A238E67833DCEA18 /* libPods-OTRCapital.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5C61C32737AA0210762CEA4 /* libPods-OTRCapital.a */; };
+		B62377D31E97EF4700776898 /* OTRHud.m in Sources */ = {isa = PBXBuildFile; fileRef = B62377D21E97EF4700776898 /* OTRHud.m */; };
+		B66B2D171E9B9B9500C3E6D2 /* NSDictionary+OTRJSONString.m in Sources */ = {isa = PBXBuildFile; fileRef = B66B2D161E9B9B9400C3E6D2 /* NSDictionary+OTRJSONString.m */; };
+		B66B2D1A1E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.m in Sources */ = {isa = PBXBuildFile; fileRef = B66B2D191E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.m */; };
 		B6FADF4C1E978D4200773B6F /* OTRApi.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FADF4B1E978D4200773B6F /* OTRApi.m */; };
 		B6FADF501E979BCF00773B6F /* OTRDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FADF4F1E979BCF00773B6F /* OTRDefaults.m */; };
 /* End PBXBuildFile section */
@@ -323,6 +326,12 @@
 		18B8FB651B52E0B9002A5670 /* HistoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryTableViewCell.m; sourceTree = "<group>"; };
 		18CF17921BC43575006A1B46 /* email_icon_doc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = email_icon_doc.png; sourceTree = "<group>"; };
 		5E5E25A9F26354A175F67485 /* Pods-OTRCapital.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OTRCapital.release.xcconfig"; path = "Pods/Target Support Files/Pods-OTRCapital/Pods-OTRCapital.release.xcconfig"; sourceTree = "<group>"; };
+		B62377D11E97EF4700776898 /* OTRHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRHud.h; path = Utils/OTRHud.h; sourceTree = "<group>"; };
+		B62377D21E97EF4700776898 /* OTRHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRHud.m; path = Utils/OTRHud.m; sourceTree = "<group>"; };
+		B66B2D151E9B9B9400C3E6D2 /* NSDictionary+OTRJSONString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+OTRJSONString.h"; path = "Categories/NSDictionary+OTRJSONString.h"; sourceTree = "<group>"; };
+		B66B2D161E9B9B9400C3E6D2 /* NSDictionary+OTRJSONString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+OTRJSONString.m"; path = "Categories/NSDictionary+OTRJSONString.m"; sourceTree = "<group>"; };
+		B66B2D181E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+OTRJSONString.h"; path = "Categories/NSArray+OTRJSONString.h"; sourceTree = "<group>"; };
+		B66B2D191E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+OTRJSONString.m"; path = "Categories/NSArray+OTRJSONString.m"; sourceTree = "<group>"; };
 		B6FADF4A1E978D4200773B6F /* OTRApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRApi.h; path = Web/OTRApi.h; sourceTree = "<group>"; };
 		B6FADF4B1E978D4200773B6F /* OTRApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRApi.m; path = Web/OTRApi.m; sourceTree = "<group>"; };
 		B6FADF4E1E979BCF00773B6F /* OTRDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRDefaults.h; path = Utils/OTRDefaults.h; sourceTree = "<group>"; };
@@ -461,6 +470,7 @@
 		18B8FAA11B5248D3002A5670 /* OTRCapital */ = {
 			isa = PBXGroup;
 			children = (
+				B66B2D141E9B9B7500C3E6D2 /* Categories */,
 				B6FADF4D1E979BA000773B6F /* Utils */,
 				B6FADF491E978CF000773B6F /* WebService */,
 				183CEEA71BCEC56A00C02FF7 /* TTTAttributedLabel */,
@@ -629,6 +639,17 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		B66B2D141E9B9B7500C3E6D2 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				B66B2D151E9B9B9400C3E6D2 /* NSDictionary+OTRJSONString.h */,
+				B66B2D161E9B9B9400C3E6D2 /* NSDictionary+OTRJSONString.m */,
+				B66B2D181E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.h */,
+				B66B2D191E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
 		B6FADF491E978CF000773B6F /* WebService */ = {
 			isa = PBXGroup;
 			children = (
@@ -643,6 +664,8 @@
 			children = (
 				B6FADF4E1E979BCF00773B6F /* OTRDefaults.h */,
 				B6FADF4F1E979BCF00773B6F /* OTRDefaults.m */,
+				B62377D11E97EF4700776898 /* OTRHud.h */,
+				B62377D21E97EF4700776898 /* OTRHud.m */,
 			);
 			name = Utils;
 			sourceTree = "<group>";
@@ -882,6 +905,7 @@
 				18B8FB211B524F44002A5670 /* BrokerCheckViewController.m in Sources */,
 				18B8FB451B5292DA002A5670 /* ImageAdjustmentViewController.m in Sources */,
 				18B8FAAB1B5248D3002A5670 /* ViewController.m in Sources */,
+				B66B2D171E9B9B9500C3E6D2 /* NSDictionary+OTRJSONString.m in Sources */,
 				183CEEAA1BCEC56A00C02FF7 /* TTTAttributedLabel.m in Sources */,
 				B6FADF501E979BCF00773B6F /* OTRDefaults.m in Sources */,
 				18B8FB1E1B524EEB002A5670 /* AdvanceLoanViewController.m in Sources */,
@@ -892,8 +916,10 @@
 				1864FC471B634DDA00855C09 /* UIImageView+ContentFrame.m in Sources */,
 				18B8FB481B52A02F002A5670 /* DocumentOptionalPropertiesViewController.m in Sources */,
 				189900EB1B59354900C007EF /* ContactUsViewController.m in Sources */,
+				B62377D31E97EF4700776898 /* OTRHud.m in Sources */,
 				18B8FAD41B524993002A5670 /* LoadFactorViewController.m in Sources */,
 				18B8FAD51B524993002A5670 /* LoginViewController.m in Sources */,
+				B66B2D1A1E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.m in Sources */,
 				189900DE1B592AC900C007EF /* HistoryDetailViewController.m in Sources */,
 				18B8FB261B5258B5002A5670 /* DocumentEditViewController.m in Sources */,
 				1864FC3F1B634DDA00855C09 /* MACaptureSession.m in Sources */,
@@ -1027,7 +1053,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CODE_SIGN_IDENTITY = "iPhone Developer: John Nguyen (M29QGYG7MW)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 6K4B4QV4HQ;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1069,7 +1095,7 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: OTR Capital LLC (6K4B4QV4HQ)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = 6K4B4QV4HQ;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

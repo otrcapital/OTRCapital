@@ -8,6 +8,8 @@
 
 #import "HistoryTableViewCell.h"
 #include "HistoryDetailViewController.h"
+#import "NSDictionary+OTRJSONString.h"
+#import "OTRApi.h"
 
 #define TAG_ALERT_VIEW_INFO_SEND_SUCCESS        1
 #define TAG_ALERT_VIEW_INFO_SEND_FAIL           2
@@ -23,6 +25,7 @@
 @implementation HistoryTableViewCell
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
     [self.cellButton addGestureRecognizer:longPress];
 }
@@ -63,13 +66,28 @@
 }
 
 - (IBAction)onResendButtonPressed:(id)sender {    
-    CGPoint viewCenter = self.parent.view.center;
-    UIView *spinner = [[OTRManager sharedManager] getSpinnerViewBlockerWithPosition:viewCenter];
-    [self.parent.view addSubview:spinner];
+    [[OTRHud hud] show];
     
     NSData *pdfFile = [[OTRManager sharedManager] makePDFOfImagesOfFolder:self.directoryName];
-    [[OTRManager sharedManager] setDelegate:self];
-    [[OTRManager sharedManager] sendDataToServer:self.otrInfo withPDF:pdfFile];
+
+    [[OTRApi instance] sendDataToServer:self.otrInfo withPDF:pdfFile completionBlock:^(NSDictionary *responseData, NSError *error) {
+        
+        [[OTRHud hud] hide];
+        
+        if(!error) {
+            [self.otrInfo setValue:OTR_INFO_STATUS_SUCCESS forKey:KEY_OTR_INFO_STATUS];
+            [[OTRManager sharedManager] updateOTRInfo:self.otrInfo forKey:self.directoryName];
+            [self.btnResend setHidden:YES];
+            [self.parent refreshView];
+            NSString *msg = [NSString stringWithFormat:@"Information is successfuly posted to server."];
+            [self showAlertViewWithTitle:@"Success" andWithMessage:msg andWithTag:TAG_ALERT_VIEW_INFO_SEND_SUCCESS];
+        }else {
+            [self.otrInfo setValue:OTR_INFO_STATUS_FAILED forKey:KEY_OTR_INFO_STATUS];
+            [[OTRManager sharedManager] updateOTRInfo:self.otrInfo forKey:self.directoryName];
+            NSString *errorMessage = [NSString stringWithFormat:@"%@ Press \"OK\" to save it for later try or press \"Retry\" to try again.", error.localizedDescription];
+            [self showOptionAlertViewWithTitle:@"Failed" andWithMessage:errorMessage andWithTag:TAG_ALERT_VIEW_INFO_SEND_FAIL];
+        }
+    }];
 }
 
 - (IBAction)onDeleteButtonPressed:(id)sender {
@@ -87,9 +105,7 @@
         NSString *email = [[OTRManager sharedManager] getUserName];
         NSArray *toRecipents = [NSArray arrayWithObject:email];
 
-        CGPoint viewCenter = self.parent.view.center;
-        UIView *spinner = [[OTRManager sharedManager] getSpinnerViewBlockerWithPosition:viewCenter];
-        [self.parent.view addSubview:spinner];
+        [[OTRHud hud] show];
         
         NSString *brokerName = [self.otrInfo objectForKey:KEY_BROKER_NAME];
         NSString *loadNo = [self.otrInfo objectForKey:KEY_LOAD_NO];
@@ -110,7 +126,7 @@
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
 {
     [self.parentNavigationController dismissViewControllerAnimated:YES completion:NULL];
-    [[OTRManager sharedManager] removeSpinnerViewBlockerFromView:self.parent.view];
+    [[OTRHud hud] hide];
     switch (result)
     {
         case MFMailComposeResultCancelled:
@@ -126,28 +142,6 @@
     }
 }
 
-#pragma mark OTRMANGER DELEGATE
-- (void) onOTRRequestSuccessWithData:(NSDictionary *)data{
-    [[OTRManager sharedManager] setDelegate:nil];
-    [[OTRManager sharedManager] removeSpinnerViewBlockerFromView:self.parent.view];
-    
-    [self.otrInfo setValue:OTR_INFO_STATUS_SUCCESS forKey:KEY_OTR_INFO_STATUS];
-    [[OTRManager sharedManager] updateOTRInfo:self.otrInfo forKey:self.directoryName];
-    [self.btnResend setHidden:YES];
-    [self.parent refreshView];
-    NSString *msg = [NSString stringWithFormat:@"Information is successfuly posted to server."];
-    [self showAlertViewWithTitle:@"Success" andWithMessage:msg andWithTag:TAG_ALERT_VIEW_INFO_SEND_SUCCESS];
-}
-
-- (void) onOTRRequestFailWithError:(NSString *)error{
-    [[OTRManager sharedManager] setDelegate:nil];
-    [[OTRManager sharedManager] removeSpinnerViewBlockerFromView:self.parent.view];
-    
-    [self.otrInfo setValue:OTR_INFO_STATUS_FAILED forKey:KEY_OTR_INFO_STATUS];
-    [[OTRManager sharedManager] updateOTRInfo:self.otrInfo forKey:self.directoryName];
-    NSString *errorMessage = [NSString stringWithFormat:@"%@ Press \"OK\" to save it for later try or press \"Retry\" to try again.", error];
-    [self showOptionAlertViewWithTitle:@"Failed" andWithMessage:errorMessage andWithTag:TAG_ALERT_VIEW_INFO_SEND_FAIL];
-}
 
 #pragma mark PRIVATE METHODS
 - (void) showAlertViewWithTitle: (NSString*)title andWithMessage: (NSString*) msg andWithTag: (int) tag{
@@ -157,7 +151,9 @@
                                           cancelButtonTitle:@"OK"
                                           otherButtonTitles:nil];
     [alert setTag:tag];
-    [alert show];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [alert show];
+    });
 }
 
 - (void) showOptionAlertViewWithTitle: (NSString*)title andWithMessage: (NSString*) msg andWithTag: (int) tag{
@@ -167,7 +163,9 @@
                                           cancelButtonTitle:@"YES"
                                           otherButtonTitles:@"NO", nil];
     [alert setTag:tag];
-    [alert show];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [alert show];
+    });
 }
 
 #pragma mark ALERT VIEW DELEGATE

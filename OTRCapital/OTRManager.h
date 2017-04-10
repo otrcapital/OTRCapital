@@ -72,13 +72,6 @@
 - (void) cacheUIImage: (UIImage*)image withKey:(NSString*)key;
 - (UIImage*) getUIImageForKey: (NSString*) key;
 
-- (UIActivityIndicatorView*) getSpinnerViewWithPosition: (CGPoint) centerPoint;
-- (void) removeSpinnerViewFromView: (UIView*)view;
-
-- (UIView*) getSpinnerViewBlockerWithPosition: (CGPoint) centerPoint;
-- (void) removeSpinnerViewBlockerFromView: (UIView*)view;
-
-- (void) sendDataToServer: (NSDictionary *)otrInfo withPDF: (NSData *)pdfData;
 - (void) findBrokerInfoByPkey: (NSString *) pKey;
 
 
@@ -91,12 +84,4 @@
 
 + (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
 
-@end
-
-@interface NSDictionary (OTRJSONString)
--(NSString*) jsonStringWithPrettyPrint:(BOOL) prettyPrint;
-@end
-
-@interface NSArray (OTRJSONString)
-- (NSString *)jsonStringWithPrettyPrint:(BOOL)prettyPrint;
 @end

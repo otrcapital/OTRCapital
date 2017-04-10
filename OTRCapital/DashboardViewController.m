@@ -43,9 +43,7 @@
     static BOOL isListFetched = NO;
     if (!isListFetched) {
         isListFetched = YES;
-        CGPoint viewCenter = self.view.center;
-        UIView *spinner = [[OTRManager sharedManager] getSpinnerViewBlockerWithPosition:viewCenter];
-        [self.view addSubview:spinner];
+        [[OTRHud hud] show];
         [[OTRManager sharedManager] loadCustomerDataDictionary];
         
         NSString *lastFetchDate = [OTRDefaults getStringForKey:KEY_OTR_RECORD_FETCH_DATE];
@@ -67,7 +65,7 @@
         }
         
         [[OTRApi instance] fetchCustomerDetails:lastFetchDate withCompletion:^(NSDictionary *data, NSError *error) {
-            [[OTRManager sharedManager] removeSpinnerViewBlockerFromView:self.view];
+            [[OTRHud hud] hide];
             if(data && !error) {
                 [self parseCustomerDetailsData:data];
             }
@@ -96,7 +94,7 @@
     }
     [[OTRManager sharedManager] saveCustomerDataDictionary:customerData];
     [OTRDefaults saveRecordFetchDate];
-    [[OTRManager sharedManager] removeSpinnerViewBlockerFromView:self.view];
+    [[OTRHud hud] hide];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {

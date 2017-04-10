@@ -186,12 +186,9 @@
 - (IBAction)onVerifyButtonPressed:(id)sender {
     if (![self isValidInfo]) {
         [self showAlertViewWithTitle:@"Information Missing" andWithMessage:@"Please provide one of the required info. Both Broker Name and MC Number are emtpy."];
-    }
-    else
-    {
-        CGPoint viewCenter = self.view.center;
-        UIView *spinner = [[OTRManager sharedManager] getSpinnerViewBlockerWithPosition:viewCenter];
-        [self.view addSubview:spinner];
+    }else {
+
+        [[OTRHud hud] show];
 
         NSString *pKey = nil;
         
@@ -220,7 +217,7 @@
 }
 
 - (void) showAlertViewWithTitle: (NSString*)title andWithMessage: (NSString*) msg{
-    [[OTRManager sharedManager] removeSpinnerViewBlockerFromView:self.view];
+    [[OTRHud hud] hide];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
                                                     message:msg
                                                    delegate:nil
@@ -231,7 +228,7 @@
 
 #pragma mark OTRDelegate Methods
 - (void) onOTRRequestSuccessWithData:(NSDictionary *)data{
-    [[OTRManager sharedManager] removeSpinnerViewBlockerFromView:self.view];
+    [[OTRHud hud] hide];
     if (data) {
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         BrokerDetailViewController *vc = [sb instantiateViewControllerWithIdentifier:@"BrokerDetailViewController"];

@@ -34,16 +34,14 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"History";
-    CGPoint viewCenter = self.view.center;
-    UIActivityIndicatorView *spinner = [[OTRManager sharedManager] getSpinnerViewWithPosition:viewCenter];
-    [self.view addSubview:spinner];
+    [[OTRHud hud] show];
 }
 
 - (void) viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     if (!self.tableData) {
         [self initView];
-        [[OTRManager sharedManager] removeSpinnerViewFromView:self.view];
+        [[OTRHud hud] hide];
     }
 }
 

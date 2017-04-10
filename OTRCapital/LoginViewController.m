@@ -113,15 +113,13 @@
         [self showAlertViewWithTitle:@"Error" andWithMessage:@"Incorrect e-mail. Please provide valid email to continue."];
     }
     else {
-        CGPoint viewCenter = self.view.center;
-        UIView *spinner = [[OTRManager sharedManager] getSpinnerViewBlockerWithPosition:viewCenter];
-        [self.view addSubview:spinner];
+        [[OTRHud hud] show];
         [[CrashlyticsManager sharedManager]setUserEmail:self.email];
         __block LoginViewController *blockedSelf = self;
         [[OTRApi instance] loginWithUsername:self.email andPassword:password completionBlock:^(NSDictionary *responseData, NSError *error) {
             if(responseData && !error) {
                 [[CrashlyticsManager sharedManager]trackUserLoginWithEmail:self.email andSuccess:YES];
-                [[OTRManager sharedManager] removeSpinnerViewBlockerFromView:self.view];
+                [[OTRHud hud] hide];
                 
                 NSString *isValid = [responseData objectForKey:@"IsValidUser"];
                 
@@ -137,7 +135,7 @@
                 }
             }else {
                 [[CrashlyticsManager sharedManager]trackUserLoginWithEmail:self.email andSuccess:NO];
-                [[OTRManager sharedManager] removeSpinnerViewBlockerFromView:self.view];
+                [[OTRHud hud] hide];
                 
                 [self showAlertViewWithTitle:@"Error" andWithMessage:@"Failed to verify e-mail or password."];
             }

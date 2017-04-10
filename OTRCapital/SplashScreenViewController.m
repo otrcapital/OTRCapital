@@ -18,15 +18,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    CGPoint viewCenter = self.view.center;
-    UIView *spinner = [[OTRManager sharedManager] getSpinnerViewWithPosition:viewCenter];
-    [self.view addSubview:spinner];
     
     [self tryLoginWithCurrentCredentials];
 }
 
 - (void)tryLoginWithCurrentCredentials {
     if (![OTRApi hasConnection]) {
+        [[OTRHud hud] hide];
         dispatch_async(dispatch_get_main_queue(), ^{
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Oops"
                                                             message:@"No internet connection found. Kindly check your connectivity to proceed"

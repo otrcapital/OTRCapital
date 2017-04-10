@@ -299,38 +299,6 @@
     return [self.imageCache objectForKey:key];
 }
 
-- (UIActivityIndicatorView*) getSpinnerViewWithPosition:(CGPoint)centerPoint{
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(centerPoint.x - 25, centerPoint.y - 25, 50, 50)];
-    spinner.color = [UIColor blueColor];
-    [spinner startAnimating];
-    [spinner setTag:TAG_SPINNER_VIEW];
-    return spinner;
-}
-- (void) removeSpinnerViewFromView:(UIView *)view{
-    [[view viewWithTag:TAG_SPINNER_VIEW] removeFromSuperview];
-}
-
-- (UIView*) getSpinnerViewBlockerWithPosition: (CGPoint) centerPoint{
-    [[UIApplication sharedApplication] beginIgnoringInteractionEvents];
-    UIView* baseView = [[UIView alloc] initWithFrame:[[UIScreen mainScreen] applicationFrame]];
-    [baseView setBackgroundColor:[UIColor blackColor]];
-    baseView.userInteractionEnabled = YES;
-    baseView.alpha = 0.5;
-    
-    UIActivityIndicatorView *spinner = [[UIActivityIndicatorView alloc]initWithFrame:CGRectMake(centerPoint.x - 25, centerPoint.y - 25, 50, 50)];
-    spinner.color = [UIColor blueColor];
-    [spinner startAnimating];
-    
-    [baseView setTag:TAG_SPINNER_VIEW];
-    [baseView addSubview:spinner];
-    
-    return baseView;
-}
-- (void) removeSpinnerViewBlockerFromView: (UIView*)view{
-    [[UIApplication sharedApplication] endIgnoringInteractionEvents];
-    [[view viewWithTag:TAG_SPINNER_VIEW] removeFromSuperview];
-}
-
 - (void) appendAuthInfoToRequestTypeGet: (NSMutableURLRequest*)request{
     [request setHTTPMethod:@"GET"];
     NSString *authStr = [NSString stringWithFormat:@"%@:%@", [OTRDefaults getUserName], [OTRDefaults getPasswordDecoded]];
@@ -349,98 +317,6 @@
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
     [request setValue:@"Fiddler" forHTTPHeaderField:@"User-Agent"];
     [request setValue:OTR_SERVER_URL forHTTPHeaderField:@"Host"];
-}
-
-
-- (void) sendDataToServer: (NSDictionary *)otrInfo withPDF: (NSData *)pdfData{
-#ifdef DEBUG
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-        NSString *documentsDirectory = [paths objectAtIndex:0];
-        NSString *dataPath = [documentsDirectory stringByAppendingPathComponent:@"doc.pdf"];
-        [pdfData writeToFile:dataPath atomically:YES];
-    });
-#endif
-    NSMutableDictionary *params = [NSMutableDictionary new];
-    NSString *mcn = [otrInfo objectForKey:KEY_MC_NUMBER];
-    NSString *loadNumber = [otrInfo objectForKey:KEY_LOAD_NO];
-    NSString *invoiceAmount = [otrInfo objectForKey:KEY_INVOICE_AMOUNT];
-    NSNumber *pKey = [otrInfo objectForKey:KEY_PKEY];
-    NSString *advReqAmount = [otrInfo objectForKey:KEY_ADV_REQ_AMOUT];
-    NSString *textComcheckPhoneNumber = [otrInfo objectForKey:KEY_TEXT_COMCHECK_PHONE_NUMBER];
-    
-    NSMutableDictionary *apiInvoiceDataJson = [NSMutableDictionary new];
-    
-    [apiInvoiceDataJson setObject:mcn forKey:@"CustomerMCNumber"];
-    [apiInvoiceDataJson setObject:loadNumber forKey:@"PoNumber"];
-    [apiInvoiceDataJson setObject:pKey forKey:@"CustomerPKey"];
-    [apiInvoiceDataJson setObject:invoiceAmount forKey:@"InvoiceAmount"];
-    [apiInvoiceDataJson setObject:[OTRDefaults getUserName] forKey:@"ClientLogin"];
-    [apiInvoiceDataJson setObject:[OTRDefaults getPasswrodEncoded] forKey:@"ClientPassword"];
-    [apiInvoiceDataJson setObject:[otrInfo objectForKey:KEY_ADVANCED_REQUEST_TYPE] forKey:KEY_ADVANCED_REQUEST_TYPE];
-    if (textComcheckPhoneNumber != nil) {
-        [apiInvoiceDataJson setObject:textComcheckPhoneNumber forKey:KEY_TEXT_COMCHECK_PHONE_NUMBER];
-    }
-    
-    if (advReqAmount) {
-        [apiInvoiceDataJson setObject:advReqAmount forKey:@"AdvanceRequestAmount"];
-    }
-    
-    NSString *invioceString = [apiInvoiceDataJson jsonStringWithPrettyPrint:false];
-    
-    [params setObject:invioceString forKey:@"apiInvoiceDataJson"];
-    
-    NSArray *docTypes = [otrInfo objectForKey:KEY_DOC_PROPERTY_TYPES_LIST];
-    [params setObject:docTypes forKey:@"DocumentType"];
-    [params setObject:@"iOS" forKey:@"mType"];
-    
-    NSString *factorType = [otrInfo objectForKey:KEY_FACTOR_TYPE];
-    
-    if (!factorType) {
-        factorType = @"N/A";
-    }
-    
-    [params setObject:factorType forKey:@"FactorType"];
-    
-    NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
-    
-    [request setHTTPShouldHandleCookies:NO];
-    [request setTimeoutInterval:60];
-    [self appendAuthInfoToRequestTypePost:request];
-    
-    NSString *boundary = @"------VohpleBoundary4QuqLuM1cE5lMwCy";
-    
-    NSString *contentType = [NSString stringWithFormat:@"multipart/form-data; boundary=%@", boundary];
-    [request setValue:contentType forHTTPHeaderField: @"Content-Type"];
-    
-    NSMutableData *body = [NSMutableData data];
-    
-    for (NSString *param in params) {
-        [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"%@\"\r\n\r\n", param] dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:[[NSString stringWithFormat:@"%@\r\n", [params objectForKey:param]] dataUsingEncoding:NSUTF8StringEncoding]];
-    }
-    
-    if (pdfData)
-    {
-        [body appendData:[[NSString stringWithFormat:@"--%@\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:[[NSString stringWithFormat:@"Content-Disposition: form-data; name=\"file\"; filename=\"doc.pdf\"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:[@"Content-Type:application/pdf\r\n\r\n" dataUsingEncoding:NSUTF8StringEncoding]];
-        [body appendData:pdfData];
-        [body appendData:[[NSString stringWithFormat:@"\r\n"] dataUsingEncoding:NSUTF8StringEncoding]];
-    }
-    
-    [body appendData:[[NSString stringWithFormat:@"--%@--\r\n", boundary] dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    [request setHTTPBody:body];
-    NSString *url = [NSString stringWithFormat:@"%@%@", OTR_SERVER_BASE_URL, @"api/Upload"];
-    [request setURL:[NSURL URLWithString:url]];
-    
-    NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    if (conn) {
-        DLog(@"Request Send Successfully");
-    }
-    
 }
 
 - (void) findBrokerInfoByPkey: (NSString *) pKey{
@@ -526,40 +402,6 @@
     UIImage *newImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return newImage;
-}
-
-@end
-
-@implementation NSDictionary (OTRJSONString)
-
--(NSString*) jsonStringWithPrettyPrint:(BOOL) prettyPrint {
-    NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:self
-                                                       options:(NSJSONWritingOptions)    (prettyPrint ? NSJSONWritingPrettyPrinted : 0)
-                                                         error:&error];
-    
-    if (! jsonData) {
-        DLog(@"%@", [NSString stringWithFormat: @"jsonStringWithPrettyPrint: error: %@", error.localizedDescription]);
-        return @"{}";
-    } else {
-        return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    }
-}
-@end
-
-@implementation NSArray (OTRJSONString)
--(NSString*) jsonStringWithPrettyPrint:(BOOL) prettyPrint {
-    NSError *error;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:self
-                                                       options:(NSJSONWritingOptions) (prettyPrint ? NSJSONWritingPrettyPrinted : 0)
-                                                         error:&error];
-    
-    if (! jsonData) {
-        DLog(@"%@", [NSString stringWithFormat: @"jsonStringWithPrettyPrint: error: %@", error.localizedDescription]);
-        return @"[]";
-    } else {
-        return [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    }
 }
 
 @end
