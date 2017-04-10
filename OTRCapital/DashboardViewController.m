@@ -102,49 +102,6 @@
     [[OTRManager sharedManager] setDelegate:nil];
 }
 
-- (IBAction)factorLoadButtonPressed:(id)sender {
-    
-    [[OTRManager sharedManager] initOTRInfo];
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:DATA_TYPE_LOAD_FACTOR forKey:KEY_FACTOR_TYPE];
-    
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"LoadFactorViewController"];
-    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (IBAction)advanceButtonPressed:(id)sender {
-    
-    [[OTRManager sharedManager] initOTRInfo];
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:DATA_TYPE_ADVANCE_LOAN forKey:KEY_FACTOR_TYPE];
-    
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"AdvanceLoanViewController"];
-    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (IBAction)brokerCheckButtonPressed:(id)sender {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"BrokerCheckViewController"];
-    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
-- (IBAction)historyButtonPressed:(id)sender {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"HistoryViewController"];
-    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self.navigationController pushViewController:vc animated:YES];
-
-}
-- (IBAction)onContactUsButtonPressed:(id)sender {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"ContactUsViewController"];
-    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-    [self.navigationController pushViewController:vc animated:YES];
-}
-
 - (IBAction)onSignOutButtonPressed:(id)sender {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure you want to log out?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Log Out" otherButtonTitles:nil, nil];
     [actionSheet showInView:self.view];
@@ -160,5 +117,20 @@
         [self.navigationController presentViewController:controller animated:YES completion:nil];
     }
 }
+
+
+#pragma merk - Segue methods
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if([[segue identifier] isEqualToString:@"AdvanceLoanViewController"]) {
+        [[OTRManager sharedManager] initOTRInfo];
+        [[OTRManager sharedManager] setOTRInfoValueOfTypeString:DATA_TYPE_ADVANCE_LOAN forKey:KEY_FACTOR_TYPE];
+    }else if ([[segue identifier] isEqualToString:@"LoadFactorViewController"]) {
+        [[OTRManager sharedManager] initOTRInfo];
+        [[OTRManager sharedManager] setOTRInfoValueOfTypeString:DATA_TYPE_LOAD_FACTOR forKey:KEY_FACTOR_TYPE];
+    }
+}
+
+
 
 @end

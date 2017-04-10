@@ -43,8 +43,7 @@
                                                   otherButtonTitles:nil];
             [alert show];
         });
-    }
-    else {
+    }else {
         if([OTRDefaults getStringForKey:KEY_LOGIN_USER_NAME]){
             NSString *email = [OTRDefaults getStringForKey:KEY_LOGIN_USER_NAME];
             NSString *password = [OTRDefaults getStringForKey:KEY_LOGIN_PASSWORD];
@@ -60,14 +59,13 @@
                     [self switchToLoginController];
                 }
             }];
-        }
-        else{
+        }else {
             [self switchToLoginController];
         }
     }
 }
 
-- (void) switchToDashboardController {
+- (void)switchToDashboardController {
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *controller = [sb instantiateViewControllerWithIdentifier:@"DashboardViewController"];
     
@@ -79,7 +77,7 @@
     });
 }
 
-- (void) switchToLoginController {
+- (void)switchToLoginController {
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UINavigationController *controller = [sb instantiateViewControllerWithIdentifier:@"LoginNavigationController"];
     
