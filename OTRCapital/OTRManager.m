@@ -299,26 +299,6 @@
     return [self.imageCache objectForKey:key];
 }
 
-- (void) appendAuthInfoToRequestTypeGet: (NSMutableURLRequest*)request{
-    [request setHTTPMethod:@"GET"];
-    NSString *authStr = [NSString stringWithFormat:@"%@:%@", [OTRDefaults getUserName], [OTRDefaults getPasswordDecoded]];
-    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    [request setValue:@"Fiddler" forHTTPHeaderField:@"User-Agent"];
-    [request setValue:OTR_SERVER_URL forHTTPHeaderField:@"Host"];
-}
-
-- (void) appendAuthInfoToRequestTypePost: (NSMutableURLRequest*)request{
-    [request setHTTPMethod:@"POST"];
-    NSString *authStr = [NSString stringWithFormat:@"%@:%@", [OTRDefaults getUserName], [OTRDefaults getPasswordDecoded]];
-    NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
-    NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
-    [request setValue:authValue forHTTPHeaderField:@"Authorization"];
-    [request setValue:@"Fiddler" forHTTPHeaderField:@"User-Agent"];
-    [request setValue:OTR_SERVER_URL forHTTPHeaderField:@"Host"];
-}
-
 - (void) saveCustomerDataDictionary: (NSDictionary*) data{
     if (![data count]) {
         return;
