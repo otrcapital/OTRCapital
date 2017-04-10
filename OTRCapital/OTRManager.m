@@ -319,18 +319,6 @@
     [request setValue:OTR_SERVER_URL forHTTPHeaderField:@"Host"];
 }
 
-- (void) findBrokerInfoByPkey: (NSString *) pKey{
-    NSString *url = [NSString stringWithFormat:@"%@api/BrokerCheck/%@/%@/%@",OTR_SERVER_BASE_URL,[OTRDefaults getUserName], [OTRDefaults getPasswrodEncoded], pKey];
-    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60];
-    
-    [self appendAuthInfoToRequestTypeGet:request];
-    NSURLConnection *conn = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    if (conn) {
-        DLog(@"Request Send Successfully");
-    }
-
-}
-
 - (void) saveCustomerDataDictionary: (NSDictionary*) data{
     if (![data count]) {
         return;

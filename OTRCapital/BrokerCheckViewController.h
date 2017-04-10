@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 #include "OTRManager.h"
 
-@interface BrokerCheckViewController : UIViewController <UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource, OTRManagerDelegate>
+@interface BrokerCheckViewController : UIViewController <UITextFieldDelegate, UITableViewDelegate, UITableViewDataSource>
 
 @end

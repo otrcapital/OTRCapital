@@ -164,6 +164,15 @@
 }
 
 
+- (void)findBrokerInfoByPkey:(NSString *)pKey completionBlock:(OTRAPICompletionBlock)block {
+    NSString *url = [NSString stringWithFormat:@"%@api/BrokerCheck/%@/%@/%@",OTR_SERVER_BASE_URL,[OTRDefaults getUserName], [OTRDefaults getPasswrodEncoded], pKey];
+    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60];
+    
+    [self appendAuthInfoToRequestTypeGet:request];
+    [self sendRequest:request completionBlock:block];
+}
+
+
 #pragma mark - URLRequest methods
 
 
@@ -179,14 +188,17 @@
                                    DLog(@"HTTP Request Failed");
                                    [[CrashlyticsManager sharedManager]logException:error];
                                    
-                                   if(block) block(nil, error);
+                                   dispatch_async(dispatch_get_main_queue(), ^{
+                                       if(block) block(nil, error);
+                                   });
                                }
                            }];
 }
 
+
 - (void)connectionFinished:(NSData *)data statusCode:(NSInteger)statusCode completionBlock:(OTRAPICompletionBlock)block {
     if (data && statusCode == 200) {
-        NSString* responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+        NSString *responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if ([responseString hasPrefix:@"\""]) {
             responseString = [responseString substringFromIndex:1];
             responseString = [responseString substringToIndex:responseString.length - 1];
@@ -203,7 +215,9 @@
                                                              options:NSJSONReadingMutableContainers
                                                                error:&jsonError];
         if(!jsonError) {
-            if(block) block(json, nil);
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if(block) block(json, nil);
+            });
             return;
         }
     }
@@ -216,10 +230,13 @@
                                NSLocalizedFailureReasonErrorKey: errorString
                                };
     NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:statusCode userInfo:userInfo];
-    [[CrashlyticsManager sharedManager]logException:error];
+    [[CrashlyticsManager sharedManager] logException:error];
     
-    if(block) block(nil, error);
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if(block) block(nil, error);
+    });
 }
+
 
 
 #pragma mark - Inner Functions
@@ -234,6 +251,7 @@
     [request setValue:@"Fiddler" forHTTPHeaderField:@"User-Agent"];
     [request setValue:OTR_SERVER_URL forHTTPHeaderField:@"Host"];
 }
+
 
 - (void)appendAuthInfoToRequestTypePost: (NSMutableURLRequest*)request{
     [request setHTTPMethod:@"POST"];

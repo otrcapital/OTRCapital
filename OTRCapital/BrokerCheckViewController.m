@@ -9,6 +9,7 @@
 #import "BrokerCheckViewController.h"
 #import "OTRManager.h"
 #import "BrokerDetailViewController.h"
+#import "OTRApi.h"
 
 @interface BrokerCheckViewController ()
 {
@@ -32,7 +33,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Broker Check";    
+    self.title = @"Broker Check";
     self.txtFdBrokerName.delegate = self;
     self.txtFdMCNumber.delegate = self;
     
@@ -40,7 +41,7 @@
     self.brokerList = [[OTRManager sharedManager] getBrokersList];
     
     tapper = [[UITapGestureRecognizer alloc]
-                                      initWithTarget:self action:@selector(handleSingleTap:)];
+              initWithTarget:self action:@selector(handleSingleTap:)];
     tapper.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapper];
     
@@ -60,17 +61,7 @@
     [tbl_Search setHidden:TRUE];
 }
 
-- (void) viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    [[OTRManager sharedManager] setDelegate:self];
-}
-- (void) viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
-    [[OTRManager sharedManager] setDelegate:nil];
-}
-
-- (void)handleSingleTap:(UITapGestureRecognizer *) sender
-{
+- (void)handleSingleTap:(UITapGestureRecognizer *)sender {
     [self.view endEditing:YES];
 }
 
@@ -168,8 +159,7 @@
     
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.view endEditing:YES];
     if (!muary_Interest_Sub.count && muary_Interest_Sub.count < indexPath.row) {
         return;
@@ -178,28 +168,33 @@
     self.txtFdMCNumber.text = [[OTRManager sharedManager] getMCNumberByBrokerName:self.txtFdBrokerName.text];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 - (IBAction)onVerifyButtonPressed:(id)sender {
     if (![self isValidInfo]) {
         [self showAlertViewWithTitle:@"Information Missing" andWithMessage:@"Please provide one of the required info. Both Broker Name and MC Number are emtpy."];
     }else {
-
+        
         [[OTRHud hud] show];
-
+        
         NSString *pKey = nil;
         
         if(![self.txtFdBrokerName.text isEqualToString:@""])
             pKey = [[OTRManager sharedManager] getPKeyByBrokerName:self.txtFdBrokerName.text];
         if(pKey == nil && ![self.txtFdMCNumber.text isEqualToString:@""])
             pKey = [[OTRManager sharedManager] getPkeyByMCNumber:self.txtFdMCNumber.text];
-        if (pKey) {
-            [[OTRManager sharedManager] findBrokerInfoByPkey:pKey];
-        }
-        else{
+        if(pKey) {
+            [[OTRApi instance] findBrokerInfoByPkey:pKey completionBlock:^(NSDictionary *data, NSError *error) {
+                [[OTRHud hud] hide];
+                if(data && !error) {
+                    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+                    BrokerDetailViewController *vc = [sb instantiateViewControllerWithIdentifier:@"BrokerDetailViewController"];
+                    vc.data = data;
+                    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
+                    [self.navigationController pushViewController:vc animated:YES];
+                }else {
+                    [self showAlertViewWithTitle:@"Sorry" andWithMessage:@"There is some error, please try later"];
+                }
+            }];
+        }else {
             [self showAlertViewWithTitle:@"Information Missing" andWithMessage:@"Both Broker Name and MC Number are not valid. Please varify it to proceed."];
         }
     }
@@ -223,22 +218,10 @@
                                                    delegate:nil
                                           cancelButtonTitle:@"OK"
                                           otherButtonTitles:nil];
-    [alert show];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [alert show];
+    });
 }
 
-#pragma mark OTRDelegate Methods
-- (void) onOTRRequestSuccessWithData:(NSDictionary *)data{
-    [[OTRHud hud] hide];
-    if (data) {
-        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-        BrokerDetailViewController *vc = [sb instantiateViewControllerWithIdentifier:@"BrokerDetailViewController"];
-        vc.data = data;
-        vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
-        [self.navigationController pushViewController:vc animated:YES];
-    }
-}
-- (void) onOTRRequestFailWithError:(NSString *)error{
-    [self showAlertViewWithTitle:@"Sorry" andWithMessage:@"There is some error, please try later"];
-}
 
 @end

@@ -72,8 +72,6 @@
 - (void) cacheUIImage: (UIImage*)image withKey:(NSString*)key;
 - (UIImage*) getUIImageForKey: (NSString*) key;
 
-- (void) findBrokerInfoByPkey: (NSString *) pKey;
-
 
 - (void) saveCustomerDataDictionary: (NSDictionary*) data;
 - (void) loadCustomerDataDictionary;

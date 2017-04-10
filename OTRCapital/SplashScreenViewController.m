@@ -22,6 +22,16 @@
     [self tryLoginWithCurrentCredentials];
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO];
+}
+
 - (void)tryLoginWithCurrentCredentials {
     if (![OTRApi hasConnection]) {
         [[OTRHud hud] hide];
@@ -61,10 +71,12 @@
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     UIViewController *controller = [sb instantiateViewControllerWithIdentifier:@"DashboardViewController"];
     
-    NSMutableArray *stackViewControllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
-    [stackViewControllers removeLastObject];
-    [stackViewControllers addObject:controller];
-    [self.navigationController setViewControllers:stackViewControllers animated:YES];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSMutableArray *stackViewControllers = [NSMutableArray arrayWithArray:self.navigationController.viewControllers];
+        [stackViewControllers removeLastObject];
+        [stackViewControllers addObject:controller];
+        [self.navigationController setViewControllers:stackViewControllers animated:YES];
+    });
 }
 
 - (void) switchToLoginController {
@@ -72,18 +84,13 @@
     UINavigationController *controller = [sb instantiateViewControllerWithIdentifier:@"LoginNavigationController"];
     
     [self switchToDashboardController];
-    [self.navigationController presentViewController:controller animated:YES completion:nil];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.navigationController presentViewController:controller animated:YES completion:nil];
+    });
 }
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     [self tryLoginWithCurrentCredentials];
-}
-
-- (void)viewWillAppear:(BOOL)animated{
-    [self.navigationController setNavigationBarHidden:YES];
-}
-- (void)viewWillDisappear:(BOOL)animated{
-    [self.navigationController setNavigationBarHidden:NO];
 }
 
 @end
