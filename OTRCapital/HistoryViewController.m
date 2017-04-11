@@ -186,4 +186,8 @@
     return cell;
 }
 
+- (BOOL)prefersStatusBarHidden {
+    return NO;
+}
+
 @end

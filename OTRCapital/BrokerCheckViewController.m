@@ -15,16 +15,14 @@
 {
     NSMutableArray *muary_Interest_Main;
     NSMutableArray *muary_Interest_Sub;
-    UITableView *tbl_Search;
     UITapGestureRecognizer *tapper;
 }
-@property (strong, nonatomic) IBOutlet UILabel *lblBrokerName;
-@property (strong, nonatomic) IBOutlet UITextField *txtFdBrokerName;
-@property (strong, nonatomic) IBOutlet UITextField *txtFdMCNumber;
+@property (weak, nonatomic) IBOutlet UILabel *lblBrokerName;
+@property (weak, nonatomic) IBOutlet UITextField *txtFdBrokerName;
+@property (weak, nonatomic) IBOutlet UITextField *txtFdMCNumber;
+@property (weak, nonatomic) IBOutlet UITableView *tbl_Search;
 @property (nonatomic) CGPoint originalCenter;
 @property (nonatomic) NSArray *brokerList;
-@property int tblSearchX;
-@property int tblSearchY;
 - (IBAction)onVerifyButtonPressed:(id)sender;
 
 @end
@@ -48,17 +46,9 @@
     muary_Interest_Main = [NSMutableArray arrayWithArray:self.brokerList];
     muary_Interest_Sub = [[NSMutableArray alloc]init];
     
-    self.tblSearchX = [self.lblBrokerName convertPoint:self.lblBrokerName.frame.origin toView:nil].x + 10;
-    self.tblSearchY = [self.txtFdBrokerName convertPoint:self.txtFdBrokerName.frame.origin toView:self.view].y + self.txtFdBrokerName.frame.size.height;
-    tbl_Search = [[UITableView alloc] initWithFrame:
-                  CGRectMake(self.tblSearchX, self.tblSearchY, self.lblBrokerName.frame.size.width + self.txtFdBrokerName.frame.size.width * 1.15, 150) style:UITableViewStylePlain];
-    tbl_Search.delegate = self;
-    tbl_Search.dataSource = self;
-    tbl_Search.scrollEnabled = YES;
-    
-    [tbl_Search registerClass:[UITableViewCell class] forCellReuseIdentifier:@"CellIdentifier"];
-    [self.view addSubview:tbl_Search];
-    [tbl_Search setHidden:TRUE];
+
+    [self.tbl_Search registerClass:[UITableViewCell class] forCellReuseIdentifier:@"CellIdentifier"];
+    [self.tbl_Search setHidden:TRUE];
 }
 
 - (void)handleSingleTap:(UITapGestureRecognizer *)sender {
@@ -68,7 +58,7 @@
 -(BOOL) textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    tbl_Search.hidden = TRUE;
+    self.tbl_Search.hidden = TRUE;
     tapper.enabled = YES;
     return YES;
 }
@@ -84,7 +74,7 @@
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     self.view.center = self.originalCenter;
-    tbl_Search.hidden = TRUE;
+    self.tbl_Search.hidden = TRUE;
     tapper.enabled = YES;
 }
 
@@ -124,19 +114,19 @@
         
         if (muary_Interest_Sub.count > 0)
         {
-            tbl_Search.hidden = FALSE;
+            self.tbl_Search.hidden = FALSE;
             tapper.enabled = NO;
-            [tbl_Search reloadData];
+            [self.tbl_Search reloadData];
         }
         else
         {
-            tbl_Search.hidden = TRUE;
+            self.tbl_Search.hidden = TRUE;
             tapper.enabled = YES;
         }
     }
     else
     {
-        [tbl_Search setHidden:TRUE];
+        [self.tbl_Search setHidden:TRUE];
         tapper.enabled = YES;
     }
     
