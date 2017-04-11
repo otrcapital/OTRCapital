@@ -327,7 +327,7 @@
     
     [[OTRHud hud] hide];
     
-    NSString *errorMessage = [NSString stringWithFormat:@"%@ Press \"OK\" to save it for later try or press \"Retry\" to try again.", error];
+    NSString *errorMessage = [NSString stringWithFormat:@"%@\nPress \"OK\" to save it for later try or press \"Retry\" to try again.", error];
     [self showOptionAlertViewWithTitle:@"Failed" andWithMessage:errorMessage andWithTag:TAG_ALERT_VIEW_INFO_SEND_FAIL];
 }
 

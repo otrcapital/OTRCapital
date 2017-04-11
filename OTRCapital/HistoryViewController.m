@@ -9,7 +9,8 @@
 #import "HistoryViewController.h"
 #import "HistoryTableViewCell.h"
 #import "OTRManager.h"
-#import "AsyncImageView.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import "OTRNote.h"
 
 #define KEY_IMAGE       @"image"
 #define KEY_TITLE       @"title"
@@ -48,10 +49,10 @@
     NSMutableArray *tableData = [NSMutableArray new];
     
     for (int i = (int) filePathsArray.count - 1; i >= 0 ; i--) {
-        NSMutableDictionary *dic = [NSMutableDictionary new];
+        OTRNote *note = [OTRNote new];
         NSString *folderName = [filePathsArray  objectAtIndex:i];
         
-        [dic setObject:folderName forKey:KEY_DIR_NAME];
+        note.folderName = folderName;
         
         NSString *directoryPath = [NSString stringWithFormat:@"%@/%@", rootDirectoryPath, folderName];
         NSArray *directoryContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directoryPath error:NULL];
@@ -60,8 +61,8 @@
             continue;
         }
         
-        [dic setObject:directoryPath forKey:KEY_DIR_PATH];
-        [dic setObject:directoryContent forKey:KEY_DIR_CONTENT];
+        note.directoryPath = directoryPath;
+        note.directoryContents = directoryContent;
         
         NSString *imagePath = nil;
         @try {
@@ -69,25 +70,25 @@
         } @catch (NSException *exception) {}
         
         if (imagePath) {
-            [dic setObject:imagePath forKey:KEY_IMAGE];
+            note.imagePath = imagePath;
         }
         
         NSDictionary *otrData = [[OTRManager sharedManager] getOtrInfoWithKey:folderName];
         if (otrData) {
-            [dic setObject:otrData forKey:KEY_OTR_INFO];
+            note.otrDataFixed = otrData;
             NSString *title = [otrData objectForKey:KEY_BROKER_NAME];
-            if(title) [dic setObject:title forKey:KEY_TITLE];
+            if(title) note.title = title;
             NSString *email = [otrData objectForKey:KEY_LOGIN_USER_NAME];
-            if(email) [dic setObject:email forKey:KEY_EMAIL];
+            if(email) note.email = email;
             NSString *status = [otrData objectForKey:KEY_OTR_INFO_STATUS];
-            if(status) [dic setObject:status forKey:KEY_STATUS];
+            if(status) note.status = status;
             NSString *loadNo = [otrData objectForKey:KEY_LOAD_NO];
-            if(loadNo) [dic setObject:loadNo forKey:KEY_LOAD_NO];
+            if(loadNo) note.loadNo = loadNo;
             NSString *invoiceString = [otrData objectForKey:KEY_INVOICE_AMOUNT];
-            [dic setObject:invoiceString forKey:KEY_INVOICE_AMOUNT];
+            note.invoiceAmount = invoiceString;
             NSString *advReqAmount = [otrData objectForKey:KEY_ADV_REQ_AMOUT];
             if (advReqAmount) {
-                [dic setObject:advReqAmount forKey:KEY_ADV_REQ_AMOUT];
+                note.advReqAmount = advReqAmount;
             }
         }
         
@@ -95,9 +96,9 @@
         NSString *dateString = [NSDateFormatter localizedStringFromDate:date
                                                               dateStyle:NSDateFormatterShortStyle
                                                               timeStyle:NSDateFormatterShortStyle];
-        [dic setObject:dateString forKey:KEY_TIME];
+        note.time = dateString;
         
-        [tableData addObject:dic];
+        [tableData addObject:note];
     }
     [self setTableData: tableData];
     [self.tableView reloadData];
@@ -130,33 +131,27 @@
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 100;
+    return 106;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *simpleTableIdentifier = @"HistoryTableViewCell";
     
     HistoryTableViewCell *cell = (HistoryTableViewCell*)[tableView dequeueReusableCellWithIdentifier:simpleTableIdentifier];
-    
     if (cell == nil){
         NSArray *nib = [[NSBundle mainBundle] loadNibNamed:@"HistoryTableViewCell" owner:self options:nil];
         cell = [nib objectAtIndex:0];
-        AsyncImageView *imageView = [[AsyncImageView alloc] initWithFrame:cell.image.frame];
-        imageView.contentMode = UIViewContentModeScaleAspectFill;
-        imageView.clipsToBounds = YES;
-        imageView.tag = IMAGE_VIEW_TAG;
-        [cell addSubview:imageView];
     }
     
-    NSDictionary *dic = [self.tableData  objectAtIndex:indexPath.row];
-    NSString *title = [dic objectForKey:KEY_TITLE];
-    NSString *email = [dic objectForKey:KEY_EMAIL];
-    NSString *imagePath = [dic objectForKey:KEY_IMAGE];
-    NSString *status = [dic objectForKey:KEY_STATUS];
-    NSString *time  = [dic objectForKey:KEY_TIME];
-    NSString *loadNo = [dic objectForKey:KEY_LOAD_NO];
-    NSString *invoiceAmount = [dic objectForKey:KEY_INVOICE_AMOUNT];
-    NSString *advReqAmount = [dic objectForKey:KEY_ADV_REQ_AMOUT];
+    OTRNote *obj = [self.tableData  objectAtIndex:indexPath.row];
+    NSString *title = obj.title;
+    NSString *email = obj.email;
+    NSString *imagePath = obj.imagePath;
+    NSString *status = obj.status;
+    NSString *time  = obj.time;
+    NSString *loadNo = obj.loadNo;
+    NSString *invoiceAmount = obj.invoiceAmount;
+    NSString *advReqAmount = obj.advReqAmount;
     
     cell.time.text = time ? time : @"";
     cell.title.text = title ? title : @"";
@@ -170,22 +165,23 @@
         cell.rate.text = invoiceAmount ?[NSString stringWithFormat:@"Invoice: %@", invoiceAmount] : @"";
     }
     
-    NSString *folderName = [dic objectForKey:KEY_DIR_NAME];
+    NSString *folderName = obj.folderName;
     
-    cell.directoryContents = [dic objectForKey:KEY_DIR_CONTENT];
-    cell.directoryPath = [dic objectForKey:KEY_DIR_PATH];;
+    cell.directoryContents = obj.directoryContents;
+    cell.directoryPath = obj.directoryPath;
     cell.parentNavigationController = self.navigationController;
     cell.parent = self;
     cell.index = (int) indexPath.row;
-    NSDictionary *otrDataFixed = [dic objectForKey:KEY_OTR_INFO];
+    NSDictionary *otrDataFixed = obj.otrDataFixed;
     NSMutableDictionary *otrDataChangable = [NSMutableDictionary dictionaryWithDictionary:otrDataFixed];
     cell.otrInfo = otrDataChangable;
     cell.directoryName = folderName;
     [cell initCellInfo];
     
-    AsyncImageView *imageView = (AsyncImageView *)[cell viewWithTag:IMAGE_VIEW_TAG];
-    [[AsyncImageLoader sharedLoader] cancelLoadingImagesForTarget:imageView];
-    imageView.imageURL = [NSURL fileURLWithPath:imagePath];
+    UIImageView *imageView = (UIImageView *)[cell viewWithTag:IMAGE_VIEW_TAG];
+    [imageView setShowActivityIndicatorView:YES];
+    [imageView setIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [imageView sd_setImageWithURL:[NSURL fileURLWithPath:imagePath] placeholderImage:nil];
     
     return cell;
 }

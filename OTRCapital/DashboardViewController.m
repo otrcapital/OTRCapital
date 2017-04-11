@@ -64,7 +64,7 @@
             }
         }
         
-        [[OTRApi instance] fetchCustomerDetails:lastFetchDate withCompletion:^(NSDictionary *data, NSError *error) {
+        [[OTRApi instance] fetchCustomerDetails:lastFetchDate ?: @"2015/10/18" withCompletion:^(NSDictionary *data, NSError *error) {
             [[OTRHud hud] hide];
             if(data && !error) {
                 [self parseCustomerDetailsData:data];

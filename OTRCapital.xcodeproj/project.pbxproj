@@ -73,7 +73,6 @@
 		18696DD21B6CAC160001E49A /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 18696DD11B6CAC160001E49A /* Reachability.m */; };
 		18696DD51B6CAFAF0001E49A /* SplashScreenViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18696DD41B6CAFAF0001E49A /* SplashScreenViewController.m */; };
 		187605DA1BD5385C009BA76D /* OTR_Broker_Info_Default.txt in Resources */ = {isa = PBXBuildFile; fileRef = 187605D91BD5385C009BA76D /* OTR_Broker_Info_Default.txt */; };
-		1879EEAE1B6518700094553F /* AsyncImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1879EEAD1B6518700094553F /* AsyncImageView.m */; };
 		1879EEB51B65250B0094553F /* arrow_blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 1879EEAF1B65250B0094553F /* arrow_blue.png */; };
 		1879EEB61B65250B0094553F /* arrow_white.png in Resources */ = {isa = PBXBuildFile; fileRef = 1879EEB01B65250B0094553F /* arrow_white.png */; };
 		1879EEB71B65250B0094553F /* blue_dark_rect.png in Resources */ = {isa = PBXBuildFile; fileRef = 1879EEB11B65250B0094553F /* blue_dark_rect.png */; };
@@ -146,6 +145,7 @@
 		18CF17931BC43575006A1B46 /* email_icon_doc.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CF17921BC43575006A1B46 /* email_icon_doc.png */; };
 		6958D233A238E67833DCEA18 /* libPods-OTRCapital.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F5C61C32737AA0210762CEA4 /* libPods-OTRCapital.a */; };
 		B62377D31E97EF4700776898 /* OTRHud.m in Sources */ = {isa = PBXBuildFile; fileRef = B62377D21E97EF4700776898 /* OTRHud.m */; };
+		B646BEDA1E9BEE00009FB15A /* OTRNote.m in Sources */ = {isa = PBXBuildFile; fileRef = B646BED91E9BEE00009FB15A /* OTRNote.m */; };
 		B66B2D171E9B9B9500C3E6D2 /* NSDictionary+OTRJSONString.m in Sources */ = {isa = PBXBuildFile; fileRef = B66B2D161E9B9B9400C3E6D2 /* NSDictionary+OTRJSONString.m */; };
 		B66B2D1A1E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.m in Sources */ = {isa = PBXBuildFile; fileRef = B66B2D191E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.m */; };
 		B6FADF4C1E978D4200773B6F /* OTRApi.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FADF4B1E978D4200773B6F /* OTRApi.m */; };
@@ -234,8 +234,6 @@
 		18696DD31B6CAFAF0001E49A /* SplashScreenViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SplashScreenViewController.h; sourceTree = "<group>"; };
 		18696DD41B6CAFAF0001E49A /* SplashScreenViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplashScreenViewController.m; sourceTree = "<group>"; };
 		187605D91BD5385C009BA76D /* OTR_Broker_Info_Default.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OTR_Broker_Info_Default.txt; sourceTree = "<group>"; };
-		1879EEAC1B6518700094553F /* AsyncImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AsyncImageView.h; sourceTree = "<group>"; };
-		1879EEAD1B6518700094553F /* AsyncImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AsyncImageView.m; sourceTree = "<group>"; };
 		1879EEAF1B65250B0094553F /* arrow_blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_blue.png; sourceTree = "<group>"; };
 		1879EEB01B65250B0094553F /* arrow_white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = arrow_white.png; sourceTree = "<group>"; };
 		1879EEB11B65250B0094553F /* blue_dark_rect.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blue_dark_rect.png; sourceTree = "<group>"; };
@@ -328,6 +326,8 @@
 		5E5E25A9F26354A175F67485 /* Pods-OTRCapital.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OTRCapital.release.xcconfig"; path = "Pods/Target Support Files/Pods-OTRCapital/Pods-OTRCapital.release.xcconfig"; sourceTree = "<group>"; };
 		B62377D11E97EF4700776898 /* OTRHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRHud.h; path = Utils/OTRHud.h; sourceTree = "<group>"; };
 		B62377D21E97EF4700776898 /* OTRHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRHud.m; path = Utils/OTRHud.m; sourceTree = "<group>"; };
+		B646BED81E9BEE00009FB15A /* OTRNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRNote.h; path = Model/OTRNote.h; sourceTree = "<group>"; };
+		B646BED91E9BEE00009FB15A /* OTRNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRNote.m; path = Model/OTRNote.m; sourceTree = "<group>"; };
 		B66B2D151E9B9B9400C3E6D2 /* NSDictionary+OTRJSONString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+OTRJSONString.h"; path = "Categories/NSDictionary+OTRJSONString.h"; sourceTree = "<group>"; };
 		B66B2D161E9B9B9400C3E6D2 /* NSDictionary+OTRJSONString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+OTRJSONString.m"; path = "Categories/NSDictionary+OTRJSONString.m"; sourceTree = "<group>"; };
 		B66B2D181E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+OTRJSONString.h"; path = "Categories/NSArray+OTRJSONString.h"; sourceTree = "<group>"; };
@@ -470,32 +470,20 @@
 		18B8FAA11B5248D3002A5670 /* OTRCapital */ = {
 			isa = PBXGroup;
 			children = (
+				B646BED71E9BED32009FB15A /* Model */,
+				B646BED51E9BEC8B009FB15A /* Controllers & UI */,
+				B646BED31E9BEC0A009FB15A /* External */,
 				B66B2D141E9B9B7500C3E6D2 /* Categories */,
 				B6FADF4D1E979BA000773B6F /* Utils */,
 				B6FADF491E978CF000773B6F /* WebService */,
-				183CEEA71BCEC56A00C02FF7 /* TTTAttributedLabel */,
 				186F8EA51B594AE30084AF0A /* Files */,
-				18B8FB421B528902002A5670 /* ImageCropper */,
 				18B8FAD71B524E5F002A5670 /* OTRResources */,
-				18B8FACA1B524973002A5670 /* ViewControllers */,
 				18B8FAA61B5248D3002A5670 /* AppDelegate.h */,
 				18B8FAA71B5248D3002A5670 /* AppDelegate.m */,
-				1879EEAC1B6518700094553F /* AsyncImageView.h */,
-				1879EEAD1B6518700094553F /* AsyncImageView.m */,
-				18B8FAA91B5248D3002A5670 /* ViewController.h */,
-				18B8FAAA1B5248D3002A5670 /* ViewController.m */,
-				18696DD01B6CAC160001E49A /* Reachability.h */,
-				18696DD11B6CAC160001E49A /* Reachability.m */,
 				18B8FAAC1B5248D3002A5670 /* Main.storyboard */,
 				18B8FAAF1B5248D3002A5670 /* Images.xcassets */,
 				18B8FAB11B5248D3002A5670 /* LaunchScreen.xib */,
 				18B8FAA21B5248D3002A5670 /* Supporting Files */,
-				18B8FB491B52C03F002A5670 /* OTRManager.h */,
-				18B8FB4A1B52C03F002A5670 /* OTRManager.m */,
-				18B8FB621B52DE92002A5670 /* HistoryTableViewCell.xib */,
-				189900D71B5925F600C007EF /* HistoryDetailCell.xib */,
-				0755678C1D9920ED00310996 /* CrashlyticsManager.h */,
-				0755678D1D9920ED00310996 /* CrashlyticsManager.m */,
 			);
 			path = OTRCapital;
 			sourceTree = "<group>";
@@ -514,6 +502,8 @@
 		18B8FACA1B524973002A5670 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				18B8FAA91B5248D3002A5670 /* ViewController.h */,
+				18B8FAAA1B5248D3002A5670 /* ViewController.m */,
 				18B8FACB1B524993002A5670 /* DashboardViewController.h */,
 				18B8FACC1B524993002A5670 /* DashboardViewController.m */,
 				18B8FACD1B524993002A5670 /* LoadFactorViewController.h */,
@@ -532,10 +522,6 @@
 				18B8FB471B52A02F002A5670 /* DocumentOptionalPropertiesViewController.m */,
 				18B8FB5D1B52DB47002A5670 /* HistoryViewController.h */,
 				18B8FB5E1B52DB47002A5670 /* HistoryViewController.m */,
-				18B8FB641B52E0B9002A5670 /* HistoryTableViewCell.h */,
-				18B8FB651B52E0B9002A5670 /* HistoryTableViewCell.m */,
-				189900D91B59278B00C007EF /* HistoryDetailCell.h */,
-				189900DA1B59278B00C007EF /* HistoryDetailCell.m */,
 				189900DC1B592AC900C007EF /* HistoryDetailViewController.h */,
 				189900DD1B592AC900C007EF /* HistoryDetailViewController.m */,
 				189900E91B59354900C007EF /* ContactUsViewController.h */,
@@ -639,6 +625,48 @@
 			name = Pods;
 			sourceTree = "<group>";
 		};
+		B646BED31E9BEC0A009FB15A /* External */ = {
+			isa = PBXGroup;
+			children = (
+				18696DD01B6CAC160001E49A /* Reachability.h */,
+				18696DD11B6CAC160001E49A /* Reachability.m */,
+				183CEEA71BCEC56A00C02FF7 /* TTTAttributedLabel */,
+				18B8FB421B528902002A5670 /* ImageCropper */,
+			);
+			name = External;
+			sourceTree = "<group>";
+		};
+		B646BED41E9BEC66009FB15A /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				18B8FB641B52E0B9002A5670 /* HistoryTableViewCell.h */,
+				18B8FB651B52E0B9002A5670 /* HistoryTableViewCell.m */,
+				189900D91B59278B00C007EF /* HistoryDetailCell.h */,
+				189900DA1B59278B00C007EF /* HistoryDetailCell.m */,
+				18B8FB621B52DE92002A5670 /* HistoryTableViewCell.xib */,
+				189900D71B5925F600C007EF /* HistoryDetailCell.xib */,
+			);
+			name = Cell;
+			sourceTree = "<group>";
+		};
+		B646BED51E9BEC8B009FB15A /* Controllers & UI */ = {
+			isa = PBXGroup;
+			children = (
+				18B8FACA1B524973002A5670 /* ViewControllers */,
+				B646BED41E9BEC66009FB15A /* Cell */,
+			);
+			name = "Controllers & UI";
+			sourceTree = "<group>";
+		};
+		B646BED71E9BED32009FB15A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				B646BED81E9BEE00009FB15A /* OTRNote.h */,
+				B646BED91E9BEE00009FB15A /* OTRNote.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
 		B66B2D141E9B9B7500C3E6D2 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
@@ -662,6 +690,10 @@
 		B6FADF4D1E979BA000773B6F /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				18B8FB491B52C03F002A5670 /* OTRManager.h */,
+				18B8FB4A1B52C03F002A5670 /* OTRManager.m */,
+				0755678C1D9920ED00310996 /* CrashlyticsManager.h */,
+				0755678D1D9920ED00310996 /* CrashlyticsManager.m */,
 				B6FADF4E1E979BCF00773B6F /* OTRDefaults.h */,
 				B6FADF4F1E979BCF00773B6F /* OTRDefaults.m */,
 				B62377D11E97EF4700776898 /* OTRHud.h */,
@@ -905,6 +937,7 @@
 				18B8FB211B524F44002A5670 /* BrokerCheckViewController.m in Sources */,
 				18B8FB451B5292DA002A5670 /* ImageAdjustmentViewController.m in Sources */,
 				18B8FAAB1B5248D3002A5670 /* ViewController.m in Sources */,
+				B646BEDA1E9BEE00009FB15A /* OTRNote.m in Sources */,
 				B66B2D171E9B9B9500C3E6D2 /* NSDictionary+OTRJSONString.m in Sources */,
 				183CEEAA1BCEC56A00C02FF7 /* TTTAttributedLabel.m in Sources */,
 				B6FADF501E979BCF00773B6F /* OTRDefaults.m in Sources */,
@@ -936,7 +969,6 @@
 				189900F11B593F0300C007EF /* SignUpViewController.m in Sources */,
 				18B8FB4B1B52C03F002A5670 /* OTRManager.m in Sources */,
 				18B8FAD31B524993002A5670 /* DashboardViewController.m in Sources */,
-				1879EEAE1B6518700094553F /* AsyncImageView.m in Sources */,
 				1864FC461B634DDA00855C09 /* UIImage+fixOrientation.m in Sources */,
 				1864FC451B634DDA00855C09 /* MAOpenCV.mm in Sources */,
 				1864FC411B634DDA00855C09 /* MADrawRect.m in Sources */,

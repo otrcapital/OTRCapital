@@ -12,7 +12,6 @@
 #import "OTRApi.h"
 
 #define TAG_ALERT_VIEW_INFO_SEND_SUCCESS        1
-#define TAG_ALERT_VIEW_INFO_SEND_FAIL           2
 #define TAG_ALERT_VIEW_CONFORM_DELETE           3
 
 @interface HistoryTableViewCell ()
@@ -84,8 +83,14 @@
         }else {
             [self.otrInfo setValue:OTR_INFO_STATUS_FAILED forKey:KEY_OTR_INFO_STATUS];
             [[OTRManager sharedManager] updateOTRInfo:self.otrInfo forKey:self.directoryName];
-            NSString *errorMessage = [NSString stringWithFormat:@"%@ Press \"OK\" to save it for later try or press \"Retry\" to try again.", error.localizedDescription];
-            [self showOptionAlertViewWithTitle:@"Failed" andWithMessage:errorMessage andWithTag:TAG_ALERT_VIEW_INFO_SEND_FAIL];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failed"
+                                                            message:error.localizedDescription
+                                                           delegate:self
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles: nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [alert show];
+            });
         }
     }];
 }

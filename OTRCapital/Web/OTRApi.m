@@ -178,12 +178,13 @@
 
 - (void)sendRequest:(NSURLRequest *)request completionBlock:(OTRAPICompletionBlock)block {
     __block OTRApi *blockedSelf = self;
+    __block NSURLRequest *blockedRequest = request;
     [NSURLConnection sendAsynchronousRequest:request
                                        queue:self.queue
                            completionHandler:^(NSURLResponse *response, NSData *data, NSError *error){
                                NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *) response;
                                if(!error) {
-                                   [blockedSelf connectionFinished:data statusCode:[httpResponse statusCode] completionBlock:block];
+                                   [blockedSelf connectionFinished:data requestInfo:blockedRequest statusCode:[httpResponse statusCode] completionBlock:block];
                                }else {
                                    DLog(@"HTTP Request Failed");
                                    [[CrashlyticsManager sharedManager]logException:error];
@@ -196,15 +197,32 @@
 }
 
 
-- (void)connectionFinished:(NSData *)data statusCode:(NSInteger)statusCode completionBlock:(OTRAPICompletionBlock)block {
-    if (data && statusCode == 200) {
+- (void)connectionFinished:(NSData *)data requestInfo:(NSURLRequest *)request statusCode:(NSInteger)statusCode completionBlock:(OTRAPICompletionBlock)block {
+    if (statusCode == 200) {
+        if(!data) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if(block) block([NSDictionary new], nil);
+                if(request) {
+                    NSString* errorString = [NSString stringWithFormat:@"Warning! Empty server response body. Url = %@", request.URL.absoluteString];
+                    NSDictionary *userInfo = @{
+                                               NSLocalizedDescriptionKey: errorString,
+                                               NSLocalizedFailureReasonErrorKey: errorString
+                                               };
+                    NSError *error = [NSError errorWithDomain:NSURLErrorDomain code:statusCode userInfo:userInfo];
+                    [[CrashlyticsManager sharedManager] logException:error];
+                }
+            });
+            return;
+        }
         NSString *responseString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
         if ([responseString hasPrefix:@"\""]) {
-            responseString = [responseString substringFromIndex:1];
+            responseString = [responseString substringFromIndex: 1];
             responseString = [responseString substringToIndex:responseString.length - 1];
         }
         responseString = [responseString stringByReplacingOccurrencesOfString:@"\\" withString:@""];
+        
         DLog(@"%@", [NSString stringWithFormat:@"Response String: %@", responseString]);
+        
         if ([responseString hasPrefix:@"["]) {
             responseString = [NSString stringWithFormat:@"{\"data\":%@}", responseString];
         }
@@ -224,6 +242,10 @@
     NSString* errorString = @"Unknown Server Error, kindly contect OTR Capital for assitanace.";
     if (data){
         errorString = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+    }
+    if(errorString.length > 0) {
+        if([[errorString substringToIndex:1] isEqualToString:@"\""]) errorString = [errorString substringFromIndex:1];
+        if([[errorString substringFromIndex:errorString.length - 1] isEqualToString:@"\""]) errorString = [errorString substringToIndex:errorString.length - 1];
     }
     NSDictionary *userInfo = @{
                                NSLocalizedDescriptionKey: errorString,
