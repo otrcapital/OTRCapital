@@ -17,14 +17,13 @@
 #define TOTAL_PAY_TEXTFIELD_TAG 10
 #define TOTAL_DEDUCTION_TEXTFIELD_TAG 11
 
-const static NSInteger lbDescriptionHeight = 30;
 
-@interface LoadFactorViewController ()
-{
+@interface LoadFactorViewController () {
     NSMutableArray *muary_Interest_Main;
     NSMutableArray *muary_Interest_Sub;
     UITapGestureRecognizer *tapper;
 }
+
 @property (weak, nonatomic) IBOutlet UISwitch *comdataFuelCardSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *EFSSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *wireSwitch;
@@ -36,18 +35,18 @@ const static NSInteger lbDescriptionHeight = 30;
 @property (weak, nonatomic) IBOutlet UITextField *txtFdTotalDeduction;
 @property (weak, nonatomic) IBOutlet UIView *viewTotalPay;
 @property (weak, nonatomic) IBOutlet UIView *viewTotalDeduction;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *lblDescription1Height;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *lblDescription2Height;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *lblDescription1Height;
+@property (strong , nonatomic) IBOutlet NSLayoutConstraint *lblDescription2Height;
 @property (weak, nonatomic) IBOutlet UITableView *tbl_Search;
 @property (nonatomic) CGPoint originalCenter;
 @property (nonatomic) NSArray *brokerList;
+
 @end
 
 @implementation LoadFactorViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Factor a Load";
     self.txtFdBrokerName.delegate = self;
     self.txtFdLoadNo.delegate = self;
     self.txtFdTotalPay.delegate = self;
@@ -74,26 +73,19 @@ const static NSInteger lbDescriptionHeight = 30;
     }
 }
 
-- (void) viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
-    self.lblDescription1Height.constant = 0;
-    self.lblDescription2Height.constant = 0;
-}
-
-- (void)handleSingleTap:(UITapGestureRecognizer *) sender {
+- (void)handleSingleTap:(UITapGestureRecognizer *)sender {
     [self.view endEditing:YES];
     
-    self.lblDescription1Height.constant = 0;
-    self.lblDescription2Height.constant = 0;
+    self.lblDescription1Height.active = YES;
+    self.lblDescription2Height.active = YES;
 }
 
--(BOOL) textFieldShouldReturn:(UITextField *)textField
-{
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     self.tbl_Search.hidden = TRUE;
     tapper.enabled = YES;
-    self.lblDescription1Height.constant = 0;
-    self.lblDescription2Height.constant = 0;
+    self.lblDescription1Height.active = YES;
+    self.lblDescription2Height.active = YES;
     
     if (textField == self.txtFdBrokerName) {
         [self.txtFdLoadNo becomeFirstResponder];
@@ -107,11 +99,9 @@ const static NSInteger lbDescriptionHeight = 30;
     return YES;
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField
-{
-    float newlblDescription1Height = 0;
-    float newlblDescription2Height = 0;
-    
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    self.lblDescription1Height.active = YES;
+    self.lblDescription2Height.active = YES;
     if (textField == self.txtFdBrokerName) {
         [self searchText:textField replacementString:@"Begin"];
     }
@@ -128,19 +118,10 @@ const static NSInteger lbDescriptionHeight = 30;
         //self.lblDescription.text = @"";
     }
     else if (textField == self.txtFdTotalPay) {
-        newlblDescription1Height = lbDescriptionHeight;
-        newlblDescription2Height = 0;
+        self.lblDescription1Height.active = NO;
     }
     else if (textField == self.txtFdTotalDeduction) {
-        newlblDescription1Height = 0;
-        newlblDescription2Height = lbDescriptionHeight;
-    }
-    
-    if(self.lblDescription1Height.constant != newlblDescription1Height) {
-        self.lblDescription1Height.constant = newlblDescription1Height;
-    }
-    if(self.lblDescription2Height.constant != newlblDescription2Height) {
-        self.lblDescription2Height.constant = newlblDescription2Height;
+        self.lblDescription2Height.active = NO;
     }
     [UIView animateWithDuration:0.2 animations:^{
         [self.view layoutIfNeeded];
@@ -160,8 +141,7 @@ const static NSInteger lbDescriptionHeight = 30;
     return YES;
 }
 
--(void) searchText:(UITextField *)textField replacementString:(NSString *)string
-{
+- (void) searchText:(UITextField *)textField replacementString:(NSString *)string {
     NSString *str_Search_String=[NSString stringWithFormat:@"%@",textField.text];
     if([string isEqualToString:@"Begin"])
         str_Search_String = [NSString stringWithFormat:@"%@",textField.text];
@@ -171,11 +151,9 @@ const static NSInteger lbDescriptionHeight = 30;
         str_Search_String = [str_Search_String stringByAppendingString:string];
     
     muary_Interest_Sub=[[NSMutableArray alloc] init];
-    if(str_Search_String.length > 0)
-    {
+    if(str_Search_String.length > 0) {
         NSInteger counter = 0;
-        for(NSString *name in muary_Interest_Main)
-        {
+        for(NSString *name in muary_Interest_Main) {
             NSRange r = [name rangeOfString:str_Search_String options:NSCaseInsensitiveSearch];
             if(r.length > 0)
             {
@@ -185,34 +163,27 @@ const static NSInteger lbDescriptionHeight = 30;
             counter++;
             
         }
-        
-        if (muary_Interest_Sub.count > 0)
-        {
+
+        if (muary_Interest_Sub.count > 0) {
             self.tbl_Search.hidden = FALSE;
             tapper.enabled = NO;
             [self.tbl_Search reloadData];
-        }
-        else
-        {
+        }else {
             self.tbl_Search.hidden = TRUE;
             tapper.enabled = YES;
         }
-    }
-    else
-    {
+    }else {
         [self.tbl_Search setHidden:TRUE];
         tapper.enabled = YES;
     }
     
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [muary_Interest_Sub count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"CellIdentifier"];
     if (cell == nil)
     {
@@ -326,7 +297,7 @@ const static NSInteger lbDescriptionHeight = 30;
     }
 }
 
-- (void)openScanPickerWithSourceType:(MAImagePickerControllerSourceType*)sourceType {
+- (void)openScanPickerWithSourceType:(MAImagePickerControllerSourceType)sourceType {
     MAImagePickerController *imagePicker = [[MAImagePickerController alloc] init];
     [imagePicker setDelegate:self];
     [imagePicker setSourceType:sourceType];

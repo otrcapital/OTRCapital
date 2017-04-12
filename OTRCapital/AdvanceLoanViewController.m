@@ -20,54 +20,44 @@
 #define TEXT_COMCHECK_PHONE_NUMBER_ALERT_VIEW_TAG 101
 #define PHONE_NUMBER_PATTERN  @"(###) ### - ####"
 
-@interface AdvanceLoanViewController ()
-{
+@interface AdvanceLoanViewController () {
     NSMutableArray *muary_Interest_Main;
     NSMutableArray *muary_Interest_Sub;
-    UITableView *tbl_Search;
     UITapGestureRecognizer *tapper;
 }
 @property (weak, nonatomic) IBOutlet UISwitch *comdataFuelCardSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *emailSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *textComcheckSwitch;
 @property (weak, nonatomic) IBOutlet UISwitch *EFSswitch;
-@property (strong, nonatomic) IBOutlet UIView *slidersView;
-@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (strong, nonatomic) IBOutlet UILabel *lblBrokerName;
-@property (strong, nonatomic) IBOutlet UITextField *txtFdBrokerName;
-@property (strong, nonatomic) IBOutlet UITextField *txtFdLoadNo;
-@property (strong, nonatomic) IBOutlet UITextField *txtFdTotalPay;
-@property (strong, nonatomic) IBOutlet UITextField *txtFdTotalDeduction;
-@property (strong, nonatomic) IBOutlet UILabel *lblDescription;
-@property (strong, nonatomic) IBOutlet UIView *viewTotalPay;
-@property (strong, nonatomic) IBOutlet UIView *viewTotalDeduction;
+@property (weak, nonatomic) IBOutlet UILabel *lblBrokerName;
+@property (weak, nonatomic) IBOutlet UITextField *txtFdBrokerName;
+@property (weak, nonatomic) IBOutlet UITextField *txtFdLoadNo;
+@property (weak, nonatomic) IBOutlet UITextField *txtFdTotalPay;
+@property (weak, nonatomic) IBOutlet UITextField *txtFdTotalDeduction;
+@property (weak, nonatomic) IBOutlet UIView *viewTotalPay;
+@property (weak, nonatomic) IBOutlet UIView *viewTotalDeduction;
+@property (weak, nonatomic) IBOutlet UITableView *brokerTableView;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *lblDescription1Height;
+@property (strong, nonatomic) IBOutlet NSLayoutConstraint *lblDescription2Height;
 @property (nonatomic) CGPoint originalCenter;
 @property (nonatomic) NSArray *brokerList;
 @property (strong, nonatomic) NSString *textComcheckPhoneNumber;
 @property (strong, nonatomic) UIAlertView *textComcheckAlert;
 @property int tblSearchX;
 @property int tblSearchY;
-@property int positionYTxtTotalPay;
-@property int positionYTxtTotalDeduction;
-@property CGSize sizeLblDescription;
 @end
 
 @implementation AdvanceLoanViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.slidersView.frame = CGRectMake(self.slidersView.frame.origin.x, self.slidersView.frame.origin.y - SLIDER_VIEW_SHIFT_BY_Y, self.slidersView.frame.size.width, self.slidersView.frame.size.height);
-    self.scrollView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-    self.scrollView.contentSize = CGSizeMake(self.view.frame.size.width, self.view.frame.size.height + 100);
-    self.title = @"Fuel Advance";
+
     self.txtFdBrokerName.delegate = self;
     self.txtFdLoadNo.delegate = self;
     self.txtFdTotalPay.delegate = self;
     self.txtFdTotalPay.tag = TOTAL_PAY_TEXTFIELD_TAG;
     self.txtFdTotalDeduction.delegate = self;
     self.txtFdTotalDeduction.tag = TOTAL_DEDUCTION_TEXTFIELD_TAG;
-    self.lblDescription.text = @"";
     self.originalCenter = self.view.center;
     self.brokerList = [[OTRManager sharedManager] getBrokersList];
     
@@ -81,59 +71,26 @@
     
     self.tblSearchX = [self.lblBrokerName convertPoint:self.lblBrokerName.frame.origin toView:nil].x + 10;
     self.tblSearchY = [self.txtFdBrokerName convertPoint:self.txtFdBrokerName.frame.origin toView:self.view].y + self.txtFdBrokerName.frame.size.height;
-    tbl_Search = [[UITableView alloc] initWithFrame:
-                  CGRectMake(self.tblSearchX, self.tblSearchY, self.lblBrokerName.frame.size.width + self.txtFdBrokerName.frame.size.width * 1.15, 150) style:UITableViewStylePlain];
-    tbl_Search.delegate = self;
-    tbl_Search.dataSource = self;
-    tbl_Search.scrollEnabled = YES;
-    
-    [tbl_Search registerClass:[UITableViewCell class] forCellReuseIdentifier:@"CellIdentifier"];
-    [self.view addSubview:tbl_Search];
-    [tbl_Search setHidden:TRUE];
-    
-    self.positionYTxtTotalPay = self.viewTotalPay.frame.origin.y;
-    self.positionYTxtTotalDeduction = self.viewTotalDeduction.frame.origin.y;
-    self.sizeLblDescription = self.lblDescription.frame.size;
+
+    [self.brokerTableView registerClass:[UITableViewCell class] forCellReuseIdentifier:@"CellIdentifier"];
     
     if (self.data && [self.data objectForKey:@"Name"]) {
         self.txtFdBrokerName.text = [self.data objectForKey:@"Name"];
     }
 }
 
-- (void) viewDidDisappear:(BOOL)animated{
-    [super viewDidDisappear:animated];
-    self.lblDescription.text = @"";
-}
-
-- (void)handleSingleTap:(UITapGestureRecognizer *) sender
-{
+- (void)handleSingleTap:(UITapGestureRecognizer *) sender {
     [self.view endEditing:YES];
     
-    self.lblDescription.text = @"";
-    
-    CGRect frameRect = self.viewTotalPay.frame;
-    frameRect.origin.y = self.positionYTxtTotalPay;
-    self.viewTotalPay.frame = frameRect;
-    
-    frameRect = self.viewTotalDeduction.frame;
-    frameRect.origin.y = self.positionYTxtTotalDeduction;
-    self.viewTotalDeduction.frame = frameRect;
+    self.lblDescription1Height.active = YES;
+    self.lblDescription2Height.active = YES;
 }
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField
 {
     [textField resignFirstResponder];
-    tbl_Search.hidden = TRUE;
+    self.brokerTableView.hidden = TRUE;
     tapper.enabled = YES;
-    self.lblDescription.text = @"";
-    
-    CGRect frameRect = self.viewTotalPay.frame;
-    frameRect.origin.y = self.positionYTxtTotalPay;
-    self.viewTotalPay.frame = frameRect;
-    
-    frameRect = self.viewTotalDeduction.frame;
-    frameRect.origin.y = self.positionYTxtTotalDeduction;
-    self.viewTotalDeduction.frame = frameRect;
     
     if (textField == self.txtFdBrokerName) {
         [self.txtFdLoadNo becomeFirstResponder];
@@ -144,14 +101,14 @@
     else if (textField == self.txtFdTotalPay) {
         [self.txtFdTotalDeduction becomeFirstResponder];
     }
-    if (textField.tag == TOTAL_DEDUCTION_TEXTFIELD_TAG || textField.tag == TOTAL_PAY_TEXTFIELD_TAG) {
-        self.slidersView.frame = CGRectMake(self.slidersView.frame.origin.x, self.slidersView.frame.origin.y - SLIDER_VIEW_SHIFT_BY_Y, self.slidersView.frame.size.width, self.slidersView.frame.size.height);
-    }
     return YES;
 }
 
 - (void)textFieldDidBeginEditing:(UITextField *)textField
 {
+    self.lblDescription1Height.active = YES;
+    self.lblDescription2Height.active = YES;
+    
     if (textField == self.txtFdBrokerName) {
         [self searchText:textField replacementString:@"Begin"];
     }
@@ -161,61 +118,24 @@
     else{
         self.view.center = CGPointMake(self.originalCenter.x, self.originalCenter.y * 0.75);
     }
-    if (textField == self.txtFdBrokerName) {
-        self.lblDescription.text = @"";
+    if (textField == self.txtFdTotalPay) {
+        self.lblDescription1Height.active = NO;
+    }else if (textField == self.txtFdTotalDeduction) {
+        self.lblDescription2Height.active = NO;
     }
-    else if (textField == self.txtFdLoadNo) {
-        self.lblDescription.text = @"";
-    }
-    else if (textField == self.txtFdTotalPay) {
-        CGRect frameRect = self.viewTotalPay.frame;
-        frameRect.origin.y += self.lblDescription.frame.size.height;
-        self.viewTotalPay.frame = frameRect;
-        
-        frameRect = self.viewTotalDeduction.frame;
-        frameRect.origin.y += self.lblDescription.frame.size.height;
-        self.self.viewTotalDeduction.frame = frameRect;
-        
-        self.lblDescription.text = @"Add together anything that will add to the total pay such as line haul, lumper fees, detention etc.";
-        frameRect.origin.y = self.positionYTxtTotalPay - 10;
-        frameRect.origin.x = self.lblDescription.frame.origin.x;
-        frameRect.size = self.sizeLblDescription;
-        self.lblDescription.frame = frameRect;
-        self.slidersView.frame = CGRectMake(self.slidersView.frame.origin.x, self.slidersView.frame.origin.y + SLIDER_VIEW_SHIFT_BY_Y, self.slidersView.frame.size.width, self.slidersView.frame.size.height);
-    }
-    else if (textField == self.txtFdTotalDeduction) {
-        
-        CGRect frameRect = self.viewTotalDeduction.frame;
-        frameRect.origin.y += self.lblDescription.frame.size.height;
-        self.viewTotalDeduction.frame = frameRect;
-        
-        self.lblDescription.text = @"Add together anything that will decrease total pay such as advances, fees, late delivery, etc.";
-        frameRect.origin.y = self.positionYTxtTotalDeduction - 10;
-        frameRect.origin.x = self.lblDescription.frame.origin.x;
-        frameRect.size = self.sizeLblDescription;
-        self.lblDescription.frame = frameRect;
-        self.slidersView.frame = CGRectMake(self.slidersView.frame.origin.x, self.slidersView.frame.origin.y + SLIDER_VIEW_SHIFT_BY_Y, self.slidersView.frame.size.width, self.slidersView.frame.size.height);
-    }
+
+    [UIView animateWithDuration:0.2 animations:^{
+        [self.view layoutIfNeeded];
+    }];
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
+- (void)textFieldDidEndEditing:(UITextField *)textField {
     self.view.center = self.originalCenter;
-    tbl_Search.hidden = TRUE;
+    self.brokerTableView.hidden = TRUE;
     tapper.enabled = YES;
     
-    self.lblDescription.text = @"";
-    
-    CGRect frameRect = self.viewTotalPay.frame;
-    frameRect.origin.y = self.positionYTxtTotalPay;
-    self.viewTotalPay.frame = frameRect;
-    
-    frameRect = self.viewTotalDeduction.frame;
-    frameRect.origin.y = self.positionYTxtTotalDeduction;
-    self.viewTotalDeduction.frame = frameRect;
-    if (textField.tag == TOTAL_DEDUCTION_TEXTFIELD_TAG || textField.tag == TOTAL_PAY_TEXTFIELD_TAG) {
-        self.slidersView.frame = CGRectMake(self.slidersView.frame.origin.x, self.slidersView.frame.origin.y - SLIDER_VIEW_SHIFT_BY_Y, self.slidersView.frame.size.width, self.slidersView.frame.size.height);
-    }
+    self.lblDescription1Height.active = YES;
+    self.lblDescription2Height.active = YES;
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
@@ -311,19 +231,19 @@
         
         if (muary_Interest_Sub.count > 0)
         {
-            tbl_Search.hidden = FALSE;
+            self.brokerTableView.hidden = FALSE;
             tapper.enabled = NO;
-            [tbl_Search reloadData];
+            [self.brokerTableView reloadData];
         }
         else
         {
-            tbl_Search.hidden = TRUE;
+            self.brokerTableView.hidden = TRUE;
             tapper.enabled = YES;
         }
     }
     else
     {
-        [tbl_Search setHidden:TRUE];
+        [self.brokerTableView setHidden:TRUE];
         tapper.enabled = YES;
     }
     
@@ -449,7 +369,7 @@
     }
 }
 
-- (void)openScanPickerWithSourceType:(MAImagePickerControllerSourceType*)sourceType {
+- (void)openScanPickerWithSourceType:(MAImagePickerControllerSourceType)sourceType {
     MAImagePickerController *imagePicker = [[MAImagePickerController alloc] init];
     [imagePicker setDelegate:self];
     [imagePicker setSourceType:sourceType];
