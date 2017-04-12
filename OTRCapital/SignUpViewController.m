@@ -9,7 +9,10 @@
 #import "SignUpViewController.h"
 
 @interface SignUpViewController ()
-@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
+
+@property (weak, nonatomic) IBOutlet UITextView *tvDescription;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *lcLogoHeight;
+
 - (IBAction)onFbButtonPressed:(id)sender;
 - (IBAction)onGPlusButtonPressed:(id)sender;
 - (IBAction)onInstraButtonPressed:(id)sender;
@@ -18,22 +21,20 @@
 - (IBAction)onCallButtonPressed:(id)sender;
 - (IBAction)onEmailButtonPressed:(id)sender;
 - (IBAction)onSignUpButtonPressed:(id)sender;
-@property (strong, nonatomic) IBOutlet UILabel *lblDescription;
+
 @end
 
 @implementation SignUpViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"Sign Up";
-    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, 420);
-    [self setDescription];
+    
+    NSString *text = @"\u2022 How we can help be the bridge to your success!\n\u2022 We offer same-day funding on approval invoices/PODS\n\u2022 24/7 online credit checking on new and existing customers\n\u2022 Presonalized, responsive service with a primary account manager\n\u2022 Invoicing services, reducing your paperwork requirement\n\u2022 Collection management services\n\u2022 Flexible factoring - we do NOT require all of your accounts to be factored with us\n\u2022 Funding completed by direct deposit or wire transfer (same day or next day paymnet option)\n\u2022 No monthly minimum\n\u2022 Advances up to 50% 7 days a week 8 AM to 8 PM est.";
+    
+    self.tvDescription.text = text;
+    self.lcLogoHeight.active = IS_IPHONE_4;
 }
 
-- (void) viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-    [self.scrollView flashScrollIndicators];
-}
 
 - (IBAction)onFbButtonPressed:(id)sender {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.facebook.com/pages/OTR-Capital/473947932696034"]];
@@ -72,11 +73,6 @@
 
 - (IBAction)onSignUpButtonPressed:(id)sender {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://otrcapital.com/apply-now"]];
-}
-
-- (void) setDescription{
-    NSString *text = @"\u2022 How we can help be the bridge to your success!\n\u2022 We offer same-day funding on approval invoices/PODS\n\u2022 24/7 online credit checking on new and existing customers\n\u2022 Presonalized, responsive service with a primary account manager\n\u2022 Invoicing services, reducing your paperwork requirement\n\u2022 Collection management services\n\u2022 Flexible factoring - we do NOT require all of your accounts to be factored with us\n\u2022 Funding completed by direct deposit or wire transfer (same day or next day paymnet option)\n\u2022 No monthly minimum\n\u2022 Advances up to 50% 7 days a week 8 AM to 8 PM est.";
-    self.lblDescription.text = text;
 }
 
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
