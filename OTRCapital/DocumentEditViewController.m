@@ -102,7 +102,6 @@
 - (IBAction)onDoneButtonPressed:(id)sender {
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     ImageAdjustmentViewController *vc = [sb instantiateViewControllerWithIdentifier:@"ImageAdjustmentViewController"];
-    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [vc setImage:[[self imageView] image]];
     [self.navigationController pushViewController:vc animated:YES];
 }

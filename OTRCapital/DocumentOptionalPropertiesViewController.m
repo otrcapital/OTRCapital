@@ -23,20 +23,22 @@
     UITableView *tbl_Search;
     UITapGestureRecognizer *tapper;
 }
-@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (strong, nonatomic) IBOutlet UILabel *lblBrokerName;
-@property (strong, nonatomic) IBOutlet UITextField *txtFdBrokerName;
-@property (strong, nonatomic) IBOutlet UITextField *txtFdLoadNumber;
-@property (strong, nonatomic) IBOutlet UISwitch *lf_switchProofOfDelivery;
-@property (strong, nonatomic) IBOutlet UISwitch *lf_switchOthers;
-@property (strong, nonatomic) IBOutlet UISwitch *lf_switchRateConformation;
-@property (strong, nonatomic) IBOutlet UISwitch *ad_switchBillOfLanding;
-@property (strong, nonatomic) IBOutlet UISwitch *ad_switchRateConformation;
-@property (strong, nonatomic) IBOutlet UIView *viewLoadFactore;
-@property (strong, nonatomic) IBOutlet UIView *viewAdvanceLoan;
-@property (strong, nonatomic) IBOutlet UIButton *btnUploadDocument;
 
-@property (weak) UITextField *activeField;
+@property (weak, nonatomic) IBOutlet UILabel *lblBrokerName;
+@property (weak, nonatomic) IBOutlet UITextField *txtFdBrokerName;
+@property (weak, nonatomic) IBOutlet UITextField *txtFdLoadNumber;
+@property (weak, nonatomic) IBOutlet UISwitch *lf_switchProofOfDelivery;
+@property (weak, nonatomic) IBOutlet UISwitch *lf_switchOthers;
+@property (weak, nonatomic) IBOutlet UISwitch *lf_switchRateConformation;
+@property (weak, nonatomic) IBOutlet UISwitch *ad_switchBillOfLanding;
+@property (weak, nonatomic) IBOutlet UISwitch *ad_switchRateConformation;
+@property (weak, nonatomic) IBOutlet UIButton *btnUploadDocument;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *lcBottomViewTop;
+@property (strong, nonatomic) IBOutletCollection(UIView) NSArray *ocLoadFactor;
+@property (strong, nonatomic) IBOutletCollection(UIView) NSArray *ocNeedAdvance;
+
+@property (weak, nonatomic) UITextField *activeField;
 
 @property (nonatomic) CGPoint originalCenter;
 @property BOOL isUploaded;
@@ -55,7 +57,6 @@
     
     self.title = @"Load Info";
     
-    self.scrollView.contentSize = CGSizeMake(self.scrollView.frame.size.width, 300);
     self.txtFdBrokerName.enabled = false;
     self.txtFdLoadNumber.delegate = self;
     
@@ -90,20 +91,16 @@
     [self.view addSubview:tbl_Search];
     [tbl_Search setHidden:TRUE];
     
-    [self initSubView];
-    
-    [self registerForKeyboardNotifications];
+    if (self.type == 1) {
+        [self.ocNeedAdvance makeObjectsPerformSelector:@selector(setHidden:) withObject:@(YES)];
+        self.lcBottomViewTop.constant = 240;
+    } else{
+        [self.ocLoadFactor makeObjectsPerformSelector:@selector(setHidden:) withObject:@(YES)];
+        [self.btnUploadDocument setTitle:@"Request Fuel Advance" forState:UIControlStateNormal];
+        self.lcBottomViewTop.constant = 170;
+    }
 }
 
-- (void) initSubView{
-    if (self.type == 1) {
-        [self.viewAdvanceLoan setHidden:true];
-    }
-    else{
-        [self.viewLoadFactore setHidden:true];
-        [self.btnUploadDocument setTitle:@"Request Fuel Advance" forState:UIControlStateNormal];
-    }
-}
 
 - (void) dealloc{
     if (!self.isUploaded) {
@@ -118,50 +115,8 @@
     self.type = 2;
 }
 
-- (void)registerForKeyboardNotifications
-{
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWasShown:)
-                                                 name:UIKeyboardDidShowNotification object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(keyboardWillBeHidden:)
-                                                 name:UIKeyboardWillHideNotification object:nil];
-}
-
-// Called when the UIKeyboardDidShowNotification is sent.
-- (void)keyboardWasShown:(NSNotification*)aNotification
-{
-    if (!self.activeField) {
-        return;
-    }
-    NSDictionary* info = [aNotification userInfo];
-    CGSize kbSize = [[info objectForKey:UIKeyboardFrameBeginUserInfoKey] CGRectValue].size;
-    UIEdgeInsets contentInsets = UIEdgeInsetsMake(0.0, 0.0, kbSize.height + 20, 0.0);
-    self.scrollView.contentInset = contentInsets;
-    self.scrollView.scrollIndicatorInsets = contentInsets;
-    
-    // If active text field is hidden by keyboard, scroll it so it's visible
-    // Your application might not need or want this behavior.
-    CGRect aRect = self.view.frame;
-    aRect.size.height -= kbSize.height;
-    if (!CGRectContainsPoint(aRect, self.activeField.frame.origin) ) {
-        CGPoint scrollPoint = CGPointMake(0.0, self.activeField.frame.origin.y - kbSize.height);
-        [self.scrollView setContentOffset:scrollPoint animated:YES];
-    }
-}
-
-// Called when the UIKeyboardWillHideNotification is sent
-- (void)keyboardWillBeHidden:(NSNotification*)aNotification
-{
-    UIEdgeInsets contentInsets = UIEdgeInsetsZero;
-    self.scrollView.contentInset = contentInsets;
-    self.scrollView.scrollIndicatorInsets = contentInsets;
-}
-
-- (void)handleSingleTap:(UITapGestureRecognizer *) sender
-{
+- (void)handleSingleTap:(UITapGestureRecognizer *) sender {
     [self.view endEditing:YES];
-    [self.scrollView flashScrollIndicators];
 }
 
 -(BOOL) textFieldShouldReturn:(UITextField *)textField
@@ -390,7 +345,7 @@
     }
 }
 
-- (void)openScanPickerWithSourceType:(MAImagePickerControllerSourceType*)sourceType {
+- (void)openScanPickerWithSourceType:(MAImagePickerControllerSourceType)sourceType {
     MAImagePickerController *imagePicker = [[MAImagePickerController alloc] init];
     [imagePicker setDelegate:self];
     [imagePicker setSourceType:sourceType];

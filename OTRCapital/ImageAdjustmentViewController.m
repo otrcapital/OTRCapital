@@ -147,7 +147,6 @@
     if (currentDocumentCount == 1) {
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"DocumentOptionalPropertiesViewController"];
-        vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
         
         UINavigationController *navController = self.navigationController;
         NSMutableArray *controllers=[[NSMutableArray alloc] initWithArray:navController.viewControllers] ;

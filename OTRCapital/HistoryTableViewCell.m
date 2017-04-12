@@ -49,7 +49,6 @@
 - (IBAction)onCellClicked:(id)sender {
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     HistoryDetailViewController *vc = [sb instantiateViewControllerWithIdentifier:@"HistoryDetailViewController"];
-    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     
     NSMutableArray *imagesArray = [NSMutableArray new];
     for (NSString *item in self.directoryContents) {

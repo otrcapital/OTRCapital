@@ -82,7 +82,6 @@
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     LoadFactorViewController *vc = [sb instantiateViewControllerWithIdentifier:@"LoadFactorViewController"];
     vc.data = self.data;
-    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)onNeedAdvanceButtonPressed:(id)sender {
@@ -92,7 +91,6 @@
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     AdvanceLoanViewController *vc = [sb instantiateViewControllerWithIdentifier:@"AdvanceLoanViewController"];
     vc.data = self.data;
-    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

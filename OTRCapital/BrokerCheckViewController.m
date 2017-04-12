@@ -178,7 +178,6 @@
                     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
                     BrokerDetailViewController *vc = [sb instantiateViewControllerWithIdentifier:@"BrokerDetailViewController"];
                     vc.data = data;
-                    vc.modalTransitionStyle = UIModalTransitionStyleFlipHorizontal;
                     [self.navigationController pushViewController:vc animated:YES];
                 }else {
                     [self showAlertViewWithTitle:@"Sorry" andWithMessage:@"There is some error, please try later"];
