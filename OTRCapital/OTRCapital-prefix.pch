@@ -16,6 +16,10 @@
 #import "OTRDefaults.h"
 #import "OTRHud.h"
 
+#define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+#define IS_IPHONE_4 (IS_IPHONE && [[UIScreen mainScreen] bounds].size.height == 480.0f)
+
+
 #ifdef DEBUG
 #   define DLog(...) NSLog(__VA_ARGS__)
 #else

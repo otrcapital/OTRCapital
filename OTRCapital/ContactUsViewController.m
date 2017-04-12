@@ -11,17 +11,26 @@
 
 @interface ContactUsViewController ()
 
+@property (nonatomic, weak) IBOutlet UIImageView *logo;
+
 - (IBAction)onFbButtonPressed:(id)sender;
 - (IBAction)onGPlusButtonPressed:(id)sender;
 - (IBAction)onInstraButtonPressed:(id)sender;
 - (IBAction)onLinkedInButtonPressed:(id)sender;
 - (IBAction)onTwitterButtonPressed:(id)sender;
 - (IBAction)onCallButtonPressed:(id)sender;
-- (IBAction)onEmailButtonPressed:(id)sender;
 
 @end
 
 @implementation ContactUsViewController
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    
+    if(IS_IPHONE_4) {
+        self.logo.hidden = YES;
+    }
+}
 
 - (IBAction)onFbButtonPressed:(id)sender {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.facebook.com/pages/OTR-Capital/473947932696034"]];

@@ -83,7 +83,8 @@
     
     [self switchToDashboardController];
     dispatch_async(dispatch_get_main_queue(), ^{
-        [self.navigationController presentViewController:controller animated:YES completion:nil];
+        UIViewController *navController = [UIApplication sharedApplication].delegate.window.rootViewController;
+        [navController presentViewController:controller animated:YES completion:nil];
     });
 }
 
