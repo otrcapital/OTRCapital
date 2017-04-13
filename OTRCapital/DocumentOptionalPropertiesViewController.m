@@ -94,11 +94,11 @@
     
     if (self.type == 1) {
         [self.ocNeedAdvance makeObjectsPerformSelector:@selector(setHidden:) withObject:@(YES)];
-        self.lcBottomViewTop.constant = 240;
+        self.lcBottomViewTop.constant = IS_IPAD ? 300 : 240;
     } else{
         [self.ocLoadFactor makeObjectsPerformSelector:@selector(setHidden:) withObject:@(YES)];
         [self.btnUploadDocument setTitle:@"Request Fuel Advance" forState:UIControlStateNormal];
-        self.lcBottomViewTop.constant = 170;
+        self.lcBottomViewTop.constant = IS_IPAD ? 240 : 170;
     }
 }
 
