@@ -12,6 +12,5 @@
 - (IBAction)factorLoadButtonPressed:(id)sender;
 - (IBAction)advanceButtonPressed:(id)sender;
 - (IBAction)brokerCheckButtonPressed:(id)sender;
-- (IBAction)historyButtonPressed:(id)sender;
 
 @end

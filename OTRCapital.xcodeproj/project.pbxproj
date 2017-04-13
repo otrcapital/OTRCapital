@@ -148,6 +148,8 @@
 		B646BEDA1E9BEE00009FB15A /* OTRNote.m in Sources */ = {isa = PBXBuildFile; fileRef = B646BED91E9BEE00009FB15A /* OTRNote.m */; };
 		B66B2D171E9B9B9500C3E6D2 /* NSDictionary+OTRJSONString.m in Sources */ = {isa = PBXBuildFile; fileRef = B66B2D161E9B9B9400C3E6D2 /* NSDictionary+OTRJSONString.m */; };
 		B66B2D1A1E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.m in Sources */ = {isa = PBXBuildFile; fileRef = B66B2D191E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.m */; };
+		B68F20401E9F8AF000971B0E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B68F203F1E9F8AF000971B0E /* CoreData.framework */; };
+		B68F20441E9F8B6000971B0E /* otrcapitalDB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B68F20421E9F8B6000971B0E /* otrcapitalDB.xcdatamodeld */; };
 		B6FADF4C1E978D4200773B6F /* OTRApi.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FADF4B1E978D4200773B6F /* OTRApi.m */; };
 		B6FADF501E979BCF00773B6F /* OTRDefaults.m in Sources */ = {isa = PBXBuildFile; fileRef = B6FADF4F1E979BCF00773B6F /* OTRDefaults.m */; };
 /* End PBXBuildFile section */
@@ -332,6 +334,8 @@
 		B66B2D161E9B9B9400C3E6D2 /* NSDictionary+OTRJSONString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDictionary+OTRJSONString.m"; path = "Categories/NSDictionary+OTRJSONString.m"; sourceTree = "<group>"; };
 		B66B2D181E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+OTRJSONString.h"; path = "Categories/NSArray+OTRJSONString.h"; sourceTree = "<group>"; };
 		B66B2D191E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+OTRJSONString.m"; path = "Categories/NSArray+OTRJSONString.m"; sourceTree = "<group>"; };
+		B68F203F1E9F8AF000971B0E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		B68F20431E9F8B6000971B0E /* otrcapitalDB.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = otrcapitalDB.xcdatamodel; sourceTree = "<group>"; };
 		B6FADF4A1E978D4200773B6F /* OTRApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRApi.h; path = Web/OTRApi.h; sourceTree = "<group>"; };
 		B6FADF4B1E978D4200773B6F /* OTRApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRApi.m; path = Web/OTRApi.m; sourceTree = "<group>"; };
 		B6FADF4E1E979BCF00773B6F /* OTRDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRDefaults.h; path = Utils/OTRDefaults.h; sourceTree = "<group>"; };
@@ -345,6 +349,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B68F20401E9F8AF000971B0E /* CoreData.framework in Frameworks */,
 				18641A361B64DE6900B70791 /* opencv2.framework in Frameworks */,
 				1864FC491B63545000855C09 /* AssetsLibrary.framework in Frameworks */,
 				1864FBCD1B634A2600855C09 /* CoreImage.framework in Frameworks */,
@@ -370,6 +375,7 @@
 		1864FBCA1B6349E000855C09 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B68F203F1E9F8AF000971B0E /* CoreData.framework */,
 				0755678A1D991DC500310996 /* libturbojpeg.a */,
 				1864FC481B63545000855C09 /* AssetsLibrary.framework */,
 				1864FBC81B6349C800855C09 /* ImageIO.framework */,
@@ -470,7 +476,8 @@
 		18B8FAA11B5248D3002A5670 /* OTRCapital */ = {
 			isa = PBXGroup;
 			children = (
-				B646BED71E9BED32009FB15A /* Model */,
+				B68F20411E9F8B2B00971B0E /* DB */,
+				B646BED71E9BED32009FB15A /* Classes */,
 				B646BED51E9BEC8B009FB15A /* Controllers & UI */,
 				B646BED31E9BEC0A009FB15A /* External */,
 				B66B2D141E9B9B7500C3E6D2 /* Categories */,
@@ -658,13 +665,13 @@
 			name = "Controllers & UI";
 			sourceTree = "<group>";
 		};
-		B646BED71E9BED32009FB15A /* Model */ = {
+		B646BED71E9BED32009FB15A /* Classes */ = {
 			isa = PBXGroup;
 			children = (
 				B646BED81E9BEE00009FB15A /* OTRNote.h */,
 				B646BED91E9BEE00009FB15A /* OTRNote.m */,
 			);
-			name = Model;
+			name = Classes;
 			sourceTree = "<group>";
 		};
 		B66B2D141E9B9B7500C3E6D2 /* Categories */ = {
@@ -676,6 +683,14 @@
 				B66B2D191E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		B68F20411E9F8B2B00971B0E /* DB */ = {
+			isa = PBXGroup;
+			children = (
+				B68F20421E9F8B6000971B0E /* otrcapitalDB.xcdatamodeld */,
+			);
+			name = DB;
 			sourceTree = "<group>";
 		};
 		B6FADF491E978CF000773B6F /* WebService */ = {
@@ -738,7 +753,7 @@
 					18B8FA9E1B5248D3002A5670 = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = 6K4B4QV4HQ;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -972,6 +987,7 @@
 				1864FC461B634DDA00855C09 /* UIImage+fixOrientation.m in Sources */,
 				1864FC451B634DDA00855C09 /* MAOpenCV.mm in Sources */,
 				1864FC411B634DDA00855C09 /* MADrawRect.m in Sources */,
+				B68F20441E9F8B6000971B0E /* otrcapitalDB.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1084,8 +1100,8 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CODE_SIGN_IDENTITY = "iPhone Developer: John Nguyen (M29QGYG7MW)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				DEVELOPMENT_TEAM = 6K4B4QV4HQ;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1109,8 +1125,8 @@
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.otrcapital.otrmobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e2af561b-85bd-43e0-bf7b-07a85d846baf";
-				PROVISIONING_PROFILE_SPECIFIER = otr_capital_llc_adhoc;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1126,8 +1142,8 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: OTR Capital LLC (6K4B4QV4HQ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				DEVELOPMENT_TEAM = 6K4B4QV4HQ;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = "";
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1151,8 +1167,8 @@
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.otrcapital.otrmobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e2af561b-85bd-43e0-bf7b-07a85d846baf";
-				PROVISIONING_PROFILE_SPECIFIER = otr_capital_llc_adhoc;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1180,6 +1196,20 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		B68F20421E9F8B6000971B0E /* otrcapitalDB.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				B68F20431E9F8B6000971B0E /* otrcapitalDB.xcdatamodel */,
+			);
+			currentVersion = B68F20431E9F8B6000971B0E /* otrcapitalDB.xcdatamodel */;
+			name = otrcapitalDB.xcdatamodeld;
+			path = DB/otrcapitalDB.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 18B8FA971B5248D3002A5670 /* Project object */;
 }
