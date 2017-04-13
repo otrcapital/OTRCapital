@@ -27,9 +27,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    if(IS_IPHONE_4) {
-        self.logo.hidden = YES;
-    }
+    self.logo.hidden = IS_IPHONE_4;
 }
 
 - (IBAction)onFbButtonPressed:(id)sender {
