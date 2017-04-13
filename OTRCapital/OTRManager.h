@@ -66,19 +66,8 @@
 - (void) deleteCurrentFoler;
 - (void) deleteFolderAtPath: (NSString *)path;
 
-
-- (NSArray *) getBrokersList;
-
 - (void) cacheUIImage: (UIImage*)image withKey:(NSString*)key;
 - (UIImage*) getUIImageForKey: (NSString*) key;
-
-
-- (void) saveCustomerDataDictionary: (NSDictionary*) data;
-- (void) loadCustomerDataDictionary;
-
-- (NSString *) getMCNumberByBrokerName: (NSString*)brokerName;
-- (NSString *) getPKeyByBrokerName: (NSString*)brokerName;
-- (NSString *) getPkeyByMCNumber: (NSString*)mcNumber;
 
 + (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
 

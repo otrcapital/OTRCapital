@@ -57,7 +57,11 @@
                 self.spinnerView = nil;
             });
         }
-        [[UIApplication sharedApplication] endIgnoringInteractionEvents];
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if ([[UIApplication sharedApplication] isIgnoringInteractionEvents]) {
+                [[UIApplication sharedApplication] endIgnoringInteractionEvents];
+            }
+        });   
     }
 }
 

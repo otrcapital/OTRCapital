@@ -9,8 +9,4 @@
 #import <UIKit/UIKit.h>
 
 @interface DashboardViewController : UIViewController
-- (IBAction)factorLoadButtonPressed:(id)sender;
-- (IBAction)advanceButtonPressed:(id)sender;
-- (IBAction)brokerCheckButtonPressed:(id)sender;
-
 @end

@@ -16,6 +16,7 @@
 #import "OTRDefaults.h"
 #import "OTRHud.h"
 #import <CoreData/CoreData.h>
+#import <MagicalRecord/MagicalRecord.h>
 
 #define IS_IPHONE (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
 #define IS_IPHONE_4 (IS_IPHONE && [[UIScreen mainScreen] bounds].size.height == 480.0f)

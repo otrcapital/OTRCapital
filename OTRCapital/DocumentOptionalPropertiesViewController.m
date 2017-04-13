@@ -11,6 +11,7 @@
 #import "ImageAdjustmentViewController.h"
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "OTRApi.h"
+#import "OTRCustomer+DB.h"
 
 #define TAG_ALERT_VIEW_INFO_SEND_SUCCESS        1
 #define TAG_ALERT_VIEW_INFO_SEND_FAIL           2
@@ -69,7 +70,7 @@
     [self preLoadInfo];
     
     self.originalCenter = self.view.center;
-    self.brokerList = [[OTRManager sharedManager] getBrokersList];
+    self.brokerList = [OTRCustomer getNamesList];
     
     tapper = [[UITapGestureRecognizer alloc]
                                       initWithTarget:self action:@selector(handleSingleTap:)];

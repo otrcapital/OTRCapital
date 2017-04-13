@@ -10,16 +10,13 @@
 #import "OTRManager.h"
 #import <stdio.h>
 #import "CrashlyticsManager.h"
-
-#define TAG_SPINNER_VIEW    99
-#define ORT_CUSTOMER_DATA_FILE_NAME         @"otr_customer_data"
+#import "DBHelper.h"
 
 @interface OTRManager()
 
 @property int documentCount;
 @property (nonatomic, retain) NSString* currentDocumentFolder;
 @property (nonatomic,retain) NSMutableDictionary *otrInfo;
-@property (nonatomic, retain) NSMutableDictionary *brokerInfo;
 @property (nonatomic, retain) NSMutableDictionary *imageCache;
 @end
 
@@ -37,7 +34,6 @@
 - (id) init{
     if ([super init]) {
         self.imageCache = [NSMutableDictionary new];
-        self.brokerInfo = [NSMutableDictionary new];
     }
     return self;
 }
@@ -287,63 +283,12 @@
     [self deleteFolderAtPath:self.currentDocumentFolder];
 }
 
-- (NSArray *) getBrokersList{
-    NSArray *brokerList = [self.brokerInfo allKeys];
-    return brokerList;
-}
 
 - (void) cacheUIImage: (UIImage*)image withKey:(NSString*)key{
     [self.imageCache setObject:image forKey:key];
 }
 - (UIImage*) getUIImageForKey: (NSString*) key{
     return [self.imageCache objectForKey:key];
-}
-
-- (void) saveCustomerDataDictionary: (NSDictionary*) data{
-    if (![data count]) {
-        return;
-    }
-    [self.brokerInfo setValuesForKeysWithDictionary:data];
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:ORT_CUSTOMER_DATA_FILE_NAME];
-    [self.brokerInfo writeToFile:filePath atomically:YES];
-}
-- (void) loadCustomerDataDictionary{
-    if ([self.brokerInfo count]) {
-        return;
-    }
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *filePath = [documentsDirectory stringByAppendingPathComponent:ORT_CUSTOMER_DATA_FILE_NAME];
-    NSDictionary *data = [NSDictionary dictionaryWithContentsOfFile:filePath];
-    if(data) self.brokerInfo = [data mutableCopy];
-}
-
-- (NSString *) getMCNumberByBrokerName: (NSString*)brokerName{
-    NSDictionary *otrInfoObj = [self.brokerInfo objectForKey:brokerName];
-    NSString *mcNumber = [otrInfoObj objectForKey:KEY_OTR_RESPONSE_MC_NUMBER];
-    return mcNumber ? mcNumber : @"";
-}
-
-- (NSString *) getPKeyByBrokerName: (NSString*)brokerName{
-    NSDictionary *otrInfoObj = [self.brokerInfo objectForKey:brokerName];
-    DLog(@"%@", [NSString stringWithFormat: @"MCNumber: %@", [otrInfoObj objectForKey:KEY_OTR_RESPONSE_MC_NUMBER]]);
-    NSString *pKey = [otrInfoObj objectForKey:KEY_OTR_RESPONSE_PKEY];
-    return pKey;
-}
-
-- (NSString *) getPkeyByMCNumber: (NSString*)mcNumber{
-    NSArray *otrInfo = [self.brokerInfo allValues];
-    NSString *pKey = nil;
-    for (NSDictionary *otrInfoObj in otrInfo) {
-        NSString *mcn = [otrInfoObj objectForKey:KEY_OTR_RESPONSE_MC_NUMBER];
-        if ([mcn isEqualToString:mcNumber]) {
-            pKey = [otrInfoObj objectForKey:KEY_OTR_RESPONSE_PKEY];
-            break;
-        }
-    }
-    return pKey;
 }
 
 #pragma mark DELTEGATE METHODS

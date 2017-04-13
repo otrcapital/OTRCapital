@@ -10,9 +10,9 @@
 #import "OTRManager.h"
 #import "AppDelegate.h"
 #import "OTRApi.h"
+#import "DBHelper.h"
 
 @interface DashboardViewController () <UIActionSheetDelegate>
-- (IBAction)onContactUsButtonPressed:(id)sender;
 - (IBAction)onSignOutButtonPressed:(id)sender;
 
 @end
@@ -36,19 +36,18 @@
 
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    
+
     if(![OTRDefaults getStringForKey:KEY_LOGIN_USER_NAME]) {
         return;
     }
     static BOOL isListFetched = NO;
     if (!isListFetched) {
         isListFetched = YES;
-        [[OTRHud hud] show];
-        [[OTRManager sharedManager] loadCustomerDataDictionary];
         
+        NSArray *items = [OTRCustomer MR_findAll];
         NSString *lastFetchDate = [OTRDefaults getStringForKey:KEY_OTR_RECORD_FETCH_DATE];
         
-        if (!lastFetchDate) {
+        if (!lastFetchDate || items.count == 0) {
             NSString* path = [[NSBundle mainBundle] pathForResource:@"OTR_Broker_Info_Default"
                                                              ofType:@"txt"];
             NSString* content = [NSString stringWithContentsOfFile:path
@@ -60,41 +59,60 @@
                                                                  options:NSJSONReadingMutableContainers
                                                                    error:&jsonError];
             if(!jsonError) {
-                [self parseCustomerDetailsData:json];
+                [self parseCustomerDetailsData:json completion:^(BOOL contextDidSave, NSError * _Nullable error) {
+                    [self fetchBrokerDetailsWithDate:lastFetchDate];
+                }];
+                return;
             }
         }
-        
-        [[OTRApi instance] fetchCustomerDetails:lastFetchDate ?: @"2015/10/18" withCompletion:^(NSDictionary *data, NSError *error) {
-            [[OTRHud hud] hide];
-            if(data && !error) {
-                [self parseCustomerDetailsData:data];
-            }
-        }];
+        [self fetchBrokerDetailsWithDate:lastFetchDate];
     }
 }
 
-- (void)parseCustomerDetailsData:(NSDictionary *)data {
-    NSMutableDictionary *customerData = [NSMutableDictionary new];
+- (void)fetchBrokerDetailsWithDate:(NSString *)dateString {
+    [[OTRHud hud] show];
+    [[OTRApi instance] fetchCustomerDetails:dateString ?: @"2015/10/18" withCompletion:^(NSDictionary *data, NSError *error) {
+        [[OTRHud hud] hide];
+        if(data && !error) {
+            [self parseCustomerDetailsData:data completion:nil];
+        }
+    }];
+}
+
+- (void)parseCustomerDetailsData:(NSDictionary *)data completion:(MRSaveCompletionHandler)block {
     NSArray *customerDetail = [data objectForKey:@"data"];
-    for (NSDictionary *obj in customerDetail) {
-        NSString *name = [obj objectForKey:KEY_OTR_RESPONSE_BROKER_NAME];
-        if (name == nil || [name isEqual:[NSNull null]] || [name isEqualToString:@""]) {
-            continue;
+
+    [[OTRHud hud] show];
+    //[OTRCustomer MR_truncateAll];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext * _Nonnull localContext) {
+        
+        for (NSDictionary *obj in customerDetail) {
+            NSString *name = [obj objectForKey:@"Name"];
+            if (name == nil || [name isEqual:[NSNull null]] || [name isEqualToString:@""]) {
+                continue;
+            }
+            NSString *mcn = [obj objectForKey:@"McNumber"];
+            if (mcn == nil || [mcn isEqual:[NSNull null]]) {
+                mcn = @"";
+            }
+            NSNumber *pkey = [obj objectForKey:@"PKey"];
+            if (pkey == nil || [pkey isEqual:[NSNull null]]) {
+                continue;
+            }
+            
+            OTRCustomer *item = [OTRCustomer MR_createEntityInContext:localContext];
+            item.name = name;
+            item.mc_number = mcn;
+            item.pkey = pkey;
         }
-        NSString *mcn = [obj objectForKey:KEY_OTR_RESPONSE_MC_NUMBER];
-        if (mcn == nil || [mcn isEqual:[NSNull null]]) {
-            mcn = @"";
+    } completion:^(BOOL success, NSError *error) {
+        [[OTRHud hud] hide];
+        if(block) {
+            block(success, error);
         }
-        NSNumber *pkey = [obj objectForKey:KEY_OTR_RESPONSE_PKEY];
-        if (pkey == nil || [pkey isEqual:[NSNull null]]) {
-            continue;
-        }
-        NSDictionary *otrInfoObj = @{KEY_OTR_RESPONSE_MC_NUMBER:mcn, KEY_OTR_RESPONSE_PKEY:pkey};
-        [customerData setObject:otrInfoObj forKey:name];
-    }
-    [[OTRManager sharedManager] saveCustomerDataDictionary:customerData];
+    }];
+    
     [OTRDefaults saveRecordFetchDate];
-    [[OTRHud hud] hide];
 }
 
 - (void) viewDidDisappear:(BOOL)animated {

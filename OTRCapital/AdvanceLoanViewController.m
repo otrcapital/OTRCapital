@@ -11,6 +11,7 @@
 #import "ImageAdjustmentViewController.h"
 #import "DocumentOptionalPropertiesViewController.h"
 #import "AssetsLibrary/AssetsLibrary.h"
+#import "OTRCustomer+DB.h"
 
 #define SLIDER_VIEW_SHIFT_BY_Y 10
 
@@ -59,7 +60,7 @@
     self.txtFdTotalDeduction.delegate = self;
     self.txtFdTotalDeduction.tag = TOTAL_DEDUCTION_TEXTFIELD_TAG;
     self.originalCenter = self.view.center;
-    self.brokerList = [[OTRManager sharedManager] getBrokersList];
+    self.brokerList = [OTRCustomer getNamesList];
     
     tapper = [[UITapGestureRecognizer alloc]
               initWithTarget:self action:@selector(handleSingleTap:)];
@@ -449,11 +450,16 @@
     if (self.textComcheckPhoneNumber != nil) {
         [[OTRManager sharedManager] setOTRInfoValueOfTypeString:self.textComcheckPhoneNumber forKey:KEY_TEXT_COMCHECK_PHONE_NUMBER];
     }
+    
     [[OTRManager sharedManager] setOTRInfoValueOfTypeString:brokerName forKey:KEY_BROKER_NAME];
-    NSString *mcn = [[OTRManager sharedManager] getMCNumberByBrokerName:brokerName];
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:mcn forKey:KEY_MC_NUMBER];
-    NSString *pKey = [[OTRManager sharedManager] getPKeyByBrokerName:brokerName];
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:pKey forKey:KEY_PKEY];
+    OTRCustomer *broker = [OTRCustomer getByName:brokerName];
+    if(broker) {
+        NSString *mcn = broker.mc_number;
+        NSString *pKey = [broker.pkey stringValue];
+        [[OTRManager sharedManager] setOTRInfoValueOfTypeString:mcn forKey:KEY_MC_NUMBER];
+        [[OTRManager sharedManager] setOTRInfoValueOfTypeString:pKey forKey:KEY_PKEY];
+    }
+    
     NSString *loadNo = self.txtFdLoadNo.text;
     [[OTRManager sharedManager] setOTRInfoValueOfTypeString:loadNo forKey:KEY_LOAD_NO];
     NSString *totalPay = self.txtFdTotalPay.text;

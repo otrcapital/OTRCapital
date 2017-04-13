@@ -10,6 +10,7 @@
 #import "OTRManager.h"
 #import "BrokerDetailViewController.h"
 #import "OTRApi.h"
+#import "OTRCustomer+DB.h"
 
 @interface BrokerCheckViewController ()
 {
@@ -36,7 +37,7 @@
     self.txtFdMCNumber.delegate = self;
     
     self.originalCenter = self.view.center;
-    self.brokerList = [[OTRManager sharedManager] getBrokersList];
+    self.brokerList = [OTRCustomer getNamesList];
     
     tapper = [[UITapGestureRecognizer alloc]
               initWithTarget:self action:@selector(handleSingleTap:)];
@@ -155,24 +156,26 @@
         return;
     }
     self.txtFdBrokerName.text = [muary_Interest_Sub objectAtIndex:indexPath.row];
-    self.txtFdMCNumber.text = [[OTRManager sharedManager] getMCNumberByBrokerName:self.txtFdBrokerName.text];
+    
+    OTRCustomer *customer = [OTRCustomer getByName:self.txtFdBrokerName.text];
+    self.txtFdMCNumber.text = customer ? customer.mc_number : @"";
 }
 
 - (IBAction)onVerifyButtonPressed:(id)sender {
     if (![self isValidInfo]) {
         [self showAlertViewWithTitle:@"Information Missing" andWithMessage:@"Please provide one of the required info. Both Broker Name and MC Number are emtpy."];
     }else {
-        
-        [[OTRHud hud] show];
-        
-        NSString *pKey = nil;
+        OTRCustomer *customer = nil;
         
         if(![self.txtFdBrokerName.text isEqualToString:@""])
-            pKey = [[OTRManager sharedManager] getPKeyByBrokerName:self.txtFdBrokerName.text];
-        if(pKey == nil && ![self.txtFdMCNumber.text isEqualToString:@""])
-            pKey = [[OTRManager sharedManager] getPkeyByMCNumber:self.txtFdMCNumber.text];
-        if(pKey) {
-            [[OTRApi instance] findBrokerInfoByPkey:pKey completionBlock:^(NSDictionary *data, NSError *error) {
+            customer = [OTRCustomer getByName:self.txtFdBrokerName.text];
+        if(!customer && ![self.txtFdMCNumber.text isEqualToString:@""])
+            customer = [OTRCustomer getByMCNumber:self.txtFdMCNumber.text];
+        
+        if(customer) {
+            [[OTRHud hud] show];
+            
+            [[OTRApi instance] findBrokerInfoByPkey:[NSString stringWithFormat:@"%d", [customer.pkey ?: @(0) intValue]] completionBlock:^(NSDictionary *data, NSError *error) {
                 [[OTRHud hud] hide];
                 if(data && !error) {
                     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
@@ -201,7 +204,6 @@
 }
 
 - (void) showAlertViewWithTitle: (NSString*)title andWithMessage: (NSString*) msg{
-    [[OTRHud hud] hide];
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
                                                     message:msg
                                                    delegate:nil

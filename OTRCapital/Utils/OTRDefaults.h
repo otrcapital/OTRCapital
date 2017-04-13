@@ -36,9 +36,6 @@
 #define KEY_DOC_PROPERTY_SCALE_RECEIPT          @"scale_receipt"
 #define KEY_DOC_PROPERTY_INVOICE                @"invoice"
 #define KEY_DOC_PROPERTY_TYPES_LIST             @"doc_types_list"
-#define KEY_OTR_RESPONSE_BROKER_NAME            @"Name"
-#define KEY_OTR_RESPONSE_MC_NUMBER              @"McNumber"
-#define KEY_OTR_RESPONSE_PKEY                   @"PKey"
 #define KEY_OTR_RECORD_FETCH_DATE               @"otr_record_fetch_date"
 
 @interface OTRDefaults : NSObject
