@@ -69,7 +69,7 @@
     if (textField == self.txtFdBrokerName) {
         [self searchText:textField replacementString:@"Begin"];
     }
-    self.view.center = CGPointMake(self.originalCenter.x, self.originalCenter.y * 0.75);
+    self.view.center = CGPointMake(self.originalCenter.x, self.originalCenter.y * 0.65);
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField
