@@ -12,6 +12,7 @@
 #import "DocumentOptionalPropertiesViewController.h"
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "OTRCustomer+DB.h"
+#import "OTRDocument.h"
 
 #define SLIDER_VIEW_SHIFT_BY_Y 10
 
@@ -42,6 +43,8 @@
 @property (nonatomic) CGPoint originalCenter;
 @property (nonatomic) NSArray *brokerList;
 
+@property (nonatomic, strong) OTRDocument *mDocument;
+
 @end
 
 @implementation LoadFactorViewController
@@ -56,6 +59,9 @@
     self.txtFdTotalDeduction.tag = TOTAL_DEDUCTION_TEXTFIELD_TAG;
     self.originalCenter = self.view.center;
     self.brokerList = [OTRCustomer getNamesList];
+    self.mDocument = [OTRDocument unassotiatedObject];
+    
+    NSArray *documents = [OTRDocument MR_findAll];
     
     tapper = [[UITapGestureRecognizer alloc]
               initWithTarget:self action:@selector(handleSingleTap:)];
@@ -216,11 +222,12 @@
 
 - (void)imagePickerDidChooseImage: (UIImage *)image andWithViewController: (UIViewController*) controller
 {
-    [[OTRManager sharedManager] saveImage:image];
+    self.mDocument.imageName = [[OTRManager sharedManager] saveImage:image];
     [controller dismissViewControllerAnimated:YES completion:NULL];
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     DocumentOptionalPropertiesViewController *vc = [sb instantiateViewControllerWithIdentifier:@"DocumentOptionalPropertiesViewController"];
     [vc initLoadFactor];
+    [vc setDocument:self.mDocument];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -355,32 +362,43 @@
     } else if (self.comdataFuelCardSwitch.isOn) {
         switchValue = @"Comdata Fuel Card";
     }
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:switchValue forKey:KEY_ADVANCED_REQUEST_TYPE];
     
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:brokerName forKey:KEY_BROKER_NAME];
+    
+    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:switchValue forKey:KEY_ADVANCED_REQUEST_TYPE]; //
+    
+    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:brokerName forKey:KEY_BROKER_NAME]; // ????
     OTRCustomer *broker = [OTRCustomer getByName:brokerName];
     if(broker) {
         NSString *mcn = broker.mc_number;
         NSString *pKey = [broker.pkey stringValue];
-        [[OTRManager sharedManager] setOTRInfoValueOfTypeString:mcn forKey:KEY_MC_NUMBER];
-        [[OTRManager sharedManager] setOTRInfoValueOfTypeString:pKey forKey:KEY_PKEY];
+        [[OTRManager sharedManager] setOTRInfoValueOfTypeString:mcn forKey:KEY_MC_NUMBER]; // ????
+        [[OTRManager sharedManager] setOTRInfoValueOfTypeString:pKey forKey:KEY_PKEY]; // ????
     }
     
     NSString *loadNo = self.txtFdLoadNo.text;
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:loadNo forKey:KEY_LOAD_NO];
+    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:loadNo forKey:KEY_LOAD_NO]; // ????
     NSString *totalPay = self.txtFdTotalPay.text;
     if ([totalPay isEqualToString:@""]) {
         totalPay = @"0";
     }
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:totalPay forKey:KEY_TOTAL_PAY];
+    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:totalPay forKey:KEY_TOTAL_PAY]; //
     NSString *totalDeduction = self.txtFdTotalDeduction.text;
     if ([totalDeduction isEqualToString:@""]) {
         totalDeduction = @"0";
     }
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:totalDeduction forKey:KEY_TOTAL_DEDUCTION];
+    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:totalDeduction forKey:KEY_TOTAL_DEDUCTION];//
     float invoiceAmount = [totalPay floatValue] - [totalDeduction floatValue];
     NSString *invoiceString = [NSString stringWithFormat:@"%.2f", invoiceAmount];
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:invoiceString forKey:KEY_INVOICE_AMOUNT];
+    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:invoiceString forKey:KEY_INVOICE_AMOUNT];//
+    
+
+    self.mDocument.advanceRequestType = switchValue;
+    self.mDocument.invoiceAmount = invoiceString;
+    self.mDocument.totalPay = @([totalPay intValue]);
+    self.mDocument.totalDeduction = @([totalDeduction intValue]);
+    self.mDocument.factorType = [[OTRManager sharedManager] getOTRInfoValueOfTypeStringForKey:KEY_FACTOR_TYPE];
+    self.mDocument.loadNumber = loadNo;
+    
 }
 
 - (void) showAlertViewWithTitle: (NSString*)title andWithMessage: (NSString*) msg{

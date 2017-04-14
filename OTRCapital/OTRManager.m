@@ -90,13 +90,14 @@
     return [self.otrInfo objectForKey:key];
 }
 
-- (void) saveImage: (UIImage *)image
+- (NSString *) saveImage: (UIImage *)image
 {
     [self createDirectoryAtCurrentPath];
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *imagePath = [NSString stringWithFormat:@"%@/%d.jpeg", self.currentDocumentFolder, self.documentCount];
     NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:imagePath];
     [UIImageJPEGRepresentation(image, 1) writeToFile:filePath atomically:YES];
+    return filePath;
 }
 
 

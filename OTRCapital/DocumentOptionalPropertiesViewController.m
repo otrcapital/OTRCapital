@@ -12,6 +12,7 @@
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "OTRApi.h"
 #import "OTRCustomer+DB.h"
+#import "OTRDocument.h"
 
 #define TAG_ALERT_VIEW_INFO_SEND_SUCCESS        1
 #define TAG_ALERT_VIEW_INFO_SEND_FAIL           2
@@ -278,8 +279,6 @@
 }
 
 - (void)onOTRRequestFailWithError:(NSString *)error{
-    //[[OTRManager sharedManager] setOTRInfoValueOfTypeString:OTR_INFO_STATUS_FAILED forKey:KEY_OTR_INFO_STATUS];
-    //[[OTRManager sharedManager] saveOTRInfo];
     
     [[OTRHud hud] hide];
     
@@ -398,6 +397,8 @@
     NSString *loadNo = self.txtFdLoadNumber.text;
     [[OTRManager sharedManager] setOTRInfoValueOfTypeString:loadNo forKey:KEY_LOAD_NO];
     
+    
+    
     NSMutableArray *docTypes = [NSMutableArray new];
     if(self.lf_switchProofOfDelivery.on)[docTypes addObject:@"pod"];
     if(self.lf_switchOthers.on)[docTypes addObject:@"other"];
@@ -405,6 +406,8 @@
     if(self.ad_switchBillOfLanding.on)[docTypes addObject:@"bol"];
     if(self.ad_switchRateConformation.on)[docTypes addObject:@"rc"];
     [[OTRManager sharedManager] setOTRInfoValueOfTypeArray:docTypes forKey:KEY_DOC_PROPERTY_TYPES_LIST];
+    
+    self.mDocument.documentTypes = [docTypes componentsJoinedByString:@","];
 }
 
 

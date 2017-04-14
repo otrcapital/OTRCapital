@@ -144,6 +144,7 @@
 		18B8FB661B52E0B9002A5670 /* HistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B8FB651B52E0B9002A5670 /* HistoryTableViewCell.m */; };
 		18CF17931BC43575006A1B46 /* email_icon_doc.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CF17921BC43575006A1B46 /* email_icon_doc.png */; };
 		88F6C8880C3F9BD5A0E3A25C /* libPods-OTRCapital.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A79AF0D66C552716E09B2A42 /* libPods-OTRCapital.a */; };
+		B60823E01EA111E600B42F95 /* OTRDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = B60823DF1EA111E600B42F95 /* OTRDocument.m */; };
 		B62377D31E97EF4700776898 /* OTRHud.m in Sources */ = {isa = PBXBuildFile; fileRef = B62377D21E97EF4700776898 /* OTRHud.m */; };
 		B646BEDA1E9BEE00009FB15A /* OTRNote.m in Sources */ = {isa = PBXBuildFile; fileRef = B646BED91E9BEE00009FB15A /* OTRNote.m */; };
 		B66B2D171E9B9B9500C3E6D2 /* NSDictionary+OTRJSONString.m in Sources */ = {isa = PBXBuildFile; fileRef = B66B2D161E9B9B9400C3E6D2 /* NSDictionary+OTRJSONString.m */; };
@@ -330,6 +331,8 @@
 		18CF17921BC43575006A1B46 /* email_icon_doc.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = email_icon_doc.png; sourceTree = "<group>"; };
 		5E5E25A9F26354A175F67485 /* Pods-OTRCapital.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-OTRCapital.release.xcconfig"; path = "Pods/Target Support Files/Pods-OTRCapital/Pods-OTRCapital.release.xcconfig"; sourceTree = "<group>"; };
 		A79AF0D66C552716E09B2A42 /* libPods-OTRCapital.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OTRCapital.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		B60823DE1EA111E600B42F95 /* OTRDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRDocument.h; path = DB/Model/OTRDocument.h; sourceTree = "<group>"; };
+		B60823DF1EA111E600B42F95 /* OTRDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRDocument.m; path = DB/Model/OTRDocument.m; sourceTree = "<group>"; };
 		B62377D11E97EF4700776898 /* OTRHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRHud.h; path = Utils/OTRHud.h; sourceTree = "<group>"; };
 		B62377D21E97EF4700776898 /* OTRHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRHud.m; path = Utils/OTRHud.m; sourceTree = "<group>"; };
 		B646BED81E9BEE00009FB15A /* OTRNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRNote.h; path = Model/OTRNote.h; sourceTree = "<group>"; };
@@ -711,6 +714,8 @@
 			children = (
 				B68F20491E9F944A00971B0E /* OTRCustomer.h */,
 				B68F204A1E9F944A00971B0E /* OTRCustomer.m */,
+				B60823DE1EA111E600B42F95 /* OTRDocument.h */,
+				B60823DF1EA111E600B42F95 /* OTRDocument.m */,
 			);
 			name = Entities;
 			sourceTree = "<group>";
@@ -784,7 +789,7 @@
 					18B8FA9E1B5248D3002A5670 = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = 6K4B4QV4HQ;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -1000,6 +1005,7 @@
 				18B8FAD41B524993002A5670 /* LoadFactorViewController.m in Sources */,
 				18B8FAD51B524993002A5670 /* LoginViewController.m in Sources */,
 				B66B2D1A1E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.m in Sources */,
+				B60823E01EA111E600B42F95 /* OTRDocument.m in Sources */,
 				189900DE1B592AC900C007EF /* HistoryDetailViewController.m in Sources */,
 				18B8FB261B5258B5002A5670 /* DocumentEditViewController.m in Sources */,
 				1864FC3F1B634DDA00855C09 /* MACaptureSession.m in Sources */,
@@ -1134,7 +1140,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CODE_SIGN_IDENTITY = "iPhone Developer: John Nguyen (M29QGYG7MW)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 6K4B4QV4HQ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1159,8 +1165,8 @@
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.otrcapital.otrmobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e2af561b-85bd-43e0-bf7b-07a85d846baf";
-				PROVISIONING_PROFILE_SPECIFIER = otr_capital_llc_adhoc;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1176,7 +1182,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: OTR Capital LLC (6K4B4QV4HQ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				DEVELOPMENT_TEAM = 6K4B4QV4HQ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1201,8 +1207,8 @@
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.otrcapital.otrmobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "e2af561b-85bd-43e0-bf7b-07a85d846baf";
-				PROVISIONING_PROFILE_SPECIFIER = otr_capital_llc_adhoc;
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -11,7 +11,11 @@
 #import "OTRManager.h"
 #import "MAImagePickerController.h"
 
+@class OTRDocument;
+
 @interface DocumentOptionalPropertiesViewController : UIViewController<UINavigationControllerDelegate, MAImagePickerControllerDelegate, UITextFieldDelegate, UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate>
+
+@property (nonatomic, strong, setter=setDocument:) OTRDocument *mDocument;
 
 - (IBAction)onUploadDocumentButtonPressed:(id)sender;
 - (IBAction)onScanMoreDocumentButtonPressed:(id)sender;
