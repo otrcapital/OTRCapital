@@ -15,3 +15,11 @@
 @property (nonatomic, retain) NSNumber *pkey;
 
 @end
+
+@interface OTRCustomerNote : NSObject
+
+@property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSString *mc_number;
+@property (nonatomic, retain) NSNumber *pkey;
+
+@end

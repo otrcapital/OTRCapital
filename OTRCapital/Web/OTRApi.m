@@ -13,6 +13,9 @@
 #import "NSArray+OTRJSONString.h"
 #import "NSDictionary+OTRJSONString.h"
 
+static const NSInteger mTimeOutInterval = 30;
+static const NSInteger mTimeOutIntervalPost = 60;
+
 @interface OTRApi()
 
 @property (nonatomic, strong) NSOperationQueue *queue;
@@ -60,7 +63,7 @@
     [OTRDefaults saveString:password forKey:KEY_LOGIN_PASSWORD];
     
     NSString *url = [NSString stringWithFormat:@"%@api/GetClientInfo/%@/%@", OTR_SERVER_BASE_URL, username, password];
-    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60];
+    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:mTimeOutInterval];
     
     [self appendAuthInfoToRequestTypeGet:request];
     [self sendRequest:request completionBlock:block];
@@ -69,7 +72,7 @@
 
 - (void)fetchCustomerDetails:(NSString *)lastFetchDate withCompletion:(OTRAPICompletionBlock)block {
     NSString *url = [NSString stringWithFormat:@"%@api/GetCustomers/%@",OTR_SERVER_BASE_URL, lastFetchDate];
-    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60];
+    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:mTimeOutInterval];
     
     [self appendAuthInfoToRequestTypeGet:request];
     [self sendRequest:request completionBlock:block];
@@ -129,7 +132,7 @@
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     
     [request setHTTPShouldHandleCookies:NO];
-    [request setTimeoutInterval:60];
+    [request setTimeoutInterval:mTimeOutIntervalPost];
     [self appendAuthInfoToRequestTypePost:request];
     
     NSString *boundary = @"------VohpleBoundary4QuqLuM1cE5lMwCy";
@@ -166,7 +169,7 @@
 
 - (void)findBrokerInfoByPkey:(NSString *)pKey completionBlock:(OTRAPICompletionBlock)block {
     NSString *url = [NSString stringWithFormat:@"%@api/BrokerCheck/%@/%@/%@",OTR_SERVER_BASE_URL,[OTRDefaults getUserName], [OTRDefaults getPasswrodEncoded], pKey];
-    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60];
+    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:mTimeOutInterval];
     
     [self appendAuthInfoToRequestTypeGet:request];
     [self sendRequest:request completionBlock:block];

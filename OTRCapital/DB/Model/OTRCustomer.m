@@ -15,3 +15,7 @@
 @dynamic pkey;
 
 @end
+
+@implementation OTRCustomerNote
+
+@end
