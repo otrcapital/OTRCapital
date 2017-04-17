@@ -49,11 +49,6 @@
     _delegate = delegate;
 }
 
-- (NSDictionary*) getOTRInfo
-{
-    return self.otrInfo;
-}
-
 - (void) setOTRInfoValueOfTypeData: (NSData *)value forKey: (NSString*)key
 {
     [self.otrInfo setObject:value forKey:key];

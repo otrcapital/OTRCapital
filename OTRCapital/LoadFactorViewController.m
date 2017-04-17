@@ -367,24 +367,18 @@
     } else if (self.comdataFuelCardSwitch.isOn) {
         switchValue = @"Comdata Fuel Card";
     }
-    
-    
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:switchValue forKey:KEY_ADVANCED_REQUEST_TYPE]; //
+
     
     [[OTRManager sharedManager] setOTRInfoValueOfTypeString:brokerName forKey:KEY_BROKER_NAME]; //
     OTRCustomer *broker = [OTRCustomer getByName:brokerName];
     if(broker) {
         NSString *mcn = broker.mc_number;
-        NSString *pKey = [broker.pkey stringValue];
-        [[OTRManager sharedManager] setOTRInfoValueOfTypeString:mcn forKey:KEY_MC_NUMBER]; //
-        [[OTRManager sharedManager] setOTRInfoValueOfTypeString:pKey forKey:KEY_PKEY]; //
         
         self.mDocument.broker_pkey = broker.pkey;
         self.mDocument.broker_mc_number = mcn;
     }
     
     NSString *loadNo = self.txtFdLoadNo.text;
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:loadNo forKey:KEY_LOAD_NO]; //
     NSString *totalPay = self.txtFdTotalPay.text;
     if ([totalPay isEqualToString:@""]) {
         totalPay = @"0";
@@ -397,14 +391,13 @@
     [[OTRManager sharedManager] setOTRInfoValueOfTypeString:totalDeduction forKey:KEY_TOTAL_DEDUCTION];//
     float invoiceAmount = [totalPay floatValue] - [totalDeduction floatValue];
     NSString *invoiceString = [NSString stringWithFormat:@"%.2f", invoiceAmount];
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:invoiceString forKey:KEY_INVOICE_AMOUNT];//
     
 
     self.mDocument.advanceRequestType = switchValue;
     self.mDocument.invoiceAmount = invoiceString;
     self.mDocument.totalPay = @([totalPay intValue]);
     self.mDocument.totalDeduction = @([totalDeduction intValue]);
-    self.mDocument.factorType = [[OTRManager sharedManager] getOTRInfoValueOfTypeStringForKey:KEY_FACTOR_TYPE];
+    self.mDocument.factorType = OTRDocumentDataTypeFac;
     self.mDocument.loadNumber = loadNo;
     self.mDocument.broker_name = brokerName;
 }

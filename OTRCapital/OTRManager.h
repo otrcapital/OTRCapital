@@ -27,7 +27,6 @@
 + (id)sharedManager;
 
 - (void) initOTRInfo;
-- (NSDictionary*) getOTRInfo;
 
 - (void) setOTRInfoValueOfTypeData: (NSData *)value forKey: (NSString*)key;
 - (void) setOTRInfoValueOfTypeString: (NSString *)value forKey: (NSString*)key;

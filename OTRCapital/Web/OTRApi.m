@@ -12,6 +12,7 @@
 #import "Reachability.h"
 #import "NSArray+OTRJSONString.h"
 #import "NSDictionary+OTRJSONString.h"
+#import "OTRDocument.h"
 
 static const NSInteger mTimeOutInterval = 30;
 static const NSInteger mTimeOutIntervalPost = 60;
@@ -79,7 +80,7 @@ static const NSInteger mTimeOutIntervalPost = 60;
 }
 
 
-- (void)sendDataToServer: (NSDictionary *)otrInfo withPDF:(NSData *)pdfData completionBlock:(OTRAPICompletionBlock)block {
+- (void)sendDataToServer:(OTRDocument *)document withPDF:(NSData *)pdfData completionBlock:(OTRAPICompletionBlock)block {
 #ifdef DEBUG
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_BACKGROUND, 0), ^{
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
@@ -89,12 +90,12 @@ static const NSInteger mTimeOutIntervalPost = 60;
     });
 #endif
     NSMutableDictionary *params = [NSMutableDictionary new];
-    NSString *mcn = [otrInfo objectForKey:KEY_MC_NUMBER];
-    NSString *loadNumber = [otrInfo objectForKey:KEY_LOAD_NO];
-    NSString *invoiceAmount = [otrInfo objectForKey:KEY_INVOICE_AMOUNT];
-    NSNumber *pKey = [otrInfo objectForKey:KEY_PKEY];
-    NSString *advReqAmount = [otrInfo objectForKey:KEY_ADV_REQ_AMOUT];
-    NSString *textComcheckPhoneNumber = [otrInfo objectForKey:KEY_TEXT_COMCHECK_PHONE_NUMBER];
+    NSString *mcn = document.broker_mc_number;
+    NSString *loadNumber = document.loadNumber;
+    NSString *invoiceAmount = document.invoiceAmount;
+    NSNumber *pKey = document.broker_pkey;
+    NSString *advReqAmount = document.adv_req_amount ?: @"";
+    NSString *textComcheckPhoneNumber = document.customerPhoneNumber;
     
     NSMutableDictionary *apiInvoiceDataJson = [NSMutableDictionary new];
     
@@ -104,7 +105,7 @@ static const NSInteger mTimeOutIntervalPost = 60;
     [apiInvoiceDataJson setObject:invoiceAmount forKey:@"InvoiceAmount"];
     [apiInvoiceDataJson setObject:[OTRDefaults getUserName] forKey:@"ClientLogin"];
     [apiInvoiceDataJson setObject:[OTRDefaults getPasswrodEncoded] forKey:@"ClientPassword"];
-    [apiInvoiceDataJson setObject:[otrInfo objectForKey:KEY_ADVANCED_REQUEST_TYPE] forKey:KEY_ADVANCED_REQUEST_TYPE];
+    [apiInvoiceDataJson setObject:document.advanceRequestType forKey:KEY_ADVANCED_REQUEST_TYPE];
     if (textComcheckPhoneNumber != nil) {
         [apiInvoiceDataJson setObject:textComcheckPhoneNumber forKey:KEY_TEXT_COMCHECK_PHONE_NUMBER];
     }
@@ -117,11 +118,11 @@ static const NSInteger mTimeOutIntervalPost = 60;
     
     [params setObject:invioceString forKey:@"apiInvoiceDataJson"];
     
-    NSArray *docTypes = [otrInfo objectForKey:KEY_DOC_PROPERTY_TYPES_LIST];
+    NSArray *docTypes = document.documentTypes;
     [params setObject:docTypes forKey:@"DocumentType"];
     [params setObject:@"iOS" forKey:@"mType"];
     
-    NSString *factorType = [otrInfo objectForKey:KEY_FACTOR_TYPE];
+    NSString *factorType = document.factorType;
     
     if (!factorType) {
         factorType = @"N/A";

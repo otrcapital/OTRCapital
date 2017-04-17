@@ -257,8 +257,7 @@
         [self saveInfo];
         NSData *pdfFile = [[OTRManager sharedManager] makePDFOfImagesOfFolder:self.mDocument.folderPath];
         
-        NSDictionary *otrInfo = [[OTRManager sharedManager] getOTRInfo];
-        [[OTRApi instance] sendDataToServer:otrInfo withPDF:pdfFile completionBlock:^(NSDictionary *responseData, NSError *error) {
+        [[OTRApi instance] sendDataToServer:self.mDocument withPDF:pdfFile completionBlock:^(NSDictionary *responseData, NSError *error) {
             if(!error) {
                 [self onOTRRequestSuccess];
             }else {
@@ -365,10 +364,9 @@
 
 - (void) preLoadInfo{
     NSString *brokerName = [[OTRManager sharedManager] getOTRInfoValueOfTypeStringForKey:KEY_BROKER_NAME];
-    NSString *loadNo = [[OTRManager sharedManager] getOTRInfoValueOfTypeStringForKey:KEY_LOAD_NO];
     
     self.txtFdBrokerName.text = brokerName;
-    self.txtFdLoadNumber.text = loadNo;
+    self.txtFdLoadNumber.text = self.mDocument.loadNumber;
 }
 
 - (BOOL) isValidInfo{
@@ -404,7 +402,6 @@
     NSString *brokerName = self.txtFdBrokerName.text;
     [[OTRManager sharedManager] setOTRInfoValueOfTypeString:brokerName forKey:KEY_BROKER_NAME];
     NSString *loadNo = self.txtFdLoadNumber.text;
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:loadNo forKey:KEY_LOAD_NO];
     
     
     
@@ -414,9 +411,10 @@
     if(self.lf_switchRateConformation.on)[docTypes addObject:@"rc"];
     if(self.ad_switchBillOfLanding.on)[docTypes addObject:@"bol"];
     if(self.ad_switchRateConformation.on)[docTypes addObject:@"rc"];
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeArray:docTypes forKey:KEY_DOC_PROPERTY_TYPES_LIST];
     
-    self.mDocument.documentTypes = [docTypes componentsJoinedByString:@","];
+    self.mDocument.documentTypes = docTypes;
+    self.mDocument.broker_name = brokerName;
+    self.mDocument.loadNumber = loadNo;
 }
 
 

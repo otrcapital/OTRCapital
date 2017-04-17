@@ -464,25 +464,17 @@
     } else if (self.comdataFuelCardSwitch.isOn) {
         switchValue = @"Comdata Fuel Card";
     }
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:switchValue forKey:KEY_ADVANCED_REQUEST_TYPE];
-    if (self.textComcheckPhoneNumber != nil) {
-        [[OTRManager sharedManager] setOTRInfoValueOfTypeString:self.textComcheckPhoneNumber forKey:KEY_TEXT_COMCHECK_PHONE_NUMBER];
-    }
     
     [[OTRManager sharedManager] setOTRInfoValueOfTypeString:brokerName forKey:KEY_BROKER_NAME];
     OTRCustomer *broker = [OTRCustomer getByName:brokerName];
     if(broker) {
         NSString *mcn = broker.mc_number;
-        NSString *pKey = [broker.pkey stringValue];
-        [[OTRManager sharedManager] setOTRInfoValueOfTypeString:mcn forKey:KEY_MC_NUMBER];
-        [[OTRManager sharedManager] setOTRInfoValueOfTypeString:pKey forKey:KEY_PKEY];
         
         self.mDocument.broker_pkey = broker.pkey;
         self.mDocument.broker_mc_number = mcn;
     }
     
     NSString *loadNo = self.txtFdLoadNo.text;
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:loadNo forKey:KEY_LOAD_NO];
     NSString *totalPay = self.txtFdTotalPay.text;
     if ([totalPay isEqualToString:@""]) {
         totalPay = @"0";
@@ -493,8 +485,6 @@
         totalDeduction = @"0";
     }
     [[OTRManager sharedManager] setOTRInfoValueOfTypeString:totalDeduction forKey:KEY_TOTAL_DEDUCTION];
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:totalPay forKey:KEY_INVOICE_AMOUNT]; // ???
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:totalDeduction forKey:KEY_ADV_REQ_AMOUT];
     
     
     self.mDocument.advanceRequestType = switchValue;
@@ -503,7 +493,7 @@
     self.mDocument.adv_req_amount = totalDeduction;
     self.mDocument.totalPay = @([totalPay intValue]);
     self.mDocument.totalDeduction = @([totalDeduction intValue]);
-    self.mDocument.factorType = [[OTRManager sharedManager] getOTRInfoValueOfTypeStringForKey:KEY_FACTOR_TYPE];
+    self.mDocument.factorType = OTRDocumentDataTypeADV;
     self.mDocument.loadNumber = loadNo;
     self.mDocument.broker_name = brokerName;
 }

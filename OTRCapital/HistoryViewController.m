@@ -210,10 +210,10 @@
     
     NSData *pdfFile = [[OTRManager sharedManager] makePDFOfImagesOfFolder:document.folderPath];
     
-//    [[OTRApi instance] sendDataToServer:self.otrInfo withPDF:pdfFile completionBlock:^(NSDictionary *responseData, NSError *error) {
-//        
-//        [[OTRHud hud] hide];
-//        
+    [[OTRApi instance] sendDataToServer:document withPDF:pdfFile completionBlock:^(NSDictionary *responseData, NSError *error) {
+        
+        [[OTRHud hud] hide]; //3312
+        
 //        if(!error) {
 //            [self.otrInfo setValue:OTR_INFO_STATUS_SUCCESS forKey:KEY_OTR_INFO_STATUS];
 //            [[OTRManager sharedManager] updateOTRInfo:self.otrInfo forKey:self.directoryName];
@@ -233,7 +233,7 @@
 //                [alert show];
 //            });
 //        }
-//    }];
+    }];
 }
 
 

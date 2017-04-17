@@ -12,6 +12,8 @@
 
 #define OTR_SERVER_BASE_URL @"http://" OTR_SERVER_URL @"/"
 
+@class OTRDocument;
+
 typedef void(^OTRAPICompletionBlock)(NSDictionary* responseData, NSError *error);
 
 @interface OTRApi : NSObject
@@ -26,7 +28,7 @@ typedef void(^OTRAPICompletionBlock)(NSDictionary* responseData, NSError *error)
 
 - (void)fetchCustomerDetails:(NSString *)lastFetchDate withCompletion:(OTRAPICompletionBlock)block;
 
-- (void)sendDataToServer: (NSDictionary *)otrInfo withPDF: (NSData *)pdfData completionBlock:(OTRAPICompletionBlock)block;
+- (void)sendDataToServer:(OTRDocument *)document withPDF:(NSData *)pdfData completionBlock:(OTRAPICompletionBlock)block;
 
 - (void)findBrokerInfoByPkey:(NSString *)pKey completionBlock:(OTRAPICompletionBlock)block;
 

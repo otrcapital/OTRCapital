@@ -77,7 +77,6 @@
 }
 - (IBAction)onLoadFactorButtonPressed:(id)sender {
     [[OTRManager sharedManager] initOTRInfo];
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:DATA_TYPE_LOAD_FACTOR forKey:KEY_FACTOR_TYPE];
     
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     LoadFactorViewController *vc = [sb instantiateViewControllerWithIdentifier:@"LoadFactorViewController"];
@@ -86,7 +85,6 @@
 }
 - (IBAction)onNeedAdvanceButtonPressed:(id)sender {
     [[OTRManager sharedManager] initOTRInfo];
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:DATA_TYPE_ADVANCE_LOAN forKey:KEY_FACTOR_TYPE];
     
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     AdvanceLoanViewController *vc = [sb instantiateViewControllerWithIdentifier:@"AdvanceLoanViewController"];

@@ -10,7 +10,10 @@
 
 @class OTRCustomer;
 
-static const
+static NSString *OTRDocumentDataTypeFac = @"FAC";
+
+static NSString *OTRDocumentDataTypeADV = @"ADV";
+
 
 @interface OTRDocument : NSManagedObject
 
@@ -20,7 +23,7 @@ static const
 @property (nonatomic, strong) NSArray   *imageUrls;
 @property (nonatomic, strong) NSString  *invoiceAmount;
 @property (nonatomic, strong) NSString  *loadNumber;
-@property (nonatomic, strong) NSString  *documentTypes;
+@property (nonatomic, strong) NSArray   *documentTypes;
 @property (nonatomic, strong) NSString  *broker_name;
 @property (nonatomic, strong) NSString  *broker_mc_number;
 @property (nonatomic, strong) NSString  *adv_req_amount;
@@ -30,7 +33,6 @@ static const
 @property (nonatomic, strong) NSNumber  *totalPay;
 @property (nonatomic, strong) NSNumber  *totalDeduction;
 @property (nonatomic, strong) NSDate    *date;
-
 
 
 + (id)unassotiatedObject;
