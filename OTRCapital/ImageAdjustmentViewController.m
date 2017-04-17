@@ -8,6 +8,7 @@
 
 #import "ImageAdjustmentViewController.h"
 #import "OTRManager.h"
+#import "OTRDocument+DB.h"
 
 @interface ImageAdjustmentViewController ()
 
@@ -143,7 +144,7 @@
 - (IBAction)onDoneButtonPressed:(id)sender {
     
     int currentDocumentCount = [[OTRManager sharedManager] getDocumentCount];
-    [[OTRManager sharedManager] saveImage:self.adjustedImage];
+    [[OTRManager sharedManager] saveImage:self.adjustedImage atPath:self.document.folderPath];
     if (currentDocumentCount == 1) {
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         UIViewController *vc = [sb instantiateViewControllerWithIdentifier:@"DocumentOptionalPropertiesViewController"];

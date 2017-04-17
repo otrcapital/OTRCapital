@@ -135,7 +135,6 @@
 		18B8FB1E1B524EEB002A5670 /* AdvanceLoanViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B8FB1D1B524EEB002A5670 /* AdvanceLoanViewController.m */; };
 		18B8FB211B524F44002A5670 /* BrokerCheckViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B8FB201B524F44002A5670 /* BrokerCheckViewController.m */; };
 		18B8FB231B5257EF002A5670 /* input_field_blue_light_right.png in Resources */ = {isa = PBXBuildFile; fileRef = 18B8FB221B5257EF002A5670 /* input_field_blue_light_right.png */; };
-		18B8FB261B5258B5002A5670 /* DocumentEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B8FB251B5258B5002A5670 /* DocumentEditViewController.m */; };
 		18B8FB451B5292DA002A5670 /* ImageAdjustmentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B8FB441B5292DA002A5670 /* ImageAdjustmentViewController.m */; };
 		18B8FB481B52A02F002A5670 /* DocumentOptionalPropertiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B8FB471B52A02F002A5670 /* DocumentOptionalPropertiesViewController.m */; };
 		18B8FB4B1B52C03F002A5670 /* OTRManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 18B8FB4A1B52C03F002A5670 /* OTRManager.m */; };
@@ -146,6 +145,7 @@
 		88F6C8880C3F9BD5A0E3A25C /* libPods-OTRCapital.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A79AF0D66C552716E09B2A42 /* libPods-OTRCapital.a */; };
 		B60823E01EA111E600B42F95 /* OTRDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = B60823DF1EA111E600B42F95 /* OTRDocument.m */; };
 		B621C5821EA4D4EC00018A7B /* OTRDataToArrayTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = B621C5811EA4D4EC00018A7B /* OTRDataToArrayTransformer.m */; };
+		B621C5851EA4DA1200018A7B /* OTRDocument+DB.m in Sources */ = {isa = PBXBuildFile; fileRef = B621C5841EA4DA1200018A7B /* OTRDocument+DB.m */; };
 		B62377D31E97EF4700776898 /* OTRHud.m in Sources */ = {isa = PBXBuildFile; fileRef = B62377D21E97EF4700776898 /* OTRHud.m */; };
 		B646BEDA1E9BEE00009FB15A /* OTRNote.m in Sources */ = {isa = PBXBuildFile; fileRef = B646BED91E9BEE00009FB15A /* OTRNote.m */; };
 		B66B2D171E9B9B9500C3E6D2 /* NSDictionary+OTRJSONString.m in Sources */ = {isa = PBXBuildFile; fileRef = B66B2D161E9B9B9400C3E6D2 /* NSDictionary+OTRJSONString.m */; };
@@ -316,8 +316,6 @@
 		18B8FB1F1B524F44002A5670 /* BrokerCheckViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrokerCheckViewController.h; sourceTree = "<group>"; };
 		18B8FB201B524F44002A5670 /* BrokerCheckViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrokerCheckViewController.m; sourceTree = "<group>"; };
 		18B8FB221B5257EF002A5670 /* input_field_blue_light_right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = input_field_blue_light_right.png; sourceTree = "<group>"; };
-		18B8FB241B5258B5002A5670 /* DocumentEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentEditViewController.h; sourceTree = "<group>"; };
-		18B8FB251B5258B5002A5670 /* DocumentEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentEditViewController.m; sourceTree = "<group>"; };
 		18B8FB431B5292DA002A5670 /* ImageAdjustmentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageAdjustmentViewController.h; sourceTree = "<group>"; };
 		18B8FB441B5292DA002A5670 /* ImageAdjustmentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageAdjustmentViewController.m; sourceTree = "<group>"; };
 		18B8FB461B52A02F002A5670 /* DocumentOptionalPropertiesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentOptionalPropertiesViewController.h; sourceTree = "<group>"; };
@@ -336,6 +334,8 @@
 		B60823DF1EA111E600B42F95 /* OTRDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRDocument.m; path = DB/Model/OTRDocument.m; sourceTree = "<group>"; };
 		B621C5801EA4D4EC00018A7B /* OTRDataToArrayTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRDataToArrayTransformer.h; path = DB/Transformers/OTRDataToArrayTransformer.h; sourceTree = "<group>"; };
 		B621C5811EA4D4EC00018A7B /* OTRDataToArrayTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRDataToArrayTransformer.m; path = DB/Transformers/OTRDataToArrayTransformer.m; sourceTree = "<group>"; };
+		B621C5831EA4DA1200018A7B /* OTRDocument+DB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "OTRDocument+DB.h"; path = "DB/Extensions/OTRDocument+DB.h"; sourceTree = "<group>"; };
+		B621C5841EA4DA1200018A7B /* OTRDocument+DB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "OTRDocument+DB.m"; path = "DB/Extensions/OTRDocument+DB.m"; sourceTree = "<group>"; };
 		B62377D11E97EF4700776898 /* OTRHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRHud.h; path = Utils/OTRHud.h; sourceTree = "<group>"; };
 		B62377D21E97EF4700776898 /* OTRHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRHud.m; path = Utils/OTRHud.m; sourceTree = "<group>"; };
 		B646BED81E9BEE00009FB15A /* OTRNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRNote.h; path = Model/OTRNote.h; sourceTree = "<group>"; };
@@ -536,8 +536,6 @@
 				18B8FB1D1B524EEB002A5670 /* AdvanceLoanViewController.m */,
 				18B8FB1F1B524F44002A5670 /* BrokerCheckViewController.h */,
 				18B8FB201B524F44002A5670 /* BrokerCheckViewController.m */,
-				18B8FB241B5258B5002A5670 /* DocumentEditViewController.h */,
-				18B8FB251B5258B5002A5670 /* DocumentEditViewController.m */,
 				18B8FB431B5292DA002A5670 /* ImageAdjustmentViewController.h */,
 				18B8FB441B5292DA002A5670 /* ImageAdjustmentViewController.m */,
 				18B8FB461B52A02F002A5670 /* DocumentOptionalPropertiesViewController.h */,
@@ -713,7 +711,7 @@
 			isa = PBXGroup;
 			children = (
 				B621C57F1EA4D4A700018A7B /* Transformers */,
-				B68F204C1E9FC23800971B0E /* Extensions */,
+				B68F204C1E9FC23800971B0E /* Categories */,
 				B68F20481E9F942900971B0E /* Entities */,
 				B68F20421E9F8B6000971B0E /* OTRCapital.xcdatamodeld */,
 				B68F20451E9F91DA00971B0E /* DBHelper.h */,
@@ -733,13 +731,15 @@
 			name = Entities;
 			sourceTree = "<group>";
 		};
-		B68F204C1E9FC23800971B0E /* Extensions */ = {
+		B68F204C1E9FC23800971B0E /* Categories */ = {
 			isa = PBXGroup;
 			children = (
 				B68F204D1E9FC26200971B0E /* OTRCustomer+DB.h */,
 				B68F204E1E9FC26200971B0E /* OTRCustomer+DB.m */,
+				B621C5831EA4DA1200018A7B /* OTRDocument+DB.h */,
+				B621C5841EA4DA1200018A7B /* OTRDocument+DB.m */,
 			);
-			name = Extensions;
+			name = Categories;
 			sourceTree = "<group>";
 		};
 		B6FADF491E978CF000773B6F /* WebService */ = {
@@ -1021,7 +1021,6 @@
 				B66B2D1A1E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.m in Sources */,
 				B60823E01EA111E600B42F95 /* OTRDocument.m in Sources */,
 				189900DE1B592AC900C007EF /* HistoryDetailViewController.m in Sources */,
-				18B8FB261B5258B5002A5670 /* DocumentEditViewController.m in Sources */,
 				1864FC3F1B634DDA00855C09 /* MACaptureSession.m in Sources */,
 				1864FC421B634DDA00855C09 /* MAImagePickerController.m in Sources */,
 				18B8FB5F1B52DB47002A5670 /* HistoryViewController.m in Sources */,
@@ -1032,6 +1031,7 @@
 				189900DB1B59278B00C007EF /* HistoryDetailCell.m in Sources */,
 				18696DD51B6CAFAF0001E49A /* SplashScreenViewController.m in Sources */,
 				B68F204B1E9F944A00971B0E /* OTRCustomer.m in Sources */,
+				B621C5851EA4DA1200018A7B /* OTRDocument+DB.m in Sources */,
 				1864FC431B634DDA00855C09 /* MAImagePickerControllerAdjustViewController.mm in Sources */,
 				B6FADF4C1E978D4200773B6F /* OTRApi.m in Sources */,
 				189900F11B593F0300C007EF /* SignUpViewController.m in Sources */,

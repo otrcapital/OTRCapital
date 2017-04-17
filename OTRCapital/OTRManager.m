@@ -43,20 +43,10 @@
     [self setOtrInfo: [NSMutableDictionary new]];
     [self initDocumnetCount];
     [self setCurrentDocumentFolder:TimeStamp];
-    [self setOTRInfoValueOfTypeString:self.currentDocumentFolder forKey:KEY_IMAGE_FILE_NAME];
 }
 
 - (void)setDelegate:(id<OTRManagerDelegate>)delegate {
     _delegate = delegate;
-}
-
-- (void) createDirectoryAtCurrentPath{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *dataPath = [documentsDirectory stringByAppendingPathComponent:self.currentDocumentFolder];
-    
-    if (![[NSFileManager defaultManager] fileExistsAtPath:dataPath])
-        [[NSFileManager defaultManager] createDirectoryAtPath:dataPath withIntermediateDirectories:NO attributes:nil error:nil];
 }
 
 - (NSDictionary*) getOTRInfo
@@ -90,14 +80,11 @@
     return [self.otrInfo objectForKey:key];
 }
 
-- (NSString *) saveImage: (UIImage *)image
+- (NSString *) saveImage: (UIImage *)image atPath:(NSString *)path
 {
-    [self createDirectoryAtCurrentPath];
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *imagePath = [NSString stringWithFormat:@"%@/%d.jpeg", self.currentDocumentFolder, self.documentCount];
-    NSString *filePath = [[paths objectAtIndex:0] stringByAppendingPathComponent:imagePath];
-    [UIImageJPEGRepresentation(image, 1) writeToFile:filePath atomically:YES];
-    return filePath;
+    NSString *imagePath = [NSString stringWithFormat:@"%@/%d.jpeg", path, self.documentCount];
+    [UIImageJPEGRepresentation(image, 1) writeToFile:imagePath atomically:YES];
+    return imagePath;
 }
 
 
@@ -125,9 +112,7 @@
     return [defaults objectForKey:key];
 }
 
-- (NSData *) makePDFOfImagesOfFolder: (NSString*)folderName{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *directoryPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:folderName];
+- (NSData *) makePDFOfImagesOfFolder: (NSString*)directoryPath{
     NSArray *directoryContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directoryPath error:NULL];
     
     if (!directoryContent || !directoryContent.count) {
@@ -235,10 +220,6 @@
     UIImage *resultImage = UIGraphicsGetImageFromCurrentImageContext();
     UIGraphicsEndImageContext();
     return resultImage;
-}
-
-- (NSData *) makePDFOfCurrentImages{
-    return [self makePDFOfImagesOfFolder:self.currentDocumentFolder];
 }
 
 - (NSString *) getPDFFileName{

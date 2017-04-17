@@ -27,7 +27,6 @@
 #define KEY_PKEY                                @"PKey"
 #define KEY_ADVANCED_REQUEST_TYPE               @"AdvanceRequestType"
 #define KEY_TEXT_COMCHECK_PHONE_NUMBER          @"Phone"
-#define KEY_IMAGE_FILE_NAME                     @"image_name"
 #define KEY_DOC_PROPERTY_DELIVERY_PROOF         @"delivery_proof"
 #define KEY_DOC_PROPERTY_LANING_BILL            @"landing_bill"
 #define KEY_DOC_PROPERTY_FREIGHT_BILL           @"freight_bill"

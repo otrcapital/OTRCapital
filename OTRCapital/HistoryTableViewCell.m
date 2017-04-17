@@ -10,12 +10,20 @@
 #include "HistoryDetailViewController.h"
 #import "NSDictionary+OTRJSONString.h"
 #import "OTRApi.h"
-
-#define TAG_ALERT_VIEW_INFO_SEND_SUCCESS        1
-#define TAG_ALERT_VIEW_CONFORM_DELETE           3
+#import <SDWebImage/UIImageView+WebCache.h>
 
 @interface HistoryTableViewCell ()
-@property (strong, nonatomic) IBOutlet UIButton *btnResend;
+
+@property (weak, nonatomic) IBOutlet UIImageView *image;
+@property (weak, nonatomic) IBOutlet UILabel *title;
+@property (weak, nonatomic) IBOutlet UILabel *time;
+@property (weak, nonatomic) IBOutlet UILabel *address;
+@property (weak, nonatomic) IBOutlet UILabel *status;
+@property (weak, nonatomic) IBOutlet UILabel *loadNo;
+@property (weak, nonatomic) IBOutlet UILabel *rate;
+
+@property (weak, nonatomic) IBOutlet UIButton *btnResend;
+
 - (IBAction)onResendButtonPressed:(id)sender;
 - (IBAction)onDeleteButtonPressed:(id)sender;
 
@@ -23,15 +31,40 @@
 
 @implementation HistoryTableViewCell
 
-- (void)awakeFromNib {
-    [super awakeFromNib];
-    UILongPressGestureRecognizer *longPress = [[UILongPressGestureRecognizer alloc] initWithTarget:self action:@selector(longPress:)];
-    [self.cellButton addGestureRecognizer:longPress];
+- (void)setDocument:(OTRDocument *)document {
+    _document = document;
+    [self updateDocumentInfo];
 }
 
+- (void)updateDocumentInfo {
+    
+    if(!self.document) return;
+    
+    NSString *title = self.document.broker_name;
+    NSString *email = @"3312 Email";
+    NSString *imagePath = [self.document.imageUrls firstObject];
+    NSString *status = @"3312 Status";
+    NSString *loadNo = self.document.loadNumber;
+    NSString *invoiceAmount = self.document.invoiceAmount;
+    NSString *advReqAmount = self.document.advanceRequestType;
+    NSString *dateString = self.document.date ? [NSDateFormatter localizedStringFromDate:self.document.date dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle] : @"";
+    
+    self.time.text = dateString;
+    self.title.text = title;
+    self.address.text = email;
+    self.status.text = status ? [NSString stringWithFormat:@"status: %@", status] : @"";
+    self.loadNo.text =  loadNo ? [NSString stringWithFormat:@"LoadNo: %@", loadNo] : @"";
+    if (advReqAmount) {
+        self.rate.text = invoiceAmount ? [NSString stringWithFormat:@"Invoice: %@, Advance: %@", invoiceAmount, advReqAmount] : [NSString stringWithFormat:@"Advance: %@", advReqAmount];
+    }
+    else {
+        self.rate.text = invoiceAmount ?[NSString stringWithFormat:@"Invoice: %@", invoiceAmount] : @"";
+    }
 
-- (void) initCellInfo{
-    NSString *status = [self.otrInfo objectForKey:KEY_OTR_INFO_STATUS];
+    [self.image setShowActivityIndicatorView:YES];
+    [self.image setIndicatorStyle:UIActivityIndicatorViewStyleGray];
+    [self.image sd_setImageWithURL:[NSURL fileURLWithPath:imagePath] placeholderImage:nil];
+    
     if ([status isEqual:OTR_INFO_STATUS_SUCCESS]) {
         [self.btnResend setHidden:YES];
     }
@@ -41,142 +74,23 @@
     [super setSelected:selected animated:animated];
 }
 
-- (void)longPress:(UILongPressGestureRecognizer*)gesture {
-    if ( gesture.state == UIGestureRecognizerStateBegan ) {
-    }
-}
-
-- (IBAction)onCellClicked:(id)sender {
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    HistoryDetailViewController *vc = [sb instantiateViewControllerWithIdentifier:@"HistoryDetailViewController"];
-    
-    NSMutableArray *imagesArray = [NSMutableArray new];
-    for (NSString *item in self.directoryContents) {
-        NSString *imagePath = [NSString stringWithFormat:@"%@/%@", self.directoryPath, item];
-        UIImage *image = [UIImage imageWithContentsOfFile:imagePath];
-        if(image) {
-            [imagesArray addObject:image];
-        }
-    }
-    [vc setItems:imagesArray];
-    
-    [self.parentNavigationController pushViewController:vc animated:YES];
-}
-
 - (IBAction)onResendButtonPressed:(id)sender {    
-    [[OTRHud hud] show];
-    
-    NSData *pdfFile = [[OTRManager sharedManager] makePDFOfImagesOfFolder:self.directoryName];
-
-    [[OTRApi instance] sendDataToServer:self.otrInfo withPDF:pdfFile completionBlock:^(NSDictionary *responseData, NSError *error) {
-        
-        [[OTRHud hud] hide];
-        
-        if(!error) {
-            [self.otrInfo setValue:OTR_INFO_STATUS_SUCCESS forKey:KEY_OTR_INFO_STATUS];
-            [[OTRManager sharedManager] updateOTRInfo:self.otrInfo forKey:self.directoryName];
-            [self.btnResend setHidden:YES];
-            [self.parent refreshView];
-            NSString *msg = [NSString stringWithFormat:@"Information is successfuly posted to server."];
-            [self showAlertViewWithTitle:@"Success" andWithMessage:msg andWithTag:TAG_ALERT_VIEW_INFO_SEND_SUCCESS];
-        }else {
-            [self.otrInfo setValue:OTR_INFO_STATUS_FAILED forKey:KEY_OTR_INFO_STATUS];
-            [[OTRManager sharedManager] updateOTRInfo:self.otrInfo forKey:self.directoryName];
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failed"
-                                                            message:error.localizedDescription
-                                                           delegate:self
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles: nil];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [alert show];
-            });
-        }
-    }];
+    if(self.delegate) {
+        [self.delegate resendDocumentPress:self.document];
+    }
 }
 
 - (IBAction)onDeleteButtonPressed:(id)sender {
-    [self showOptionAlertViewWithTitle:@"Warning" andWithMessage:@"Are you sure, you want to delete it?" andWithTag:TAG_ALERT_VIEW_CONFORM_DELETE];
+    if(self.delegate) {
+        [self.delegate deleteDocumentPress:self.document];
+    }
 }
+
 - (IBAction)onEmailButtonPressed:(id)sender {
-    [self emailDocument];
-}
-
-- (void) emailDocument {
-    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
-    if (mc)
-    {
-        NSData *pdfFile = [[OTRManager sharedManager] makePDFOfImagesOfFolder:self.directoryName];
-        NSString *email = [[OTRManager sharedManager] getUserName];
-        NSArray *toRecipents = [NSArray arrayWithObject:email];
-
-        [[OTRHud hud] show];
-        
-        NSString *brokerName = [self.otrInfo objectForKey:KEY_BROKER_NAME];
-        NSString *loadNo = [self.otrInfo objectForKey:KEY_LOAD_NO];
-        NSString *fileName = [NSString stringWithFormat:@"%@_%@.pdf", brokerName, loadNo];
-        
-        [mc addAttachmentData:pdfFile mimeType:@"application/pdf" fileName:fileName];
-        mc.mailComposeDelegate = self;
-        [mc setToRecipients:toRecipents];
-        NSString *subject = [NSString stringWithFormat:@"OTR Capital Document | Broker Name: %@ | Load No: %@", brokerName, loadNo];
-        [mc setSubject:subject];
-        NSString *body = [self.otrInfo jsonStringWithPrettyPrint:NO];
-        [mc setMessageBody:body isHTML:NO];
-        [self.parentNavigationController presentViewController:mc animated:YES completion:NULL];
+    if(self.delegate) {
+        [self.delegate emailDocumentPressed:self.document];
     }
 }
 
 
-- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
-{
-    [self.parentNavigationController dismissViewControllerAnimated:YES completion:NULL];
-    [[OTRHud hud] hide];
-    switch (result)
-    {
-        case MFMailComposeResultCancelled:
-        case MFMailComposeResultSaved:
-        case MFMailComposeResultFailed:
-            [self showAlertViewWithTitle:@"Failed" andWithMessage:@"Email send failed." andWithTag:-1];
-            break;
-        case MFMailComposeResultSent:
-            [self showAlertViewWithTitle:@"Success" andWithMessage:@"Information is successfuly emailed" andWithTag:-1];
-            break;
-        default:
-            break;
-    }
-}
-
-
-#pragma mark PRIVATE METHODS
-- (void) showAlertViewWithTitle: (NSString*)title andWithMessage: (NSString*) msg andWithTag: (int) tag{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                    message:msg
-                                                   delegate:self
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil];
-    [alert setTag:tag];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [alert show];
-    });
-}
-
-- (void) showOptionAlertViewWithTitle: (NSString*)title andWithMessage: (NSString*) msg andWithTag: (int) tag{
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:title
-                                                    message:msg
-                                                   delegate:self
-                                          cancelButtonTitle:@"YES"
-                                          otherButtonTitles:@"NO", nil];
-    [alert setTag:tag];
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [alert show];
-    });
-}
-
-#pragma mark ALERT VIEW DELEGATE
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    int tag = (int) alertView.tag;
-    if (tag == TAG_ALERT_VIEW_CONFORM_DELETE && buttonIndex == 0) {
-        [self.parent removeDataOfIndex:self.index];
-    }
-}
 @end

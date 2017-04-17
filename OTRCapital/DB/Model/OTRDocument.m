@@ -22,7 +22,10 @@
 @dynamic broker_pkey;
 @dynamic invoiceAmount;
 @dynamic totalPay;
+@dynamic adv_req_amount;
 @dynamic totalDeduction;
+@dynamic date;
+@dynamic folderPath;
 
 + (id)unassotiatedObject {
     NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass(OTRDocument.class) inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];

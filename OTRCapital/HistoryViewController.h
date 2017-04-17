@@ -10,7 +10,4 @@
 
 @interface HistoryViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate>
 
-- (void) removeDataOfIndex: (int)index;
-- (void) refreshView;
-
 @end

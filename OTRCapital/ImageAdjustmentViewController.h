@@ -8,11 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class OTRDocument;
+
 @interface ImageAdjustmentViewController : UIViewController
 
 @property (strong, nonatomic) IBOutlet UIImageView *imageView;
 @property (strong, nonatomic) IBOutlet UISlider *sliderBrightness;
 @property (strong, nonatomic) IBOutlet UISlider *sliderContrast;
+@property (strong, nonatomic) OTRDocument *document;
 
 - (IBAction)onBrightnessChanged:(id)sender;
 - (IBAction)onContrastChange:(id)sender;

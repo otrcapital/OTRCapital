@@ -15,22 +15,12 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="106"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="voJ-gP-n9Z" id="hFa-oA-sHM">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="105.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="106"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2m2-CL-MTu">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="105"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Kuj-4c-NPm">
-                                <rect key="frame" x="0.0" y="-3" width="319" height="113"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <state key="normal">
-                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="onCellClicked:" destination="voJ-gP-n9Z" eventType="touchUpInside" id="hvC-uL-Z6f"/>
-                                </connections>
-                            </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" tag="199" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="5t4-i9-SAR">
                                 <rect key="frame" x="10" y="5" width="60" height="90"/>
                                 <constraints>
@@ -155,7 +145,6 @@
             <connections>
                 <outlet property="address" destination="oMr-S0-rFi" id="b7I-3P-Rrz"/>
                 <outlet property="btnResend" destination="e74-IG-dlY" id="FQi-Jf-5GH"/>
-                <outlet property="cellButton" destination="Kuj-4c-NPm" id="jFM-gy-mTO"/>
                 <outlet property="image" destination="5t4-i9-SAR" id="bHK-ei-Bi6"/>
                 <outlet property="loadNo" destination="904-Xr-XdV" id="334-vV-um2"/>
                 <outlet property="rate" destination="E90-cW-nEh" id="UEf-iW-3Vg"/>

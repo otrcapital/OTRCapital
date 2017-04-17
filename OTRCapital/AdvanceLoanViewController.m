@@ -8,11 +8,10 @@
 
 #import "AdvanceLoanViewController.h"
 #import "OTRManager.h"
-#import "ImageAdjustmentViewController.h"
 #import "DocumentOptionalPropertiesViewController.h"
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "OTRCustomer+DB.h"
-#import "OTRDocument.h"
+#import "OTRDocument+DB.h"
 
 #define SLIDER_VIEW_SHIFT_BY_Y 10
 
@@ -68,13 +67,13 @@
     
     
     
-    NSArray *documentsOld = [OTRDocument MR_findAll];
+    NSArray *documentsOld = [OTRDocument list];
     
-    [OTRDocument MR_deleteAllMatchingPredicate:[NSPredicate predicateWithFormat:@"documentId == 0"]];
+    [OTRDocument clearTemporaryNotes];
     
-    self.mDocument = [OTRDocument MR_createEntity];
+    self.mDocument = [OTRDocument create];
     
-    NSArray *documents = [OTRDocument MR_findAll];
+    NSArray *documents = [OTRDocument list];
     
     
     
@@ -304,9 +303,9 @@
 
 - (void)imagePickerDidChooseImage: (UIImage *)image andWithViewController: (UIViewController*) controller
 {
-    [self.mDocument setImageUrls: @[[[OTRManager sharedManager] saveImage:image]]];
+    [self.mDocument setImageUrls: @[[[OTRManager sharedManager] saveImage:image atPath:self.mDocument.folderPath]]];
     
-    [[OTRManager sharedManager] saveImage:image];
+    [[OTRManager sharedManager] saveImage:image atPath:self.mDocument.folderPath];
     [controller dismissViewControllerAnimated:YES completion:NULL];
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     DocumentOptionalPropertiesViewController *vc = [sb instantiateViewControllerWithIdentifier:@"DocumentOptionalPropertiesViewController"];
@@ -501,6 +500,7 @@
     self.mDocument.advanceRequestType = switchValue;
     self.mDocument.customerPhoneNumber = self.textComcheckPhoneNumber;
     self.mDocument.invoiceAmount = totalPay;
+    self.mDocument.adv_req_amount = totalDeduction;
     self.mDocument.totalPay = @([totalPay intValue]);
     self.mDocument.totalDeduction = @([totalDeduction intValue]);
     self.mDocument.factorType = [[OTRManager sharedManager] getOTRInfoValueOfTypeStringForKey:KEY_FACTOR_TYPE];

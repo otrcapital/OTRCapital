@@ -14,19 +14,24 @@ static const
 
 @interface OTRDocument : NSManagedObject
 
-@property (nonatomic, retain) NSNumber *documentId;
-@property (nonatomic, retain) NSString *advanceRequestType;
-@property (nonatomic, retain) NSString *factorType;
-@property (nonatomic, retain) NSArray  *imageUrls;
-@property (nonatomic, retain) NSString *invoiceAmount;
-@property (nonatomic, retain) NSString *loadNumber;
-@property (nonatomic, retain) NSString *documentTypes;
-@property (nonatomic, retain) NSString *broker_name;
-@property (nonatomic, retain) NSString *broker_mc_number;
-@property (nonatomic, retain) NSString *customerPhoneNumber;
-@property (nonatomic, retain) NSNumber *broker_pkey;
-@property (nonatomic, retain) NSNumber *totalPay;
-@property (nonatomic, retain) NSNumber *totalDeduction;
+@property (nonatomic, strong) NSNumber  *documentId;
+@property (nonatomic, strong) NSString  *advanceRequestType;
+@property (nonatomic, strong) NSString  *factorType;
+@property (nonatomic, strong) NSArray   *imageUrls;
+@property (nonatomic, strong) NSString  *invoiceAmount;
+@property (nonatomic, strong) NSString  *loadNumber;
+@property (nonatomic, strong) NSString  *documentTypes;
+@property (nonatomic, strong) NSString  *broker_name;
+@property (nonatomic, strong) NSString  *broker_mc_number;
+@property (nonatomic, strong) NSString  *adv_req_amount;
+@property (nonatomic, strong) NSString  *customerPhoneNumber;
+@property (nonatomic, strong) NSString  *folderPath;
+@property (nonatomic, strong) NSNumber  *broker_pkey;
+@property (nonatomic, strong) NSNumber  *totalPay;
+@property (nonatomic, strong) NSNumber  *totalDeduction;
+@property (nonatomic, strong) NSDate    *date;
+
+
 
 + (id)unassotiatedObject;
 

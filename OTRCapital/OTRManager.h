@@ -33,7 +33,7 @@
 - (void) setOTRInfoValueOfTypeString: (NSString *)value forKey: (NSString*)key;
 - (void) setOTRInfoValueOfTypeArray: (NSArray *)value forKey: (NSString*)key;
 
-- (NSString *) saveImage: (UIImage *)image;
+- (NSString *) saveImage: (UIImage *)image atPath:(NSString *)path;
 - (void) saveOTRInfo;
 - (void) updateOTRInfo: (NSDictionary *)otrInfo forKey: (NSString*)key;
 - (NSDictionary *) getOtrInfoWithKey: (NSString *)key;
@@ -42,7 +42,6 @@
 - (NSString *) getOTRInfoValueOfTypeStringForKey: (NSString*)key;
 - (NSArray *) getOTRInfoValueOfTypeArrayForKey: (NSString*)key;
 
-- (NSData *) makePDFOfCurrentImages;
 - (NSData *) makePDFOfImagesOfFolder: (NSString*)folderName;
 - (NSString *) getPDFFileName;
 

@@ -8,7 +8,6 @@
 
 #import "DocumentOptionalPropertiesViewController.h"
 #import "OTRManager.h"
-#import "ImageAdjustmentViewController.h"
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "OTRApi.h"
 #import "OTRCustomer+DB.h"
@@ -237,7 +236,7 @@
 
 - (void)imagePickerDidChooseImage:(UIImage *)image andWithViewController: (UIViewController*) controller {
     [[OTRManager sharedManager] incrementDocumentCount];
-    NSString *imageUrl = [[OTRManager sharedManager] saveImage:image];
+    NSString *imageUrl = [[OTRManager sharedManager] saveImage:image atPath:self.mDocument.folderPath];
     
     NSMutableArray *mImages = [[NSMutableArray alloc] initWithArray:self.mDocument.imageUrls ?: @[]];
     [mImages addObject:imageUrl];
@@ -256,7 +255,7 @@
         [[OTRHud hud] show];
         
         [self saveInfo];
-        NSData *pdfFile = [[OTRManager sharedManager] makePDFOfCurrentImages];
+        NSData *pdfFile = [[OTRManager sharedManager] makePDFOfImagesOfFolder:self.mDocument.folderPath];
         
         NSDictionary *otrInfo = [[OTRManager sharedManager] getOTRInfo];
         [[OTRApi instance] sendDataToServer:otrInfo withPDF:pdfFile completionBlock:^(NSDictionary *responseData, NSError *error) {

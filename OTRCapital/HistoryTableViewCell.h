@@ -10,27 +10,23 @@
 #import <MessageUI/MessageUI.h>
 #import "OTRManager.h"
 #import "HistoryViewController.h"
+#import "OTRDocument+DB.h"
 
-@interface HistoryTableViewCell : UITableViewCell <MFMailComposeViewControllerDelegate, UIAlertViewDelegate>
-@property (strong, nonatomic) IBOutlet UIImageView *image;
-@property (strong, nonatomic) IBOutlet UILabel *title;
-@property (strong, nonatomic) IBOutlet UILabel *time;
-@property (strong, nonatomic) IBOutlet UILabel *address;
-@property (strong, nonatomic) IBOutlet UILabel *status;
-@property (strong, nonatomic) IBOutlet UILabel *loadNo;
-@property (strong, nonatomic) IBOutlet UILabel *rate;
+@protocol HistoryTableViewCellDelegate
 
-@property (strong, nonatomic) NSArray *directoryContents;
-@property (strong, nonatomic) NSString *directoryPath;
-@property (strong, nonatomic) NSString *directoryName;
-@property (strong) UINavigationController *parentNavigationController;
-@property (strong) HistoryViewController *parent;
-@property int index;
-@property (strong) NSMutableDictionary *otrInfo;
+- (void)emailDocumentPressed:(OTRDocument *)document;
 
-- (IBAction)onCellClicked:(id)sender;
-@property (strong, nonatomic) IBOutlet UIButton *cellButton;
+- (void)deleteDocumentPress:(OTRDocument *)document;
 
-- (void) initCellInfo;
+- (void)resendDocumentPress:(OTRDocument *)document;
+
+@end
+
+
+@interface HistoryTableViewCell : UITableViewCell <UIAlertViewDelegate>
+
+@property (nonatomic, strong) OTRDocument *document;
+
+@property (nonatomic, weak) id<HistoryTableViewCellDelegate> delegate;
 
 @end

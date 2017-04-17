@@ -12,80 +12,6 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Document Edit View Controller-->
-        <scene sceneID="62">
-            <objects>
-                <viewController storyboardIdentifier="DocumentEditViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="63" customClass="DocumentEditViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="lZ2-Ay-kdC"/>
-                        <viewControllerLayoutGuide type="bottom" id="xuM-eN-YNR"/>
-                    </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="64">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="67">
-                                <rect key="frame" x="0.0" y="44" width="414" height="619"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                            </imageView>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WSq-xE-moe" userLabel="footer">
-                                <rect key="frame" x="0.0" y="660" width="414" height="71"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bhj-QZ-avW">
-                                        <rect key="frame" x="25" y="5" width="59" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" backgroundImage="button_check.png">
-                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="onDoneButtonPressed:" destination="63" eventType="touchUpInside" id="usi-pH-0dx"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wHs-ok-HK1">
-                                        <rect key="frame" x="123" y="5" width="58" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" backgroundImage="button_cancel.png">
-                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="onDiscardButtonPressed:" destination="63" eventType="touchUpInside" id="njf-4M-XvR"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="3v5-kM-Nlf">
-                                        <rect key="frame" x="220" y="5" width="57" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" backgroundImage="button_rotate_left.png">
-                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="onRotateLeftButtonPressed:" destination="63" eventType="touchUpInside" id="aIc-do-i4T"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Ib-yd-ffe">
-                                        <rect key="frame" x="317" y="5" width="57" height="60"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" backgroundImage="button_rotate_right.png">
-                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                        </state>
-                                        <connections>
-                                            <action selector="onRotateRightButtonPressed:" destination="63" eventType="touchUpInside" id="IwC-bw-kMf"/>
-                                        </connections>
-                                    </button>
-                                </subviews>
-                                <color key="backgroundColor" red="0.16078431369999999" green="0.41960784309999999" blue="0.65098039220000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </view>
-                    <connections>
-                        <outlet property="imageView" destination="67" id="RQY-OC-01J"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="65" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-4871.25" y="1667.5"/>
-        </scene>
         <!--Navigation Controller-->
         <scene sceneID="GQC-6Y-Ybx">
             <objects>
@@ -3496,11 +3422,7 @@
         <image name="button_blue_dark.png" width="698" height="107"/>
         <image name="button_blue_light.png" width="698" height="107"/>
         <image name="button_blue_login.png" width="698" height="103"/>
-        <image name="button_cancel.png" width="99" height="99"/>
-        <image name="button_check.png" width="121" height="91"/>
         <image name="button_contact_us_blue_light.png" width="800" height="992"/>
-        <image name="button_rotate_left.png" width="113" height="113"/>
-        <image name="button_rotate_right.png" width="113" height="113"/>
         <image name="button_signout_blue_light.png" width="800" height="994"/>
         <image name="button_signup_blue_light.png" width="1022" height="1091"/>
         <image name="call_icon.png" width="252" height="249"/>

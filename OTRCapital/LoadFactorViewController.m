@@ -7,12 +7,11 @@
 //
 
 #import "LoadFactorViewController.h"
-#import "ImageAdjustmentViewController.h"
 #import "OTRManager.h"
 #import "DocumentOptionalPropertiesViewController.h"
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "OTRCustomer+DB.h"
-#import "OTRDocument.h"
+#import "OTRDocument+DB.h"
 
 #define SLIDER_VIEW_SHIFT_BY_Y 10
 
@@ -60,13 +59,13 @@
     self.originalCenter = self.view.center;
     self.brokerList = [OTRCustomer getNamesList];
     
-    NSArray *documentsOld = [OTRDocument MR_findAll];
+    NSArray *documentsOld = [OTRDocument list];
     
-    [OTRDocument MR_deleteAllMatchingPredicate:[NSPredicate predicateWithFormat:@"documentId == 0"]];
+    [OTRDocument clearTemporaryNotes];
     
-    self.mDocument = [OTRDocument MR_createEntity];
+    self.mDocument = [OTRDocument create];
     
-    NSArray *documents = [OTRDocument MR_findAll];
+    NSArray *documents = [OTRDocument list];
     
     tapper = [[UITapGestureRecognizer alloc]
               initWithTarget:self action:@selector(handleSingleTap:)];
@@ -227,7 +226,7 @@
 
 - (void)imagePickerDidChooseImage: (UIImage *)image andWithViewController: (UIViewController*) controller
 {
-    [self.mDocument setImageUrls: @[[[OTRManager sharedManager] saveImage:image]]];
+    [self.mDocument setImageUrls: @[[[OTRManager sharedManager] saveImage:image atPath:self.mDocument.folderPath]]];
     
     [controller dismissViewControllerAnimated:YES completion:NULL];
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
