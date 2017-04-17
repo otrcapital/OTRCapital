@@ -80,47 +80,35 @@
 }
 
 - (void)parseCustomerDetailsData:(NSDictionary *)data completion:(MRSaveCompletionHandler)block {
-    NSArray *customerDetail = [data objectForKey:@"data"];
-
+    
     [[OTRHud hud] show];
-    //[OTRCustomer MR_truncateAll];
     
-    NSMutableArray *mNotes = [NSMutableArray new];
-    NSMutableArray *namesList = [NSMutableArray array];
-    
-    for (NSDictionary *obj in customerDetail) {
-        NSString *name = [obj objectForKey:@"Name"];
-        if (name == nil || [name isEqual:[NSNull null]] || [name isEqualToString:@""]) {
-            continue;
-        }
-        NSString *mcn = [obj objectForKey:@"McNumber"];
-        if (mcn == nil || [mcn isEqual:[NSNull null]]) {
-            mcn = @"";
-        }
-        NSNumber *pkey = [obj objectForKey:@"PKey"];
-        if (pkey == nil || [pkey isEqual:[NSNull null]]) {
-            continue;
-        }
-        
-        OTRCustomerNote *note = [OTRCustomerNote new];
-        note.name = name;
-        note.mc_number = mcn;
-        note.pkey = pkey;
-        [mNotes addObject:note];
-        
-        [namesList addObject: name];
-    }
+    NSArray *customerDetail = [data objectForKey:@"data"];
+    NSArray *namesList = [customerDetail valueForKey:@"Name"];
     
     [[NSManagedObjectContext MR_defaultContext] setMergePolicy:NSMergeByPropertyObjectTrumpMergePolicy];
     [MagicalRecord saveWithBlock:^(NSManagedObjectContext * _Nonnull localContext) {
     
         [OTRCustomer MR_deleteAllMatchingPredicate:[NSPredicate predicateWithFormat:@"(name IN %@)", namesList] inContext:localContext];
         
-        for (OTRCustomerNote *obj in mNotes) {
+        for (NSDictionary *obj in customerDetail) {
+            NSString *name = [obj objectForKey:@"Name"];
+            if (name == nil || [name isEqual:[NSNull null]] || [name isEqualToString:@""]) {
+                continue;
+            }
+            NSString *mcn = [obj objectForKey:@"McNumber"];
+            if (mcn == nil || [mcn isEqual:[NSNull null]]) {
+                mcn = @"";
+            }
+            NSNumber *pkey = [obj objectForKey:@"PKey"];
+            if (pkey == nil || [pkey isEqual:[NSNull null]]) {
+                continue;
+            }
+            
             OTRCustomer * item = [OTRCustomer MR_createEntityInContext:localContext];
-            item.name = obj.name;
-            item.mc_number = obj.mc_number;
-            item.pkey = obj.pkey;
+            item.name = name;
+            item.mc_number = mcn;
+            item.pkey = pkey;
         }
     } completion:^(BOOL success, NSError *error) {
         [[OTRHud hud] hide];

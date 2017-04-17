@@ -59,7 +59,12 @@
     self.txtFdTotalDeduction.tag = TOTAL_DEDUCTION_TEXTFIELD_TAG;
     self.originalCenter = self.view.center;
     self.brokerList = [OTRCustomer getNamesList];
-    self.mDocument = [OTRDocument unassotiatedObject];
+    
+    NSArray *documentsOld = [OTRDocument MR_findAll];
+    
+    [OTRDocument MR_deleteAllMatchingPredicate:[NSPredicate predicateWithFormat:@"documentId == 0"]];
+    
+    self.mDocument = [OTRDocument MR_createEntity];
     
     NSArray *documents = [OTRDocument MR_findAll];
     
@@ -222,7 +227,8 @@
 
 - (void)imagePickerDidChooseImage: (UIImage *)image andWithViewController: (UIViewController*) controller
 {
-    self.mDocument.imageName = [[OTRManager sharedManager] saveImage:image];
+    [self.mDocument setImageUrls: @[[[OTRManager sharedManager] saveImage:image]]];
+    
     [controller dismissViewControllerAnimated:YES completion:NULL];
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     DocumentOptionalPropertiesViewController *vc = [sb instantiateViewControllerWithIdentifier:@"DocumentOptionalPropertiesViewController"];
@@ -366,17 +372,20 @@
     
     [[OTRManager sharedManager] setOTRInfoValueOfTypeString:switchValue forKey:KEY_ADVANCED_REQUEST_TYPE]; //
     
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:brokerName forKey:KEY_BROKER_NAME]; // ????
+    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:brokerName forKey:KEY_BROKER_NAME]; //
     OTRCustomer *broker = [OTRCustomer getByName:brokerName];
     if(broker) {
         NSString *mcn = broker.mc_number;
         NSString *pKey = [broker.pkey stringValue];
-        [[OTRManager sharedManager] setOTRInfoValueOfTypeString:mcn forKey:KEY_MC_NUMBER]; // ????
-        [[OTRManager sharedManager] setOTRInfoValueOfTypeString:pKey forKey:KEY_PKEY]; // ????
+        [[OTRManager sharedManager] setOTRInfoValueOfTypeString:mcn forKey:KEY_MC_NUMBER]; //
+        [[OTRManager sharedManager] setOTRInfoValueOfTypeString:pKey forKey:KEY_PKEY]; //
+        
+        self.mDocument.broker_pkey = broker.pkey;
+        self.mDocument.broker_mc_number = mcn;
     }
     
     NSString *loadNo = self.txtFdLoadNo.text;
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:loadNo forKey:KEY_LOAD_NO]; // ????
+    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:loadNo forKey:KEY_LOAD_NO]; //
     NSString *totalPay = self.txtFdTotalPay.text;
     if ([totalPay isEqualToString:@""]) {
         totalPay = @"0";
@@ -398,7 +407,7 @@
     self.mDocument.totalDeduction = @([totalDeduction intValue]);
     self.mDocument.factorType = [[OTRManager sharedManager] getOTRInfoValueOfTypeStringForKey:KEY_FACTOR_TYPE];
     self.mDocument.loadNumber = loadNo;
-    
+    self.mDocument.broker_name = brokerName;
 }
 
 - (void) showAlertViewWithTitle: (NSString*)title andWithMessage: (NSString*) msg{

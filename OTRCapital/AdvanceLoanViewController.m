@@ -12,6 +12,7 @@
 #import "DocumentOptionalPropertiesViewController.h"
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "OTRCustomer+DB.h"
+#import "OTRDocument.h"
 
 #define SLIDER_VIEW_SHIFT_BY_Y 10
 
@@ -46,6 +47,9 @@
 @property (strong, nonatomic) UIAlertView *textComcheckAlert;
 @property int tblSearchX;
 @property int tblSearchY;
+
+@property (nonatomic, strong) OTRDocument *mDocument;
+
 @end
 
 @implementation AdvanceLoanViewController
@@ -61,6 +65,18 @@
     self.txtFdTotalDeduction.tag = TOTAL_DEDUCTION_TEXTFIELD_TAG;
     self.originalCenter = self.view.center;
     self.brokerList = [OTRCustomer getNamesList];
+    
+    
+    
+    NSArray *documentsOld = [OTRDocument MR_findAll];
+    
+    [OTRDocument MR_deleteAllMatchingPredicate:[NSPredicate predicateWithFormat:@"documentId == 0"]];
+    
+    self.mDocument = [OTRDocument MR_createEntity];
+    
+    NSArray *documents = [OTRDocument MR_findAll];
+    
+    
     
     tapper = [[UITapGestureRecognizer alloc]
               initWithTarget:self action:@selector(handleSingleTap:)];
@@ -288,11 +304,14 @@
 
 - (void)imagePickerDidChooseImage: (UIImage *)image andWithViewController: (UIViewController*) controller
 {
+    [self.mDocument setImageUrls: @[[[OTRManager sharedManager] saveImage:image]]];
+    
     [[OTRManager sharedManager] saveImage:image];
     [controller dismissViewControllerAnimated:YES completion:NULL];
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     DocumentOptionalPropertiesViewController *vc = [sb instantiateViewControllerWithIdentifier:@"DocumentOptionalPropertiesViewController"];
     [vc initAdvanceLoan];
+    [vc setDocument:self.mDocument];
     [self.navigationController pushViewController:vc animated:YES];
 }
 
@@ -458,6 +477,9 @@
         NSString *pKey = [broker.pkey stringValue];
         [[OTRManager sharedManager] setOTRInfoValueOfTypeString:mcn forKey:KEY_MC_NUMBER];
         [[OTRManager sharedManager] setOTRInfoValueOfTypeString:pKey forKey:KEY_PKEY];
+        
+        self.mDocument.broker_pkey = broker.pkey;
+        self.mDocument.broker_mc_number = mcn;
     }
     
     NSString *loadNo = self.txtFdLoadNo.text;
@@ -472,8 +494,18 @@
         totalDeduction = @"0";
     }
     [[OTRManager sharedManager] setOTRInfoValueOfTypeString:totalDeduction forKey:KEY_TOTAL_DEDUCTION];
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:totalPay forKey:KEY_INVOICE_AMOUNT];
+    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:totalPay forKey:KEY_INVOICE_AMOUNT]; // ???
     [[OTRManager sharedManager] setOTRInfoValueOfTypeString:totalDeduction forKey:KEY_ADV_REQ_AMOUT];
+    
+    
+    self.mDocument.advanceRequestType = switchValue;
+    self.mDocument.customerPhoneNumber = self.textComcheckPhoneNumber;
+    self.mDocument.invoiceAmount = totalPay;
+    self.mDocument.totalPay = @([totalPay intValue]);
+    self.mDocument.totalDeduction = @([totalDeduction intValue]);
+    self.mDocument.factorType = [[OTRManager sharedManager] getOTRInfoValueOfTypeStringForKey:KEY_FACTOR_TYPE];
+    self.mDocument.loadNumber = loadNo;
+    self.mDocument.broker_name = brokerName;
 }
 
 - (void) showAlertViewWithTitle: (NSString*)title andWithMessage: (NSString*) msg {

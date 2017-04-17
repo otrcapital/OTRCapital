@@ -5,11 +5,16 @@
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="pkey" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES" syncable="YES"/>
     </entity>
-    <entity name="OTRDocument" syncable="YES">
+    <entity name="OTRDocument" representedClassName="" syncable="YES">
         <attribute name="advanceRequestType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="broker_mc_number" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="broker_name" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="broker_pkey" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
+        <attribute name="customerPhoneNumber" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="documentId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="documentTypes" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="factorType" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="imageName" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="imageUrls" optional="YES" attributeType="Transformable" valueTransformerName="OTRDataToArrayTransformer" customClassName="NSData" syncable="YES"/>
         <attribute name="invoiceAmount" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="loadNumber" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="totalDeduction" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
@@ -17,6 +22,6 @@
     </entity>
     <elements>
         <element name="OTRCustomer" positionX="-63" positionY="-18" width="128" height="88"/>
-        <element name="OTRDocument" positionX="-63" positionY="0" width="128" height="165"/>
+        <element name="OTRDocument" positionX="-63" positionY="0" width="128" height="30"/>
     </elements>
 </model>

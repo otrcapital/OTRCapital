@@ -17,5 +17,4 @@
 @end
 
 @implementation OTRCustomerNote
-
 @end

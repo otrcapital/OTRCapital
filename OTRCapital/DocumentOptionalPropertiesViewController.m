@@ -235,10 +235,14 @@
     [controller dismissViewControllerAnimated:YES completion:NULL];
 }
 
-- (void)imagePickerDidChooseImage:(UIImage *)image andWithViewController: (UIViewController*) controller
-{
+- (void)imagePickerDidChooseImage:(UIImage *)image andWithViewController: (UIViewController*) controller {
     [[OTRManager sharedManager] incrementDocumentCount];
-    [[OTRManager sharedManager] saveImage:image];
+    NSString *imageUrl = [[OTRManager sharedManager] saveImage:image];
+    
+    NSMutableArray *mImages = [[NSMutableArray alloc] initWithArray:self.mDocument.imageUrls ?: @[]];
+    [mImages addObject:imageUrl];
+    [self.mDocument setImageUrls: mImages];
+    
     [controller dismissViewControllerAnimated:YES completion:NULL];
 }
 
@@ -276,11 +280,17 @@
     [[OTRHud hud] hide];
     
     [self showAlertViewWithTitle:@"Success" andWithMessage:@"Information is successfuly posted to server." andWithTag:TAG_ALERT_VIEW_INFO_SEND_SUCCESS];
+    
+    if(self.mDocument) {
+        [self.mDocument MR_deleteEntity];
+    }
 }
 
 - (void)onOTRRequestFailWithError:(NSString *)error{
     
     [[OTRHud hud] hide];
+    
+    self.mDocument.documentId = @([[NSDate date] timeIntervalSince1970]);
     
     NSString *errorMessage = [NSString stringWithFormat:@"%@\nPress \"OK\" to save it for later try or press \"Retry\" to try again.", error];
     [self showOptionAlertViewWithTitle:@"Failed" andWithMessage:errorMessage andWithTag:TAG_ALERT_VIEW_INFO_SEND_FAIL];
