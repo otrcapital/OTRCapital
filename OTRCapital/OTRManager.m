@@ -14,10 +14,8 @@
 
 @interface OTRManager()
 
-@property int documentCount;
-@property (nonatomic, retain) NSString* currentDocumentFolder;
-@property (nonatomic,retain) NSMutableDictionary *otrInfo;
 @property (nonatomic, retain) NSMutableDictionary *imageCache;
+
 @end
 
 @implementation OTRManager
@@ -37,47 +35,15 @@
     }
     return self;
 }
-
-- (void) initOTRInfo
-{
-    [self setOtrInfo: [NSMutableDictionary new]];
-    [self initDocumnetCount];
-    [self setCurrentDocumentFolder:TimeStamp];
-}
-
 - (void)setDelegate:(id<OTRManagerDelegate>)delegate {
     _delegate = delegate;
 }
 
-- (void) setOTRInfoValueOfTypeData: (NSData *)value forKey: (NSString*)key
-{
-    [self.otrInfo setObject:value forKey:key];
-}
-- (void) setOTRInfoValueOfTypeString: (NSString *)value forKey: (NSString*)key
-{
-    [self.otrInfo setObject:value forKey:key];
-}
-- (void) setOTRInfoValueOfTypeArray: (NSArray *)value forKey: (NSString*)key
-{
-    [self.otrInfo setObject:value forKey:key];
-}
+- (NSString *) saveImage: (UIImage *)image atPath:(NSString *)path {
+    NSArray *directoryContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:NULL] ?: @[];
 
-- (NSData *) getOTRInfoValueOfTypeDataForKey: (NSString*)key
-{
-    return [self.otrInfo objectForKey:key];
-}
-- (NSString *) getOTRInfoValueOfTypeStringForKey: (NSString*)key
-{
-    return [self.otrInfo objectForKey:key];
-}
-- (NSArray *) getOTRInfoValueOfTypeArrayForKey: (NSString*)key
-{
-    return [self.otrInfo objectForKey:key];
-}
-
-- (NSString *) saveImage: (UIImage *)image atPath:(NSString *)path
-{
-    NSString *imagePath = [NSString stringWithFormat:@"%@/%d.jpeg", path, self.documentCount];
+    NSString *imagePath = [NSString stringWithFormat:@"%@/%d.jpeg", path, (int)directoryContent.count];
+    
     [UIImageJPEGRepresentation(image, 1) writeToFile:imagePath atomically:YES];
     return imagePath;
 }
@@ -90,11 +56,6 @@
     [self deleteFolderAtPath:key];
 }
 
-- (void) saveOTRInfo{
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setValue:self.otrInfo forKey:self.currentDocumentFolder];
-    [defaults synchronize];
-}
 - (void) updateOTRInfo: (NSDictionary *)otrInfo forKey: (NSString*)key{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setValue:otrInfo forKey:key];
@@ -217,10 +178,6 @@
     return resultImage;
 }
 
-- (NSString *) getPDFFileName{
-    return [NSString stringWithFormat:@"%@.pdf", self.currentDocumentFolder];
-}
-
 - (void) infoSendCallbackWithStatus: (BOOL)isSuccess{
     if (isSuccess) {
         [self onOTRRequestSuccessWithData:nil];
@@ -230,25 +187,6 @@
     }
 }
 
-- (void) initDocumnetCount{
-    self.documentCount = 1;
-}
-- (void) incrementDocumentCount{
-    self.documentCount++;
-}
-- (int) getDocumentCount{
-    return self.documentCount;
-}
-- (BOOL) isImageSavedOfCurrnetPath{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *directoryPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:self.currentDocumentFolder];
-    NSArray *directoryContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directoryPath error:NULL];
-    
-    if (!directoryContent || !directoryContent.count) {
-        return NO;
-    }
-    return YES;
-}
 - (void) deleteFolderAtPath: (NSString *)path{
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *directoryPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:path];
@@ -256,17 +194,6 @@
 
 }
 
-- (void) deleteCurrentFoler{
-    [self deleteFolderAtPath:self.currentDocumentFolder];
-}
-
-
-- (void) cacheUIImage: (UIImage*)image withKey:(NSString*)key{
-    [self.imageCache setObject:image forKey:key];
-}
-- (UIImage*) getUIImageForKey: (NSString*) key{
-    return [self.imageCache objectForKey:key];
-}
 
 #pragma mark DELTEGATE METHODS
 - (void) onOTRRequestSuccessWithData: (NSDictionary *)data{

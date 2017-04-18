@@ -10,7 +10,6 @@
 
 @implementation OTRDocument
 
-@dynamic documentId;
 @dynamic advanceRequestType;
 @dynamic factorType;
 @dynamic imageUrls;
@@ -26,6 +25,7 @@
 @dynamic totalDeduction;
 @dynamic date;
 @dynamic folderPath;
+@dynamic isSent;
 
 + (id)unassotiatedObject {
     NSEntityDescription *entity = [NSEntityDescription entityForName:NSStringFromClass(OTRDocument.class) inManagedObjectContext:[NSManagedObjectContext MR_defaultContext]];

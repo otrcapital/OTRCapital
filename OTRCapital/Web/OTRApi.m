@@ -110,7 +110,7 @@ static const NSInteger mTimeOutIntervalPost = 60;
         [apiInvoiceDataJson setObject:textComcheckPhoneNumber forKey:KEY_TEXT_COMCHECK_PHONE_NUMBER];
     }
     
-    if (advReqAmount) {
+    if (advReqAmount && [advReqAmount length] > 0) {
         [apiInvoiceDataJson setObject:advReqAmount forKey:@"AdvanceRequestAmount"];
     }
     
@@ -121,14 +121,7 @@ static const NSInteger mTimeOutIntervalPost = 60;
     NSArray *docTypes = document.documentTypes;
     [params setObject:docTypes forKey:@"DocumentType"];
     [params setObject:@"iOS" forKey:@"mType"];
-    
-    NSString *factorType = document.factorType;
-    
-    if (!factorType) {
-        factorType = @"N/A";
-    }
-    
-    [params setObject:factorType forKey:@"FactorType"];
+    [params setObject:document.factorType forKey:@"FactorType"];
     
     NSMutableURLRequest *request = [[NSMutableURLRequest alloc] init];
     

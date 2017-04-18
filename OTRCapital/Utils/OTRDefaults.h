@@ -13,8 +13,6 @@
 #define KEY_OTR_INFO                            @"otr_info"
 #define KEY_FACTOR_TYPE                         @"factor_type"
 #define KEY_OTR_INFO_STATUS                     @"info_status"
-#define OTR_INFO_STATUS_SUCCESS                 @"success"
-#define OTR_INFO_STATUS_FAILED                  @"failed"
 #define DATA_TYPE_LOAD_FACTOR                   @"FAC"
 #define DATA_TYPE_ADVANCE_LOAN                  @"ADV"
 #define KEY_BROKER_NAME                         @"broker_name"

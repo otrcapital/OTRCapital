@@ -26,35 +26,14 @@
 
 + (id)sharedManager;
 
-- (void) initOTRInfo;
-
-- (void) setOTRInfoValueOfTypeData: (NSData *)value forKey: (NSString*)key;
-- (void) setOTRInfoValueOfTypeString: (NSString *)value forKey: (NSString*)key;
-- (void) setOTRInfoValueOfTypeArray: (NSArray *)value forKey: (NSString*)key;
-
 - (NSString *) saveImage: (UIImage *)image atPath:(NSString *)path;
-- (void) saveOTRInfo;
 - (void) updateOTRInfo: (NSDictionary *)otrInfo forKey: (NSString*)key;
-- (NSDictionary *) getOtrInfoWithKey: (NSString *)key;
-
-- (NSData *) getOTRInfoValueOfTypeDataForKey: (NSString*)key;
-- (NSString *) getOTRInfoValueOfTypeStringForKey: (NSString*)key;
-- (NSArray *) getOTRInfoValueOfTypeArrayForKey: (NSString*)key;
 
 - (NSData *) makePDFOfImagesOfFolder: (NSString*)folderName;
-- (NSString *) getPDFFileName;
 
 - (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
 
-- (void) initDocumnetCount;
-- (void) incrementDocumentCount;
-- (int) getDocumentCount;
-- (BOOL) isImageSavedOfCurrnetPath;
-- (void) deleteCurrentFoler;
 - (void) deleteFolderAtPath: (NSString *)path;
-
-- (void) cacheUIImage: (UIImage*)image withKey:(NSString*)key;
-- (UIImage*) getUIImageForKey: (NSString*) key;
 
 + (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
 

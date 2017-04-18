@@ -28,9 +28,10 @@
 
 #define kBgQueue dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
 
-@interface HistoryViewController () <MFMailComposeViewControllerDelegate>
+@interface HistoryViewController () <MFMailComposeViewControllerDelegate, HistoryTableViewCellDelegate>
 
-@property (nonatomic, retain) NSMutableArray *mDocuments;
+@property (nonatomic, retain) NSArray *mDocuments;
+@property (nonatomic, weak) OTRDocument *mDocumentToDelete;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @end
 
@@ -38,73 +39,15 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     self.title = @"History";
     
-    self.mDocuments = [[OTRDocument list] mutableCopy];
+    [OTRDocument clearTemporaryNotes];
+    
+    self.mDocuments = [OTRDocument list];
 
-//    for (int i = (int) filePathsArray.count - 1; i >= 0 ; i--) {
-//        OTRNote *note = [OTRNote new];
-//        NSString *folderName = [filePathsArray  objectAtIndex:i];
-//        
-//        note.folderName = folderName;
-//        
-//        NSString *directoryPath = [NSString stringWithFormat:@"%@/%@", rootDirectoryPath, folderName];
-//        NSArray *directoryContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directoryPath error:NULL];
-//        
-//        if (!directoryContent || directoryContent.count == 0) {
-//            continue;
-//        }
-//        
-//        note.directoryPath = directoryPath;
-//        note.directoryContents = directoryContent;
-//        
-//        NSString *imagePath = nil;
-//        @try {
-//            imagePath = [NSString stringWithFormat:@"%@/%@", directoryPath,[directoryContent objectAtIndex:0]];
-//        } @catch (NSException *exception) {}
-//        
-//        if (imagePath) {
-//            note.imagePath = imagePath;
-//        }
-//        
-//        NSDictionary *otrData = [[OTRManager sharedManager] getOtrInfoWithKey:folderName];
-//        if (otrData) {
-//            note.otrDataFixed = otrData;
-//            NSString *title = [otrData objectForKey:KEY_BROKER_NAME];
-//            if(title) note.title = title;
-//            NSString *email = [otrData objectForKey:KEY_LOGIN_USER_NAME];
-//            if(email) note.email = email;
-//            NSString *status = [otrData objectForKey:KEY_OTR_INFO_STATUS];
-//            if(status) note.status = status;
-//            NSString *loadNo = [otrData objectForKey:KEY_LOAD_NO];
-//            if(loadNo) note.loadNo = loadNo;
-//            NSString *invoiceString = [otrData objectForKey:KEY_INVOICE_AMOUNT];
-//            note.invoiceAmount = invoiceString;
-//            NSString *advReqAmount = [otrData objectForKey:KEY_ADV_REQ_AMOUT];
-//            if (advReqAmount) {
-//                note.advReqAmount = advReqAmount;
-//            }
-//        }
-//        
-//        NSDate *date =  [NSDate dateWithTimeIntervalSince1970:[folderName doubleValue]];
-//        NSString *dateString = [NSDateFormatter localizedStringFromDate:date
-//                                                              dateStyle:NSDateFormatterShortStyle
-//                                                              timeStyle:NSDateFormatterShortStyle];
-//        note.time = dateString;
-//        
-//        [tableData addObject:note];
-//    }
     [self.tableView reloadData];
 }
-
-- (void) removeDataOfIndex: (NSInteger)index{
-    if(index < self.mDocuments.count) {
-        OTRDocument *document = self.mDocuments[index];
-        [document MR_deleteEntity];
-    }
-    [self.tableView reloadData];
-}
-
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.mDocuments count];
@@ -121,7 +64,7 @@
     if (cell == nil){
         cell = [[[NSBundle mainBundle] loadNibNamed:simpleTableIdentifier owner:self options:nil] firstObject];
     }
-    
+    cell.delegate = self;
     cell.document = self.mDocuments[indexPath.row];
     
     return cell;
@@ -132,6 +75,8 @@
     
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     HistoryDetailViewController *vc = [sb instantiateViewControllerWithIdentifier:@"HistoryDetailViewController"];
+    
+    NSArray *directoryContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:document.folderPath error:NULL];
     
     NSMutableArray *imagesArray = [NSMutableArray new];
     for (NSString *imagePath in document.imageUrls) {
@@ -195,13 +140,13 @@
     [mc setToRecipients:toRecipents];
     NSString *subject = [NSString stringWithFormat:@"OTR Capital Document | Broker Name: %@ | Load No: %@", brokerName, loadNo];
     [mc setSubject:subject];
-    //NSString *body = [self.otrInfo jsonStringWithPrettyPrint:NO];
-    [mc setMessageBody:@"3312 Body???" isHTML:NO];
+    [mc setMessageBody:document.description isHTML:NO];
     [self.navigationController presentViewController:mc animated:YES completion:NULL];
     
 }
 
 - (void)deleteDocumentPress:(OTRDocument *)document {
+    self.mDocumentToDelete = document;
     [self showOptionAlertViewWithTitle:@"Warning" andWithMessage:@"Are you sure, you want to delete it?" andWithTag:TAG_ALERT_VIEW_CONFORM_DELETE];
 }
 
@@ -209,30 +154,40 @@
     [[OTRHud hud] show];
     
     NSData *pdfFile = [[OTRManager sharedManager] makePDFOfImagesOfFolder:document.folderPath];
+    __block OTRDocument *blockedDocument = document;
+    __block HistoryViewController *blockedSelf = self;
     
     [[OTRApi instance] sendDataToServer:document withPDF:pdfFile completionBlock:^(NSDictionary *responseData, NSError *error) {
         
-        [[OTRHud hud] hide]; //3312
+        [[OTRHud hud] hide];
+        if(!error) {
+            
+            [blockedSelf markDocumentAsSent:blockedDocument];
+            
+            NSString *msg = [NSString stringWithFormat:@"Information is successfuly posted to server."];
+            [self showAlertViewWithTitle:@"Success" andWithMessage:msg andWithTag:TAG_ALERT_VIEW_INFO_SEND_SUCCESS];
+        }else {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failed"
+                                                            message:error.localizedDescription
+                                                           delegate:self
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles: nil];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [alert show];
+            });
+        }
+    }];
+}
+
+- (void)markDocumentAsSent:(OTRDocument *)document {
+    
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext * _Nonnull localContext) {
+        document.isSent = @(YES);
+    } completion:^(BOOL contextDidSave, NSError * _Nullable error) {
         
-//        if(!error) {
-//            [self.otrInfo setValue:OTR_INFO_STATUS_SUCCESS forKey:KEY_OTR_INFO_STATUS];
-//            [[OTRManager sharedManager] updateOTRInfo:self.otrInfo forKey:self.directoryName];
-//            [self.btnResend setHidden:YES];
-//            [self.parent refreshView];
-//            NSString *msg = [NSString stringWithFormat:@"Information is successfuly posted to server."];
-//            [self showAlertViewWithTitle:@"Success" andWithMessage:msg andWithTag:TAG_ALERT_VIEW_INFO_SEND_SUCCESS];
-//        }else {
-//            [self.otrInfo setValue:OTR_INFO_STATUS_FAILED forKey:KEY_OTR_INFO_STATUS];
-//            [[OTRManager sharedManager] updateOTRInfo:self.otrInfo forKey:self.directoryName];
-//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Failed"
-//                                                            message:error.localizedDescription
-//                                                           delegate:self
-//                                                  cancelButtonTitle:@"OK"
-//                                                  otherButtonTitles: nil];
-//            dispatch_async(dispatch_get_main_queue(), ^{
-//                [alert show];
-//            });
-//        }
+        self.mDocuments = [OTRDocument list];
+        
+        [self.tableView reloadData];
     }];
 }
 
@@ -265,7 +220,12 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     int tag = (int) alertView.tag;
     if (tag == TAG_ALERT_VIEW_CONFORM_DELETE && buttonIndex == 0) {
-        [self removeDataOfIndex: buttonIndex];
+        if(self.mDocumentToDelete) {
+            [self.mDocumentToDelete MR_deleteEntity];
+            self.mDocumentToDelete = nil;
+            self.mDocuments = [OTRDocument list];
+            [self.tableView reloadData];
+        }
     }
 }
 

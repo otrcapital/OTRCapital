@@ -13,18 +13,18 @@
         <attribute name="broker_pkey" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="customerPhoneNumber" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO" syncable="YES"/>
-        <attribute name="documentId" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="documentTypes" optional="YES" attributeType="Transformable" valueTransformerName="OTRDataToArrayTransformer" customClassName="NSData" syncable="YES"/>
-        <attribute name="factorType" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="factorType" optional="YES" attributeType="String" defaultValueString="N/A" syncable="YES"/>
         <attribute name="folderPath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="imageUrls" optional="YES" attributeType="Transformable" valueTransformerName="OTRDataToArrayTransformer" customClassName="NSData" syncable="YES"/>
         <attribute name="invoiceAmount" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isSent" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="loadNumber" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="totalDeduction" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
         <attribute name="totalPay" optional="YES" attributeType="Integer 16" defaultValueString="0" usesScalarValueType="NO" syncable="YES"/>
     </entity>
     <elements>
         <element name="OTRCustomer" positionX="-63" positionY="-18" width="128" height="88"/>
-        <element name="OTRDocument" positionX="-63" positionY="0" width="128" height="30"/>
+        <element name="OTRDocument" positionX="-63" positionY="0" width="128" height="285"/>
     </elements>
 </model>

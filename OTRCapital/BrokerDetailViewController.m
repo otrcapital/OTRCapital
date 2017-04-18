@@ -76,7 +76,6 @@
     // Dispose of any resources that can be recreated.
 }
 - (IBAction)onLoadFactorButtonPressed:(id)sender {
-    [[OTRManager sharedManager] initOTRInfo];
     
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     LoadFactorViewController *vc = [sb instantiateViewControllerWithIdentifier:@"LoadFactorViewController"];
@@ -84,7 +83,6 @@
     [self.navigationController pushViewController:vc animated:YES];
 }
 - (IBAction)onNeedAdvanceButtonPressed:(id)sender {
-    [[OTRManager sharedManager] initOTRInfo];
     
     UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     AdvanceLoanViewController *vc = [sb instantiateViewControllerWithIdentifier:@"AdvanceLoanViewController"];

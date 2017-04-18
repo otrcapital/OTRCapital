@@ -42,7 +42,6 @@
 @property (weak, nonatomic) UITextField *activeField;
 
 @property (nonatomic) CGPoint originalCenter;
-@property BOOL isUploaded;
 @property (nonatomic) NSArray *brokerList;
 @property int tblSearchX;
 @property int tblSearchY;
@@ -67,7 +66,8 @@
     self.lf_switchProofOfDelivery.on = false;
     self.lf_switchRateConformation.on = false;
     
-    [self preLoadInfo];
+    self.txtFdBrokerName.text = self.mDocument.broker_name;
+    self.txtFdLoadNumber.text = self.mDocument.loadNumber;
     
     self.originalCenter = self.view.center;
     self.brokerList = [OTRCustomer getNamesList];
@@ -99,13 +99,6 @@
         [self.ocLoadFactor makeObjectsPerformSelector:@selector(setHidden:) withObject:@(YES)];
         [self.btnUploadDocument setTitle:@"Request Fuel Advance" forState:UIControlStateNormal];
         self.lcBottomViewTop.constant = IS_IPAD ? 240 : 170;
-    }
-}
-
-
-- (void) dealloc{
-    if (!self.isUploaded) {
-        [[OTRManager sharedManager] deleteCurrentFoler];
     }
 }
 
@@ -235,18 +228,19 @@
 }
 
 - (void)imagePickerDidChooseImage:(UIImage *)image andWithViewController: (UIViewController*) controller {
-    [[OTRManager sharedManager] incrementDocumentCount];
     NSString *imageUrl = [[OTRManager sharedManager] saveImage:image atPath:self.mDocument.folderPath];
     
     NSMutableArray *mImages = [[NSMutableArray alloc] initWithArray:self.mDocument.imageUrls ?: @[]];
     [mImages addObject:imageUrl];
-    [self.mDocument setImageUrls: mImages];
     
-    [controller dismissViewControllerAnimated:YES completion:NULL];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext * _Nonnull localContext) {
+        [self.mDocument setImageUrls: mImages];
+    } completion:^(BOOL contextDidSave, NSError * _Nullable error) {
+        [controller dismissViewControllerAnimated:YES completion:NULL];
+    }];
 }
 
 - (IBAction)onUploadDocumentButtonPressed:(id)sender {
-    self.isUploaded = YES;
     if (![self isValidInfo]) {
         [self showAlertViewWithTitle:@"Information Missing" andWithMessage:@"Some of required fields are missing. You may have not selected any document type. Kindly correct it out to continue." andWithTag:TAG_ALERT_VIEW_INFO_MISSING];
     }
@@ -264,31 +258,24 @@
                 [self onOTRRequestFailWithError:error.localizedDescription];
             }
         }];
-        
-        NSString *email = [OTRDefaults getStringForKey:KEY_LOGIN_USER_NAME];
-        [[OTRManager sharedManager] setOTRInfoValueOfTypeString:email forKey:KEY_LOGIN_USER_NAME];
-        [[OTRManager sharedManager] saveOTRInfo];
     }
 }
 
-- (void)onOTRRequestSuccess{
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:OTR_INFO_STATUS_SUCCESS forKey:KEY_OTR_INFO_STATUS];
-    [[OTRManager sharedManager] saveOTRInfo];
-    
-    [[OTRHud hud] hide];
-    
-    [self showAlertViewWithTitle:@"Success" andWithMessage:@"Information is successfuly posted to server." andWithTag:TAG_ALERT_VIEW_INFO_SEND_SUCCESS];
-    
-    if(self.mDocument) {
-        [self.mDocument MR_deleteEntity];
-    }
+- (void)onOTRRequestSuccess {
+
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext * _Nonnull localContext) {
+        self.mDocument.isSent = @(YES);
+    } completion:^(BOOL contextDidSave, NSError * _Nullable error) {
+        
+        [[OTRHud hud] hide];
+        
+        [self showAlertViewWithTitle:@"Success" andWithMessage:@"Information is successfuly posted to server." andWithTag:TAG_ALERT_VIEW_INFO_SEND_SUCCESS];
+    }];
 }
 
 - (void)onOTRRequestFailWithError:(NSString *)error{
     
     [[OTRHud hud] hide];
-    
-    self.mDocument.documentId = @([[NSDate date] timeIntervalSince1970]);
     
     NSString *errorMessage = [NSString stringWithFormat:@"%@\nPress \"OK\" to save it for later try or press \"Retry\" to try again.", error];
     [self showOptionAlertViewWithTitle:@"Failed" andWithMessage:errorMessage andWithTag:TAG_ALERT_VIEW_INFO_SEND_FAIL];
@@ -362,13 +349,6 @@
     [self presentViewController:navigationController animated:YES completion:nil];
 }
 
-- (void) preLoadInfo{
-    NSString *brokerName = [[OTRManager sharedManager] getOTRInfoValueOfTypeStringForKey:KEY_BROKER_NAME];
-    
-    self.txtFdBrokerName.text = brokerName;
-    self.txtFdLoadNumber.text = self.mDocument.loadNumber;
-}
-
 - (BOOL) isValidInfo{
     
     NSString *brokerName = self.txtFdBrokerName.text;
@@ -400,12 +380,9 @@
 
 - (void) saveInfo{
     NSString *brokerName = self.txtFdBrokerName.text;
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:brokerName forKey:KEY_BROKER_NAME];
     NSString *loadNo = self.txtFdLoadNumber.text;
-    
-    
-    
     NSMutableArray *docTypes = [NSMutableArray new];
+    
     if(self.lf_switchProofOfDelivery.on)[docTypes addObject:@"pod"];
     if(self.lf_switchOthers.on)[docTypes addObject:@"other"];
     if(self.lf_switchRateConformation.on)[docTypes addObject:@"rc"];
@@ -415,6 +392,7 @@
     self.mDocument.documentTypes = docTypes;
     self.mDocument.broker_name = brokerName;
     self.mDocument.loadNumber = loadNo;
+    [self.mDocument.managedObjectContext MR_saveToPersistentStoreAndWait];
 }
 
 

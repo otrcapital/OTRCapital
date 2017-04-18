@@ -17,7 +17,6 @@ static NSString *OTRDocumentDataTypeADV = @"ADV";
 
 @interface OTRDocument : NSManagedObject
 
-@property (nonatomic, strong) NSNumber  *documentId;
 @property (nonatomic, strong) NSString  *advanceRequestType;
 @property (nonatomic, strong) NSString  *factorType;
 @property (nonatomic, strong) NSArray   *imageUrls;
@@ -32,7 +31,9 @@ static NSString *OTRDocumentDataTypeADV = @"ADV";
 @property (nonatomic, strong) NSNumber  *broker_pkey;
 @property (nonatomic, strong) NSNumber  *totalPay;
 @property (nonatomic, strong) NSNumber  *totalDeduction;
+@property (nonatomic, strong) NSNumber  *isSent;
 @property (nonatomic, strong) NSDate    *date;
+
 
 
 + (id)unassotiatedObject;

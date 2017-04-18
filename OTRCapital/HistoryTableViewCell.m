@@ -12,6 +12,9 @@
 #import "OTRApi.h"
 #import <SDWebImage/UIImageView+WebCache.h>
 
+#define OTR_INFO_STATUS_SUCCESS                 @"success"
+#define OTR_INFO_STATUS_FAILED                  @"failed"
+
 @interface HistoryTableViewCell ()
 
 @property (weak, nonatomic) IBOutlet UIImageView *image;
@@ -41,9 +44,9 @@
     if(!self.document) return;
     
     NSString *title = self.document.broker_name;
-    NSString *email = @"3312 Email";
+    NSString *email = [OTRDefaults getStringForKey:KEY_LOGIN_USER_NAME];
     NSString *imagePath = [self.document.imageUrls firstObject];
-    NSString *status = @"3312 Status";
+    NSString *status = [self.document.isSent boolValue] ? OTR_INFO_STATUS_SUCCESS :OTR_INFO_STATUS_FAILED;
     NSString *loadNo = self.document.loadNumber;
     NSString *invoiceAmount = self.document.invoiceAmount;
     NSString *advReqAmount = self.document.advanceRequestType;
@@ -63,11 +66,9 @@
 
     [self.image setShowActivityIndicatorView:YES];
     [self.image setIndicatorStyle:UIActivityIndicatorViewStyleGray];
-    [self.image sd_setImageWithURL:[NSURL fileURLWithPath:imagePath] placeholderImage:nil];
+    [self.image sd_setImageWithURL:[NSURL fileURLWithPath:imagePath ?: @""] placeholderImage:nil];
     
-    if ([status isEqual:OTR_INFO_STATUS_SUCCESS]) {
-        [self.btnResend setHidden:YES];
-    }
+    [self.btnResend setHidden:[self.document.isSent boolValue]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

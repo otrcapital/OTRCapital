@@ -60,9 +60,6 @@
     self.brokerList = [OTRCustomer getNamesList];
     
     NSArray *documentsOld = [OTRDocument list];
-    
-    [OTRDocument clearTemporaryNotes];
-    
     self.mDocument = [OTRDocument create];
     
     NSArray *documents = [OTRDocument list];
@@ -224,16 +221,22 @@
     [controller dismissViewControllerAnimated:YES completion:NULL];
 }
 
-- (void)imagePickerDidChooseImage: (UIImage *)image andWithViewController: (UIViewController*) controller
-{
-    [self.mDocument setImageUrls: @[[[OTRManager sharedManager] saveImage:image atPath:self.mDocument.folderPath]]];
+- (void)imagePickerDidChooseImage: (UIImage *)image andWithViewController: (UIViewController*) controller {
     
-    [controller dismissViewControllerAnimated:YES completion:NULL];
-    UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
-    DocumentOptionalPropertiesViewController *vc = [sb instantiateViewControllerWithIdentifier:@"DocumentOptionalPropertiesViewController"];
-    [vc initLoadFactor];
-    [vc setDocument:self.mDocument];
-    [self.navigationController pushViewController:vc animated:YES];
+    [MagicalRecord saveWithBlock:^(NSManagedObjectContext * _Nonnull localContext) {
+        
+        [self.mDocument setImageUrls: @[[[OTRManager sharedManager] saveImage:image atPath:self.mDocument.folderPath]]];
+        
+    } completion:^(BOOL contextDidSave, NSError * _Nullable error) {
+        
+        [controller dismissViewControllerAnimated:YES completion:NULL];
+        UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+        DocumentOptionalPropertiesViewController *vc = [sb instantiateViewControllerWithIdentifier:@"DocumentOptionalPropertiesViewController"];
+        [vc initLoadFactor];
+        [vc setDocument:self.mDocument];
+        [self.navigationController pushViewController:vc animated:YES];
+        
+    }];
 }
 
 - (IBAction)onSwitchPressed:(id)sender {
@@ -368,8 +371,6 @@
         switchValue = @"Comdata Fuel Card";
     }
 
-    
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:brokerName forKey:KEY_BROKER_NAME]; //
     OTRCustomer *broker = [OTRCustomer getByName:brokerName];
     if(broker) {
         NSString *mcn = broker.mc_number;
@@ -383,16 +384,15 @@
     if ([totalPay isEqualToString:@""]) {
         totalPay = @"0";
     }
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:totalPay forKey:KEY_TOTAL_PAY]; //
+    
     NSString *totalDeduction = self.txtFdTotalDeduction.text;
     if ([totalDeduction isEqualToString:@""]) {
         totalDeduction = @"0";
     }
-    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:totalDeduction forKey:KEY_TOTAL_DEDUCTION];//
+    
     float invoiceAmount = [totalPay floatValue] - [totalDeduction floatValue];
     NSString *invoiceString = [NSString stringWithFormat:@"%.2f", invoiceAmount];
     
-
     self.mDocument.advanceRequestType = switchValue;
     self.mDocument.invoiceAmount = invoiceString;
     self.mDocument.totalPay = @([totalPay intValue]);
@@ -400,6 +400,7 @@
     self.mDocument.factorType = OTRDocumentDataTypeFac;
     self.mDocument.loadNumber = loadNo;
     self.mDocument.broker_name = brokerName;
+    [self.mDocument.managedObjectContext MR_saveToPersistentStoreAndWait];
 }
 
 - (void) showAlertViewWithTitle: (NSString*)title andWithMessage: (NSString*) msg{

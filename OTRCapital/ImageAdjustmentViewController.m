@@ -143,7 +143,9 @@
 
 - (IBAction)onDoneButtonPressed:(id)sender {
     
-    int currentDocumentCount = [[OTRManager sharedManager] getDocumentCount];
+    NSArray *directoryContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:self.document.folderPath error:NULL] ?: @[];
+    int currentDocumentCount = (int) directoryContent.count;
+    
     [[OTRManager sharedManager] saveImage:self.adjustedImage atPath:self.document.folderPath];
     if (currentDocumentCount == 1) {
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
