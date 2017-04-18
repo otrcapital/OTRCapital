@@ -224,6 +224,13 @@ static const NSInteger mTimeOutIntervalPost = 60;
         }
         responseString = [responseString stringByReplacingOccurrencesOfString:@"\\" withString:@""];
         
+        if([responseString isEqualToString:@""]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if(block) block(@{}, nil);
+            });
+            return;
+        }
+        
         DLog(@"%@", [NSString stringWithFormat:@"Response String: %@", responseString]);
         
         if ([responseString hasPrefix:@"["]) {

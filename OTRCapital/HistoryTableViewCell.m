@@ -32,9 +32,7 @@
 
 - (void) initCellInfo{
     NSString *status = [self.otrInfo objectForKey:KEY_OTR_INFO_STATUS];
-    if ([status isEqual:OTR_INFO_STATUS_SUCCESS]) {
-        [self.btnResend setHidden:YES];
-    }
+    [self.btnResend setHidden:[status isEqual:OTR_INFO_STATUS_SUCCESS]];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -106,11 +104,9 @@
     if (mc)
     {
         NSData *pdfFile = [[OTRManager sharedManager] makePDFOfImagesOfFolder:self.directoryName];
-        NSString *email = [[OTRManager sharedManager] getUserName];
+        NSString *email = [OTRDefaults getUserName];
         NSArray *toRecipents = [NSArray arrayWithObject:email];
 
-        [[OTRHud hud] show];
-        
         NSString *brokerName = [self.otrInfo objectForKey:KEY_BROKER_NAME];
         NSString *loadNo = [self.otrInfo objectForKey:KEY_LOAD_NO];
         NSString *fileName = [NSString stringWithFormat:@"%@_%@.pdf", brokerName, loadNo];
@@ -134,6 +130,7 @@
     switch (result)
     {
         case MFMailComposeResultCancelled:
+            break;
         case MFMailComposeResultSaved:
         case MFMailComposeResultFailed:
             [self showAlertViewWithTitle:@"Failed" andWithMessage:@"Email send failed." andWithTag:-1];

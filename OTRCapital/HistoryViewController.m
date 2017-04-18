@@ -105,23 +105,21 @@
 }
 
 - (void) removeDataOfIndex: (int)index{
-    NSDictionary *dic = [self.tableData objectAtIndex:index];
-    NSString *folderName = [dic objectForKey:KEY_DIR_NAME];
+    OTRNote *obj = [self.tableData objectAtIndex:index];
+    NSString *folderName = obj.folderName;
     [[OTRManager sharedManager] removeObjectForKey:folderName];
     [self.tableData removeObjectAtIndex:index];
     [self.tableView reloadData];
 }
 
-- (void) refreshView{
-    
+- (void) refreshView {
     for (int i = 0; i < self.tableData.count; i++) {
-        NSDictionary *dic = [self.tableData objectAtIndex:i];
-        NSString *folderName = [dic objectForKey:KEY_DIR_NAME];
+        OTRNote *obj = [self.tableData objectAtIndex:i];
+        NSString *folderName = obj.folderName;
         NSDictionary *otrData = [[OTRManager sharedManager] getOtrInfoWithKey:folderName];
         NSString *status = [otrData objectForKey:KEY_OTR_INFO_STATUS];
-        [dic setValue:status forKey:KEY_STATUS];
+        obj.status =status;
     }
-    
     [self.tableView reloadData];
 }
 
