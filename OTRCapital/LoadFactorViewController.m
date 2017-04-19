@@ -40,7 +40,6 @@
 @property (strong , nonatomic) IBOutlet NSLayoutConstraint *lblDescription2Height;
 @property (weak, nonatomic) IBOutlet UITableView *tbl_Search;
 @property (nonatomic) CGPoint originalCenter;
-@property (nonatomic) NSArray *brokerList;
 
 @end
 
@@ -55,17 +54,15 @@
     self.txtFdTotalDeduction.delegate = self;
     self.txtFdTotalDeduction.tag = TOTAL_DEDUCTION_TEXTFIELD_TAG;
     self.originalCenter = self.view.center;
-    self.brokerList = [OTRCustomer getNamesList];
     
     tapper = [[UITapGestureRecognizer alloc]
               initWithTarget:self action:@selector(handleSingleTap:)];
     tapper.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapper];
-    
-    muary_Interest_Main = [NSMutableArray arrayWithArray:self.brokerList];
-    muary_Interest_Sub = [[NSMutableArray alloc]init];
-    
 
+    muary_Interest_Main = [[OTRCustomer getFactorableNamesList] mutableCopy];
+    muary_Interest_Sub = [NSMutableArray new];
+    
     [self.tbl_Search registerClass:[UITableViewCell class] forCellReuseIdentifier:@"CellIdentifier"];
     [self.tbl_Search setHidden:TRUE];
 

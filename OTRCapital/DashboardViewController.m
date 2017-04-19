@@ -83,7 +83,6 @@
     NSArray *customerDetail = [data objectForKey:@"data"];
 
     [[OTRHud hud] show];
-    //[OTRCustomer MR_truncateAll];
     
     NSMutableArray *mNotes = [NSMutableArray new];
     NSMutableArray *namesList = [NSMutableArray array];
@@ -101,11 +100,16 @@
         if (pkey == nil || [pkey isEqual:[NSNull null]]) {
             continue;
         }
+        NSNumber *factorable = [obj objectForKey:@"Factorable"];
+        if (pkey == nil || [pkey isEqual:[NSNull null]]) {
+            continue;
+        }
         
         OTRCustomerNote *note = [OTRCustomerNote new];
         note.name = name;
         note.mc_number = mcn;
         note.pkey = pkey;
+        note.factorable = factorable;
         [mNotes addObject:note];
         
         [namesList addObject: name];
@@ -121,6 +125,7 @@
             item.name = obj.name;
             item.mc_number = obj.mc_number;
             item.pkey = obj.pkey;
+            item.factorable = obj.factorable;
         }
     } completion:^(BOOL success, NSError *error) {
         [[OTRHud hud] hide];

@@ -20,6 +20,16 @@
     return mReturnArray;
 }
 
++ (NSArray *)getFactorableNamesList {
+    NSArray *array = [OTRCustomer MR_findAllWithPredicate:[NSPredicate predicateWithFormat:@"factorable == 1"]];
+    NSMutableArray *mReturnArray = [NSMutableArray new];
+    
+    for(OTRCustomer *item in array) {
+        [mReturnArray addObject:item.name];
+    }
+    return mReturnArray;
+}
+
 + (OTRCustomer *)getByName:(NSString *)name {
     return [OTRCustomer MR_findFirstByAttribute:@"name" withValue:name];
 }

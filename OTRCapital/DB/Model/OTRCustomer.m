@@ -13,9 +13,12 @@
 @dynamic name;
 @dynamic mc_number;
 @dynamic pkey;
+@dynamic factorable;
+@dynamic city;
+@dynamic state;
+@dynamic phone;
 
 @end
 
 @implementation OTRCustomerNote
-
 @end

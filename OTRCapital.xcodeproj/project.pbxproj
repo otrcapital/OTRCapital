@@ -346,6 +346,7 @@
 		B68F204A1E9F944A00971B0E /* OTRCustomer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRCustomer.m; path = DB/Model/OTRCustomer.m; sourceTree = "<group>"; };
 		B68F204D1E9FC26200971B0E /* OTRCustomer+DB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "OTRCustomer+DB.h"; path = "DB/Extensions/OTRCustomer+DB.h"; sourceTree = "<group>"; };
 		B68F204E1E9FC26200971B0E /* OTRCustomer+DB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "OTRCustomer+DB.m"; path = "DB/Extensions/OTRCustomer+DB.m"; sourceTree = "<group>"; };
+		B6F25EDC1EA7919B00C0DFB8 /* 1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = 1.xcdatamodel; sourceTree = "<group>"; };
 		B6FADF4A1E978D4200773B6F /* OTRApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRApi.h; path = Web/OTRApi.h; sourceTree = "<group>"; };
 		B6FADF4B1E978D4200773B6F /* OTRApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRApi.m; path = Web/OTRApi.m; sourceTree = "<group>"; };
 		B6FADF4E1E979BCF00773B6F /* OTRDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRDefaults.h; path = Utils/OTRDefaults.h; sourceTree = "<group>"; };
@@ -1235,9 +1236,10 @@
 		B68F20421E9F8B6000971B0E /* OTRCapital.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				B6F25EDC1EA7919B00C0DFB8 /* 1.xcdatamodel */,
 				B68F20431E9F8B6000971B0E /* OTRCapital.xcdatamodel */,
 			);
-			currentVersion = B68F20431E9F8B6000971B0E /* OTRCapital.xcdatamodel */;
+			currentVersion = B6F25EDC1EA7919B00C0DFB8 /* 1.xcdatamodel */;
 			name = OTRCapital.xcdatamodeld;
 			path = DB/OTRCapital.xcdatamodeld;
 			sourceTree = "<group>";

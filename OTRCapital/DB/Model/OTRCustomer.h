@@ -13,6 +13,10 @@
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *mc_number;
 @property (nonatomic, retain) NSNumber *pkey;
+@property (nonatomic, retain) NSNumber *factorable;
+@property (nonatomic, retain) NSString *city;
+@property (nonatomic, retain) NSString *state;
+@property (nonatomic, retain) NSString *phone;
 
 @end
 
@@ -21,5 +25,6 @@
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *mc_number;
 @property (nonatomic, retain) NSNumber *pkey;
+@property (nonatomic, retain) NSNumber *factorable;
 
 @end

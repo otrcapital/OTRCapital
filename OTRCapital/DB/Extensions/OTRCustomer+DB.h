@@ -13,6 +13,8 @@
 
 + (NSArray *)getNamesList;
 
++ (NSArray *)getFactorableNamesList;
+
 + (OTRCustomer *)getByName:(NSString *)name;
 
 + (OTRCustomer *)getByMCNumber:(NSString *)number;
