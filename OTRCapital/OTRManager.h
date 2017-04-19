@@ -12,17 +12,6 @@
 #define IMAGE_SIZE CGSizeMake(595, 842)
 #define OTR_CONTACT_NO                          @"tel:7708820124"
 
-#define OTR_BUILD_TYPE      2
-
-#if (OTR_BUILD_TYPE == 1)
-#define OTR_SERVER_URL  @"mobileportal.otrcapital.com"
-#else
-#define OTR_SERVER_URL @"customer.otrcapital.com"
-//#define OTR_SERVER_URL @"stgportal.otrcapital.com"
-#endif
-
-#define OTR_SERVER_BASE_URL @"http://" OTR_SERVER_URL @"/"
-
 @protocol OTRManagerDelegate <NSObject, NSURLConnectionDelegate>
 
 @required
