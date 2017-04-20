@@ -12,17 +12,7 @@
 #define IMAGE_SIZE CGSizeMake(595, 842)
 #define OTR_CONTACT_NO                          @"tel:7708820124"
 
-@protocol OTRManagerDelegate <NSObject, NSURLConnectionDelegate>
-
-@required
-- (void) onOTRRequestSuccessWithData: (NSDictionary *)data;
-- (void) onOTRRequestFailWithError: (NSString *)error;
-
-@end
-
 @interface OTRManager : NSObject
-
-@property (nonatomic, weak) id<OTRManagerDelegate> delegate;
 
 + (id)sharedManager;
 

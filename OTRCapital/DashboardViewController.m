@@ -11,6 +11,7 @@
 #import "AppDelegate.h"
 #import "OTRApi.h"
 #import "DBHelper.h"
+#import "OTRUser+DB.h"
 
 @interface DashboardViewController () <UIActionSheetDelegate>
 - (IBAction)onSignOutButtonPressed:(id)sender;
@@ -37,7 +38,7 @@
 - (void) viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
 
-    if(![OTRDefaults getStringForKey:KEY_LOGIN_USER_NAME]) {
+    if(![OTRUser isAuthorized]) {
         return;
     }
     static BOOL isListFetched = NO;
@@ -137,11 +138,6 @@
     [OTRDefaults saveRecordFetchDate];
 }
 
-- (void) viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-    [[OTRManager sharedManager] setDelegate:nil];
-}
-
 - (IBAction)onSignOutButtonPressed:(id)sender {
     UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure you want to log out?" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:@"Log Out" otherButtonTitles:nil, nil];
     [actionSheet showInView:self.view];
@@ -149,8 +145,8 @@
 
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(buttonIndex == 0) {
-        [[OTRManager sharedManager] removeObjectForKey:KEY_LOGIN_USER_NAME];
-        [[OTRManager sharedManager] removeObjectForKey:KEY_LOGIN_PASSWORD];
+
+        [OTRUser logOut];
         
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         UINavigationController *controller = [sb instantiateViewControllerWithIdentifier:@"LoginNavigationController"];

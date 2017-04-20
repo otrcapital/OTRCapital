@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import <Crashlytics/Crashlytics.h>
 #import "OTRApi.h"
+#import "OTRUser+DB.h"
 
 @interface LoginViewController ()
 @property (strong, nonatomic) IBOutlet UITextField *emailTextField;
@@ -125,8 +126,12 @@
                 
                 if ([isValid boolValue]) {
                     [[CrashlyticsManager sharedManager] setUserWithId:[responseData objectForKey:@"ClientId"] andName:[responseData objectForKey:@"Login"]];
-                    [OTRDefaults saveString:[responseData objectForKey:@"Login"] forKey:KEY_LOGIN_USER_NAME];
-                    [OTRDefaults saveString:[responseData objectForKey:@"Password"] forKey:KEY_LOGIN_PASSWORD];
+                    
+                    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext * _Nonnull localContext) {
+                        OTRUser *user = [OTRUser MR_createEntityInContext:localContext];
+                        user.email = [responseData objectForKey:@"Login"];
+                        user.passwordData = [responseData objectForKey:@"Password"];
+                    }];
                     
                     [blockedSelf dismissViewControllerAnimated:YES completion:nil];
                 }

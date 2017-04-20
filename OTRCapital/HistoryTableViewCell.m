@@ -10,6 +10,7 @@
 #include "HistoryDetailViewController.h"
 #import "NSDictionary+OTRJSONString.h"
 #import "OTRApi.h"
+#import "OTRUser+DB.h"
 
 #define TAG_ALERT_VIEW_INFO_SEND_SUCCESS        1
 #define TAG_ALERT_VIEW_CONFORM_DELETE           3
@@ -104,7 +105,7 @@
     if (mc)
     {
         NSData *pdfFile = [[OTRManager sharedManager] makePDFOfImagesOfFolder:self.directoryName];
-        NSString *email = [OTRDefaults getUserName];
+        NSString *email = [OTRUser getEmail];
         NSArray *toRecipents = [NSArray arrayWithObject:email];
 
         NSString *brokerName = [self.otrInfo objectForKey:KEY_BROKER_NAME];

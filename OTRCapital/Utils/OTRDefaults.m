@@ -22,22 +22,6 @@
     return value;
 }
 
-+ (NSString*)getUserName{
-    return [OTRDefaults getStringForKey:KEY_LOGIN_USER_NAME];
-}
-
-+ (NSString*)getPasswrodEncoded{
-    return [OTRDefaults getStringForKey:KEY_LOGIN_PASSWORD];
-}
-
-+ (NSString*)getPasswordDecoded {
-    NSString *encodedPassword = [OTRDefaults getStringForKey:KEY_LOGIN_PASSWORD];
-    NSData *decodedData = [[NSData alloc] initWithBase64EncodedString:encodedPassword options:0];
-    NSString *decodedString = [[NSString alloc] initWithData:decodedData encoding:NSUTF8StringEncoding];
-    return decodedString;
-}
-
-
 + (void)saveRecordFetchDate {
     NSDateComponents *components = [[NSDateComponents alloc] init];
     [components setDay:-1];

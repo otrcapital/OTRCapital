@@ -12,6 +12,7 @@
 #import "Reachability.h"
 #import "NSArray+OTRJSONString.h"
 #import "NSDictionary+OTRJSONString.h"
+#import "OTRUser+DB.h"
 
 static const NSInteger mTimeOutInterval = 30;
 static const NSInteger mTimeOutIntervalPost = 60;
@@ -59,8 +60,14 @@ static const NSInteger mTimeOutIntervalPost = 60;
 
 
 - (void)loginWithUsername: (NSString*)username encodedPassword: (NSString*)password completionBlock:(OTRAPICompletionBlock)block {
-    [OTRDefaults saveString:username forKey:KEY_LOGIN_USER_NAME];
-    [OTRDefaults saveString:password forKey:KEY_LOGIN_PASSWORD];
+    
+    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext * _Nonnull localContext) {
+        [OTRUser MR_truncateAll];
+        
+        OTRUser *user = [OTRUser MR_createEntityInContext:localContext];
+        user.email = username;
+        user.passwordData = password;
+    }];
     
     NSString *url = [NSString stringWithFormat:@"%@api/GetClientInfo/%@/%@", OTR_SERVER_BASE_URL, username, password];
     NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:mTimeOutInterval];
@@ -102,8 +109,8 @@ static const NSInteger mTimeOutIntervalPost = 60;
     [apiInvoiceDataJson setObject:loadNumber forKey:@"PoNumber"];
     [apiInvoiceDataJson setObject:pKey forKey:@"CustomerPKey"];
     [apiInvoiceDataJson setObject:invoiceAmount forKey:@"InvoiceAmount"];
-    [apiInvoiceDataJson setObject:[OTRDefaults getUserName] forKey:@"ClientLogin"];
-    [apiInvoiceDataJson setObject:[OTRDefaults getPasswrodEncoded] forKey:@"ClientPassword"];
+    [apiInvoiceDataJson setObject:[OTRUser getEmail] forKey:@"ClientLogin"];
+    [apiInvoiceDataJson setObject:[OTRUser getEncodedPassword] forKey:@"ClientPassword"];
     [apiInvoiceDataJson setObject:[otrInfo objectForKey:KEY_ADVANCED_REQUEST_TYPE] forKey:KEY_ADVANCED_REQUEST_TYPE];
     if (textComcheckPhoneNumber != nil) {
         [apiInvoiceDataJson setObject:textComcheckPhoneNumber forKey:KEY_TEXT_COMCHECK_PHONE_NUMBER];
@@ -168,7 +175,7 @@ static const NSInteger mTimeOutIntervalPost = 60;
 
 
 - (void)findBrokerInfoByPkey:(NSString *)pKey completionBlock:(OTRAPICompletionBlock)block {
-    NSString *url = [NSString stringWithFormat:@"%@api/BrokerCheck/%@/%@/%@",OTR_SERVER_BASE_URL,[OTRDefaults getUserName], [OTRDefaults getPasswrodEncoded], pKey];
+    NSString *url = [NSString stringWithFormat:@"%@api/BrokerCheck/%@/%@/%@",OTR_SERVER_BASE_URL,[OTRUser getEmail], [OTRUser getEncodedPassword], pKey];
     NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:mTimeOutInterval];
     
     [self appendAuthInfoToRequestTypeGet:request];
@@ -276,7 +283,7 @@ static const NSInteger mTimeOutIntervalPost = 60;
 
 - (void)appendAuthInfoToRequestTypeGet: (NSMutableURLRequest*)request{
     [request setHTTPMethod:@"GET"];
-    NSString *authStr = [NSString stringWithFormat:@"%@:%@", [OTRDefaults getUserName], [OTRDefaults getPasswordDecoded]];
+    NSString *authStr = [NSString stringWithFormat:@"%@:%@", [OTRUser getEmail], [OTRUser getPasswordDecoded]];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];
@@ -287,7 +294,7 @@ static const NSInteger mTimeOutIntervalPost = 60;
 
 - (void)appendAuthInfoToRequestTypePost: (NSMutableURLRequest*)request{
     [request setHTTPMethod:@"POST"];
-    NSString *authStr = [NSString stringWithFormat:@"%@:%@", [OTRDefaults getUserName], [OTRDefaults getPasswordDecoded]];
+    NSString *authStr = [NSString stringWithFormat:@"%@:%@", [OTRUser getEmail], [OTRUser getPasswordDecoded]];
     NSData *authData = [authStr dataUsingEncoding:NSUTF8StringEncoding];
     NSString *authValue = [NSString stringWithFormat:@"Basic %@", [authData base64EncodedStringWithOptions:0]];
     [request setValue:authValue forHTTPHeaderField:@"Authorization"];

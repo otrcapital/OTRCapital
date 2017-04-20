@@ -41,10 +41,8 @@
 @interface OTRDefaults : NSObject
 
 + (void)saveString:(NSString *)value forKey:(NSString *)key;
+
 + (NSString*)getStringForKey:(NSString*)key;
-+ (NSString*)getUserName;
-+ (NSString*)getPasswrodEncoded;
-+ (NSString*)getPasswordDecoded;
 
 + (void)saveRecordFetchDate;
 

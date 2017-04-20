@@ -12,6 +12,7 @@
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "OTRApi.h"
 #import "OTRCustomer+DB.h"
+#import "OTRUser+DB.h"
 
 #define TAG_ALERT_VIEW_INFO_SEND_SUCCESS        1
 #define TAG_ALERT_VIEW_INFO_SEND_FAIL           2
@@ -262,7 +263,7 @@
             }
         }];
         
-        NSString *email = [OTRDefaults getStringForKey:KEY_LOGIN_USER_NAME];
+        NSString *email = [OTRUser getEmail];
         [[OTRManager sharedManager] setOTRInfoValueOfTypeString:email forKey:KEY_LOGIN_USER_NAME];
         [[OTRManager sharedManager] saveOTRInfo];
     }

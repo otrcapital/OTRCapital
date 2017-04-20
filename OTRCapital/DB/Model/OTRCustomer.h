@@ -10,21 +10,21 @@
 
 @interface OTRCustomer : NSManagedObject
 
-@property (nonatomic, retain) NSString *name;
-@property (nonatomic, retain) NSString *mc_number;
-@property (nonatomic, retain) NSNumber *pkey;
-@property (nonatomic, retain) NSNumber *factorable;
-@property (nonatomic, retain) NSString *city;
-@property (nonatomic, retain) NSString *state;
-@property (nonatomic, retain) NSString *phone;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *mc_number;
+@property (nonatomic, strong) NSNumber *pkey;
+@property (nonatomic, strong) NSNumber *factorable;
+@property (nonatomic, strong) NSString *city;
+@property (nonatomic, strong) NSString *state;
+@property (nonatomic, strong) NSString *phone;
 
 @end
 
 @interface OTRCustomerNote : NSObject
 
-@property (nonatomic, retain) NSString *name;
-@property (nonatomic, retain) NSString *mc_number;
-@property (nonatomic, retain) NSNumber *pkey;
-@property (nonatomic, retain) NSNumber *factorable;
+@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *mc_number;
+@property (nonatomic, strong) NSNumber *pkey;
+@property (nonatomic, strong) NSNumber *factorable;
 
 @end

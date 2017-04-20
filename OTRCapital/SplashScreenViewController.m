@@ -9,6 +9,7 @@
 #import "SplashScreenViewController.h"
 #import "OTRManager.h"
 #import "OTRApi.h"
+#import "OTRUser+DB.h"
 
 @interface SplashScreenViewController ()
 
@@ -33,6 +34,18 @@
 }
 
 - (void)tryLoginWithCurrentCredentials {
+    
+    if([OTRDefaults getStringForKey:KEY_LOGIN_USER_NAME]) {
+        [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext * _Nonnull localContext) {
+            OTRUser *user = [OTRUser MR_createEntityInContext:localContext];
+            user.email = [OTRDefaults getStringForKey:KEY_LOGIN_USER_NAME];
+            user.passwordData = [OTRDefaults getStringForKey:KEY_LOGIN_PASSWORD];
+            
+            [[OTRManager sharedManager] removeObjectForKey:KEY_LOGIN_USER_NAME];
+            [[OTRManager sharedManager] removeObjectForKey:KEY_LOGIN_PASSWORD];
+        }];
+    }
+
     if (![OTRApi hasConnection]) {
         [[OTRHud hud] hide];
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -44,9 +57,9 @@
             [alert show];
         });
     }else {
-        if([OTRDefaults getStringForKey:KEY_LOGIN_USER_NAME]){
-            NSString *email = [OTRDefaults getStringForKey:KEY_LOGIN_USER_NAME];
-            NSString *password = [OTRDefaults getStringForKey:KEY_LOGIN_PASSWORD];
+        if([OTRUser isAuthorized]){
+            NSString *email = [OTRUser getEmail];
+            NSString *password = [OTRUser getEncodedPassword];
             [[OTRApi instance] loginWithUsername:email encodedPassword:password completionBlock:^(NSDictionary *responseData, NSError *error) {
                 if(responseData && !error) {
                     NSString *isValid = [responseData objectForKey:@"IsValidUser"];

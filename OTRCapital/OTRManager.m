@@ -46,10 +46,6 @@
     [self setOTRInfoValueOfTypeString:self.currentDocumentFolder forKey:KEY_IMAGE_FILE_NAME];
 }
 
-- (void)setDelegate:(id<OTRManagerDelegate>)delegate {
-    _delegate = delegate;
-}
-
 - (void) createDirectoryAtCurrentPath{
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *documentsDirectory = [paths objectAtIndex:0];
@@ -244,15 +240,6 @@
     return [NSString stringWithFormat:@"%@.pdf", self.currentDocumentFolder];
 }
 
-- (void) infoSendCallbackWithStatus: (BOOL)isSuccess{
-    if (isSuccess) {
-        [self onOTRRequestSuccessWithData:nil];
-    }
-    else {
-        [self onOTRRequestFailWithError:nil];
-    }
-}
-
 - (void) initDocumnetCount{
     self.documentCount = 1;
 }
@@ -291,21 +278,6 @@
     return [self.imageCache objectForKey:key];
 }
 
-#pragma mark DELTEGATE METHODS
-- (void) onOTRRequestSuccessWithData: (NSDictionary *)data{
-    if ([self.delegate respondsToSelector:@selector(onOTRRequestSuccessWithData:)]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate onOTRRequestSuccessWithData:data];
-        });
-    }
-}
-- (void) onOTRRequestFailWithError: (NSString *)error;{
-    if ([self.delegate respondsToSelector:@selector(onOTRRequestFailWithError:)]) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [self.delegate onOTRRequestFailWithError:error];
-        });
-    }
-}
 
 #pragma mark STATIC METHODS
 
