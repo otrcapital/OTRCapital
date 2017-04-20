@@ -164,7 +164,12 @@
 }
 
 - (IBAction)onTwitterButtonPressed:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/otrcapitalllc"]];
+#ifdef DEBUG
+    self.emailTextField.text = @"MobileOTRCapital@otrcapital.com";
+    self.passwordTextField.text = @"Portal123";
+#else
+     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/otrcapitalllc"]];
+#endif
 }
 
 @end

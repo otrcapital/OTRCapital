@@ -106,6 +106,10 @@
             continue;
         }
         
+        if([name isEqualToString:@"Flat"]) {
+            NSLog(@"%@", name);
+        }
+        
         OTRCustomerNote *note = [OTRCustomerNote new];
         note.name = name;
         note.mc_number = mcn;
