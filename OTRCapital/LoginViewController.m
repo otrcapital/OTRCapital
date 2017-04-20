@@ -120,22 +120,21 @@
         [[OTRApi instance] loginWithUsername:self.email andPassword:password completionBlock:^(NSDictionary *responseData, NSError *error) {
             if(responseData && !error) {
                 [[CrashlyticsManager sharedManager]trackUserLoginWithEmail:self.email andSuccess:YES];
+                
                 [[OTRHud hud] hide];
                 
                 NSString *isValid = [responseData objectForKey:@"IsValidUser"];
                 
                 if ([isValid boolValue]) {
                     [[CrashlyticsManager sharedManager] setUserWithId:[responseData objectForKey:@"ClientId"] andName:[responseData objectForKey:@"Login"]];
-                    
-                    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext * _Nonnull localContext) {
-                        OTRUser *user = [OTRUser MR_createEntityInContext:localContext];
-                        user.email = [responseData objectForKey:@"Login"];
-                        user.passwordData = [responseData objectForKey:@"Password"];
-                    }];
+
+                    OTRUser *user = [OTRUser MR_createEntity];
+                    user.email = [responseData objectForKey:@"Login"];
+                    user.passwordData = [responseData objectForKey:@"Password"];
+                    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
                     
                     [blockedSelf dismissViewControllerAnimated:YES completion:nil];
-                }
-                else{
+                }else {
                     [blockedSelf showAlertViewWithTitle:@"Error" andWithMessage:@"Failed to verify e-mail or password."];
                 }
             }else {

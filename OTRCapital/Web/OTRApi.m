@@ -60,14 +60,12 @@ static const NSInteger mTimeOutIntervalPost = 60;
 
 
 - (void)loginWithUsername: (NSString*)username encodedPassword: (NSString*)password completionBlock:(OTRAPICompletionBlock)block {
+    [OTRUser MR_truncateAll];
     
-    [MagicalRecord saveWithBlockAndWait:^(NSManagedObjectContext * _Nonnull localContext) {
-        [OTRUser MR_truncateAll];
-        
-        OTRUser *user = [OTRUser MR_createEntityInContext:localContext];
-        user.email = username;
-        user.passwordData = password;
-    }];
+    OTRUser *user = [OTRUser MR_createEntity];
+    user.email = username;
+    user.passwordData = password;
+    [[NSManagedObjectContext MR_defaultContext] MR_saveToPersistentStoreAndWait];
     
     NSString *url = [NSString stringWithFormat:@"%@api/GetClientInfo/%@/%@", OTR_SERVER_BASE_URL, username, password];
     NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:[NSURL URLWithString:url] cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:mTimeOutInterval];

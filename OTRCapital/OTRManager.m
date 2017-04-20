@@ -100,7 +100,7 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults removeObjectForKey:key];
     [defaults synchronize];
-    [self deleteFolderAtPath:key];
+    //[self deleteFolderAtPath:self.currentDocumentFolder];
 }
 
 - (void) saveOTRInfo{

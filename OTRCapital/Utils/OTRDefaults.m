@@ -12,7 +12,11 @@
 
 + (void)saveString:(NSString *)value forKey:(NSString *)key {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setValue:value forKey:key];
+    if(value) {
+        [defaults setValue:value forKey:key];
+    }else {
+        [defaults removeObjectForKey:key];
+    }
     [defaults synchronize];
 }
 

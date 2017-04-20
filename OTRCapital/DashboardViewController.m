@@ -148,6 +148,9 @@
 
         [OTRUser logOut];
         
+        [[OTRManager sharedManager] removeObjectForKey:KEY_LOGIN_USER_NAME];
+        [[OTRManager sharedManager] removeObjectForKey:KEY_LOGIN_PASSWORD];
+        
         UIStoryboard *sb = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
         UINavigationController *controller = [sb instantiateViewControllerWithIdentifier:@"LoginNavigationController"];
         [self.navigationController presentViewController:controller animated:YES completion:nil];

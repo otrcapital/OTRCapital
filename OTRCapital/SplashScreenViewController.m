@@ -41,8 +41,8 @@
             user.email = [OTRDefaults getStringForKey:KEY_LOGIN_USER_NAME];
             user.passwordData = [OTRDefaults getStringForKey:KEY_LOGIN_PASSWORD];
             
-            [[OTRManager sharedManager] removeObjectForKey:KEY_LOGIN_USER_NAME];
-            [[OTRManager sharedManager] removeObjectForKey:KEY_LOGIN_PASSWORD];
+            [OTRDefaults saveString:nil forKey:KEY_LOGIN_USER_NAME];
+            [OTRDefaults saveString:nil forKey:KEY_LOGIN_PASSWORD];
         }];
     }
 
