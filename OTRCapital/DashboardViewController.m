@@ -75,6 +75,7 @@
     [[OTRApi instance] fetchCustomerDetails:dateString ?: @"2015/10/18" withCompletion:^(NSDictionary *data, NSError *error) {
         [[OTRHud hud] hide];
         if(data && !error) {
+             [OTRDefaults saveRecordFetchDate];
             [self parseCustomerDetailsData:data completion:nil];
         }
     }];
@@ -138,8 +139,6 @@
             block(success, error);
         }
     }];
-    
-    [OTRDefaults saveRecordFetchDate];
 }
 
 - (IBAction)onSignOutButtonPressed:(id)sender {
