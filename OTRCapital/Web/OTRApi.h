@@ -9,8 +9,8 @@
 #import <Foundation/Foundation.h>
 
 
-//#define OTR_SERVER_URL @"customer.otrcapital.com"
-#define OTR_SERVER_URL @"portal.qa.factorhawk.com"
+#define OTR_SERVER_URL @"customer.otrcapital.com"
+//#define OTR_SERVER_URL @"portal.qa.factorhawk.com"
 
 #define OTR_SERVER_BASE_URL @"http://" OTR_SERVER_URL @"/"
 
