@@ -60,7 +60,7 @@
     tapper.cancelsTouchesInView = NO;
     [self.view addGestureRecognizer:tapper];
 
-    muary_Interest_Main = [[OTRCustomer getFactorableNamesList] mutableCopy];
+    muary_Interest_Main = [[OTRCustomer getNamesList] mutableCopy];
     muary_Interest_Sub = [NSMutableArray new];
     
     [self.tbl_Search registerClass:[UITableViewCell class] forCellReuseIdentifier:@"CellIdentifier"];
