@@ -18,7 +18,6 @@
 #define TOTAL_PAY_TEXTFIELD_TAG 10
 #define TOTAL_DEDUCTION_TEXTFIELD_TAG 11
 
-
 @interface LoadFactorViewController () {
     NSMutableArray *muary_Interest_Main;
     NSMutableArray *muary_Interest_Sub;
@@ -130,11 +129,19 @@
     self.view.center = self.originalCenter;
     self.tbl_Search.hidden = TRUE;
     tapper.enabled = YES;
+    
+    if (textField == self.txtFdTotalPay || textField == self.txtFdTotalDeduction) {
+        [self updateCurrencyTextFieldIfNeeded:textField];
+    }
 }
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string {
     if (textField == self.txtFdBrokerName) {
         [self searchText:textField replacementString:string];
+    }
+    
+    if (textField == self.txtFdTotalPay || textField == self.txtFdTotalDeduction) {
+        return [self shouldChangeCharactersForCurrencyField:textField withString:string inRange:range];
     }
     return YES;
 }
@@ -387,6 +394,56 @@
                                           cancelButtonTitle:@"OK"
                                           otherButtonTitles:nil];
     [alert show];
+}
+
+#pragma mark - Currency functions
+
+- (BOOL)shouldChangeCharactersForCurrencyField:(UITextField *)textField withString:(NSString *)string inRange:(NSRange)range {
+    if ([string isEqualToString:@","]) {
+        //for repeated commas
+        if([textField.text rangeOfString:@"."].location != NSNotFound) {
+            return NO;
+        }
+        
+        //for forst comma
+        if(textField.text.length == 0) {
+            textField.text = @"0.";
+            return NO;
+        }
+        
+        textField.text = [textField.text stringByReplacingCharactersInRange:range withString:@"."];
+        return NO;
+    }
+    
+    //for post decimal characters limitation
+    NSArray *arrayOfSubStrings = [textField.text componentsSeparatedByString:@"."];
+    if (arrayOfSubStrings.count > 1 && string.length > 0) {
+        NSString *stringPostDecimal = arrayOfSubStrings.lastObject;
+        if (stringPostDecimal.length > 1) {
+            return NO;
+        }
+    }
+    
+    return YES;
+}
+
+- (void) updateCurrencyTextFieldIfNeeded:(UITextField *)textField {
+    if (textField.text.length == 0 || [textField.text isEqualToString:@"0"]) return;
+    
+    if ([textField.text rangeOfString:@"."].location != NSNotFound) {
+        NSArray *arrayOfSubStrings = [textField.text componentsSeparatedByString:@"."];
+        
+        if (arrayOfSubStrings.count > 1) {
+            NSString *stringPostDecimal = arrayOfSubStrings[1];
+            if (stringPostDecimal.length == 0) {
+                textField.text = [NSString stringWithFormat:@"%@00", textField.text];
+            }else if (stringPostDecimal.length == 1){
+                textField.text = [NSString stringWithFormat:@"%@0", textField.text];
+            }
+        }
+    }else {
+        textField.text = [NSString stringWithFormat:@"%@.00", textField.text];
+    }
 }
 
 @end
