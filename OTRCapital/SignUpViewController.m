@@ -72,7 +72,7 @@
 }
 
 - (IBAction)onSignUpButtonPressed:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://otrcapital.com/apply-now"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://otrcapital.com/online-application"]];
 }
 
 - (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error {
