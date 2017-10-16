@@ -399,7 +399,7 @@
 #pragma mark - Currency functions
 
 - (BOOL)shouldChangeCharactersForCurrencyField:(UITextField *)textField withString:(NSString *)string inRange:(NSRange)range {
-    if ([string isEqualToString:@","]) {
+    if ([string isEqualToString:@","] || [string isEqualToString:@"."]) {
         //for repeated commas
         if([textField.text rangeOfString:@"."].location != NSNotFound) {
             return NO;
