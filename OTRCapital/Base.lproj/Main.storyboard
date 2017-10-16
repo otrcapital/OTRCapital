@@ -993,6 +993,21 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_truck.png" translatesAutoresizingMaskIntoConstraints="NO" id="1XA-FC-MXJ">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="bottom" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TUu-Ls-5jp">
+                                <rect key="frame" x="243" y="630" width="67" height="82"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="67" id="ceD-FN-83v"/>
+                                    <constraint firstAttribute="height" constant="82" id="ux3-17-Fqk"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="10"/>
+                                <inset key="titleEdgeInsets" minX="0.0" minY="0.0" maxX="0.0" maxY="3"/>
+                                <state key="normal" title="Scan" backgroundImage="button_contact_us_blue_light.png">
+                                    <color key="titleColor" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="scanDocumentsButtonPressed:" destination="394" eventType="touchUpInside" id="rra-s9-7BP"/>
+                                </connections>
+                            </button>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="otr_logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="8jE-vM-xK2">
                                 <rect key="frame" x="12" y="44" width="390" height="158"/>
                                 <constraints>
@@ -1139,6 +1154,8 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="dld-x9-O9A" firstAttribute="bottom" secondItem="TUu-Ls-5jp" secondAttribute="bottom" id="0GC-R8-WMq"/>
+                            <constraint firstItem="dld-x9-O9A" firstAttribute="leading" secondItem="TUu-Ls-5jp" secondAttribute="trailing" constant="17" id="0Zq-Xj-oXL"/>
                             <constraint firstItem="8jE-vM-xK2" firstAttribute="top" relation="greaterThanOrEqual" secondItem="395" secondAttribute="top" constant="6" id="7WZ-51-RbC">
                                 <variation key="heightClass=regular-widthClass=regular" constant="40"/>
                             </constraint>
@@ -1168,6 +1185,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="VfS-Bx-18p" secondAttribute="trailing" constant="20" id="mUJ-L4-Z3Q">
                                 <variation key="heightClass=regular-widthClass=regular" constant="50"/>
                             </constraint>
+                            <constraint firstItem="dld-x9-O9A" firstAttribute="top" secondItem="TUu-Ls-5jp" secondAttribute="top" id="nfW-I2-1fT"/>
                             <constraint firstAttribute="trailingMargin" secondItem="dld-x9-O9A" secondAttribute="trailing" id="r7V-T1-ZAS"/>
                             <constraint firstItem="8jE-vM-xK2" firstAttribute="centerX" secondItem="395" secondAttribute="centerX" id="rK3-zB-NY9"/>
                             <constraint firstItem="VfS-Bx-18p" firstAttribute="leading" secondItem="395" secondAttribute="leadingMargin" constant="20" id="vRy-Ms-cbG">
@@ -1186,7 +1204,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="396" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-8998.125" y="923.75"/>
+            <point key="canvasLocation" x="-8998.5507246376819" y="923.64130434782612"/>
         </scene>
         <!--Broker Detail View Controller-->
         <scene sceneID="hE5-id-7dJ">

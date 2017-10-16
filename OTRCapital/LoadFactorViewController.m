@@ -278,7 +278,11 @@
                 [self openScanPickerWithSourceType:MAImagePickerControllerSourceTypeCamera];
             } else {
                 dispatch_async(dispatch_get_main_queue(), ^{
-                    [self showAlertViewWithTitle:@"Camera Permission not Granted." andWithMessage:@"Error"];
+                    [[[UIAlertView alloc] initWithTitle:@"Error"
+                                                message:@"Camera Permission not granted."
+                                               delegate:nil
+                                      cancelButtonTitle:@"OK"
+                                      otherButtonTitles:nil] show];
                 });
             }
         }];

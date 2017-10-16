@@ -12,8 +12,10 @@
 #import "OTRApi.h"
 #import "DBHelper.h"
 #import "OTRUser+DB.h"
+#import "MAImagePickerController.h"
+#import "AssetsLibrary/AssetsLibrary.h"
 
-@interface DashboardViewController () <UIActionSheetDelegate>
+@interface DashboardViewController () <UIActionSheetDelegate, MAImagePickerControllerDelegate>
 - (IBAction)onSignOutButtonPressed:(id)sender;
 
 @end
@@ -146,6 +148,27 @@
     [actionSheet showInView:self.view];
 }
 
+- (IBAction)scanDocumentsButtonPressed:(id)sender {
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    if(authStatus == AVAuthorizationStatusAuthorized) {
+        [self openScanPickerWithSourceType:MAImagePickerControllerSourceTypeCamera];
+    } else {
+        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+            if(granted) {
+                [self openScanPickerWithSourceType:MAImagePickerControllerSourceTypeCamera];
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[[UIAlertView alloc] initWithTitle:@"Error"
+                                                message:@"Camera Permission not granted."
+                                               delegate:nil
+                                      cancelButtonTitle:@"OK"
+                                      otherButtonTitles:nil] show];
+                });
+            }
+        }];
+    }
+}
+
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
     if(buttonIndex == 0) {
 
@@ -173,6 +196,76 @@
     }
 }
 
+
+#pragma mark - ImagePicker and camera access methods
+
+- (void)checkForCameraPermission {
+    AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
+    if(authStatus == AVAuthorizationStatusAuthorized) {
+        [self openScanPickerWithSourceType:MAImagePickerControllerSourceTypeCamera];
+    } else {
+        [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+            if(granted) {
+                [self openScanPickerWithSourceType:MAImagePickerControllerSourceTypeCamera];
+            } else {
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [[[UIAlertView alloc] initWithTitle:@"Error"
+                                                message:@"Camera Permission not granted."
+                                               delegate:nil
+                                      cancelButtonTitle:@"OK"
+                                      otherButtonTitles:nil] show];
+                });
+            }
+        }];
+    }
+}
+
+- (void)checkForPhotoLibraryPermission {
+    ALAuthorizationStatus authStatus = [ALAssetsLibrary authorizationStatus];
+    if(authStatus == ALAuthorizationStatusAuthorized) {
+        [self openScanPickerWithSourceType:MAImagePickerControllerSourceTypePhotoLibrary];
+    } else {
+        ALAssetsLibrary *lib = [[ALAssetsLibrary alloc] init];
+        [lib enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
+            [self openScanPickerWithSourceType:MAImagePickerControllerSourceTypePhotoLibrary];
+        } failureBlock:^(NSError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[[UIAlertView alloc] initWithTitle:@"Error"
+                                            message:@"Photo Library Permission not granted."
+                                           delegate:nil
+                                  cancelButtonTitle:@"OK"
+                                  otherButtonTitles:nil] show];
+            });
+        }];
+    }
+}
+
+- (void)openScanPickerWithSourceType:(MAImagePickerControllerSourceType)sourceType {
+    MAImagePickerController *imagePicker = [[MAImagePickerController alloc] init];
+    [imagePicker setDelegate: self];
+    [imagePicker setSourceType:sourceType];
+    UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:imagePicker];
+    
+    [self presentViewController:navigationController animated:YES completion:nil];
+}
+
+- (void)imagePickerDidCancelWithViewController: (UIViewController*) controller {
+    [controller dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)imagePickerDidChooseImage: (UIImage *)image andWithViewController: (UIViewController*) controller {
+    [controller dismissViewControllerAnimated:YES completion:^{
+        __block DashboardViewController *blockedSelf = self;
+        [blockedSelf showShareImageDialog: image];
+    }];
+}
+
+- (void)showShareImageDialog:(UIImage *)image {
+    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[image] applicationActivities:nil];
+    controller.popoverPresentationController.sourceView = self.view;
+    controller.excludedActivityTypes = @[UIActivityTypeAirDrop, UIActivityTypePostToFacebook];
+    [self presentViewController:controller animated:YES completion:nil];
+}
 
 
 @end
