@@ -149,6 +149,12 @@
 }
 
 - (IBAction)scanDocumentsButtonPressed:(id)sender {
+    UIActionSheet *actionSheet = [[UIActionSheet alloc] initWithTitle:@"Scan documents:" delegate:self cancelButtonTitle:@"Cancel" destructiveButtonTitle:nil otherButtonTitles:@"From Camera", @"From Photo Gallery", nil];
+    [actionSheet setTag:10];
+    [actionSheet showInView:self.view];
+}
+
+- (void)scanViaCamera {
     AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
     if(authStatus == AVAuthorizationStatusAuthorized) {
         [self openScanPickerWithSourceType:MAImagePickerControllerSourceTypeCamera];
@@ -159,7 +165,7 @@
             } else {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [[[UIAlertView alloc] initWithTitle:@"Error"
-                                                message:@"Camera Permission not granted."
+                                                message:@"Camera permission not granted"
                                                delegate:nil
                                       cancelButtonTitle:@"OK"
                                       otherButtonTitles:nil] show];
@@ -169,9 +175,37 @@
     }
 }
 
-- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
-    if(buttonIndex == 0) {
+- (void)scanViaGallery {
+    ALAuthorizationStatus authStatus = [ALAssetsLibrary authorizationStatus];
+    if(authStatus == ALAuthorizationStatusAuthorized) {
+        [self openScanPickerWithSourceType:MAImagePickerControllerSourceTypePhotoLibrary];
+    } else {
+        ALAssetsLibrary *lib = [[ALAssetsLibrary alloc] init];
+        [lib enumerateGroupsWithTypes:ALAssetsGroupSavedPhotos usingBlock:^(ALAssetsGroup *group, BOOL *stop) {
+            [self openScanPickerWithSourceType:MAImagePickerControllerSourceTypePhotoLibrary];
+        } failureBlock:^(NSError *error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[[UIAlertView alloc] initWithTitle:@"Error"
+                                            message:@"Photo library permission not granted"
+                                           delegate:nil
+                                  cancelButtonTitle:@"OK"
+                                  otherButtonTitles:nil] show];
+            });
+        }];
+    }
+}
 
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (actionSheet.tag == 10) {
+        if (buttonIndex == 0) {
+            [self scanViaCamera];
+        }else if (buttonIndex == 1) {
+            [self scanViaGallery];
+        }
+        return;
+    }
+    
+    if(buttonIndex == 0) {
         [OTRUser logOut];
         
         [[OTRManager sharedManager] removeObjectForKey:KEY_LOGIN_USER_NAME];

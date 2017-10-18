@@ -145,6 +145,7 @@
 		18CF17931BC43575006A1B46 /* email_icon_doc.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CF17921BC43575006A1B46 /* email_icon_doc.png */; };
 		88F6C8880C3F9BD5A0E3A25C /* libPods-OTRCapital.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A79AF0D66C552716E09B2A42 /* libPods-OTRCapital.a */; };
 		B62377D31E97EF4700776898 /* OTRHud.m in Sources */ = {isa = PBXBuildFile; fileRef = B62377D21E97EF4700776898 /* OTRHud.m */; };
+		B63AF0581F97AC61000C7F63 /* ic_scan_button.png in Resources */ = {isa = PBXBuildFile; fileRef = B63AF0571F97AC5E000C7F63 /* ic_scan_button.png */; };
 		B646BEDA1E9BEE00009FB15A /* OTRNote.m in Sources */ = {isa = PBXBuildFile; fileRef = B646BED91E9BEE00009FB15A /* OTRNote.m */; };
 		B66B2D171E9B9B9500C3E6D2 /* NSDictionary+OTRJSONString.m in Sources */ = {isa = PBXBuildFile; fileRef = B66B2D161E9B9B9400C3E6D2 /* NSDictionary+OTRJSONString.m */; };
 		B66B2D1A1E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.m in Sources */ = {isa = PBXBuildFile; fileRef = B66B2D191E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.m */; };
@@ -334,6 +335,7 @@
 		A79AF0D66C552716E09B2A42 /* libPods-OTRCapital.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OTRCapital.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B62377D11E97EF4700776898 /* OTRHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRHud.h; path = Utils/OTRHud.h; sourceTree = "<group>"; };
 		B62377D21E97EF4700776898 /* OTRHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRHud.m; path = Utils/OTRHud.m; sourceTree = "<group>"; };
+		B63AF0571F97AC5E000C7F63 /* ic_scan_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_scan_button.png; sourceTree = "<group>"; };
 		B646BED81E9BEE00009FB15A /* OTRNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRNote.h; path = Model/OTRNote.h; sourceTree = "<group>"; };
 		B646BED91E9BEE00009FB15A /* OTRNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRNote.m; path = Model/OTRNote.m; sourceTree = "<group>"; };
 		B66B2D151E9B9B9400C3E6D2 /* NSDictionary+OTRJSONString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+OTRJSONString.h"; path = "Categories/NSDictionary+OTRJSONString.h"; sourceTree = "<group>"; };
@@ -563,6 +565,7 @@
 		18B8FAD71B524E5F002A5670 /* OTRResources */ = {
 			isa = PBXGroup;
 			children = (
+				B63AF0571F97AC5E000C7F63 /* ic_scan_button.png */,
 				1879EEAF1B65250B0094553F /* arrow_blue.png */,
 				1879EEB01B65250B0094553F /* arrow_white.png */,
 				1879EEB11B65250B0094553F /* blue_dark_rect.png */,
@@ -796,7 +799,7 @@
 					18B8FA9E1B5248D3002A5670 = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = 6K4B4QV4HQ;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -868,6 +871,7 @@
 				18B8FB031B524E5F002A5670 /* button_rotate_left.png in Resources */,
 				18B8FB011B524E5F002A5670 /* button_check.png in Resources */,
 				1864FC201B634DDA00855C09 /* crop-button-icon@2x.png in Resources */,
+				B63AF0581F97AC61000C7F63 /* ic_scan_button.png in Resources */,
 				18B8FB0E1B524E5F002A5670 /* icon_verify_broker.png in Resources */,
 				18B8FB181B524E5F002A5670 /* right_bottom.png in Resources */,
 				1864FC161B634DDA00855C09 /* camera-button.png in Resources */,
@@ -1148,9 +1152,9 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CODE_SIGN_IDENTITY = "iPhone Developer: John Nguyen (M29QGYG7MW)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 6K4B4QV4HQ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1174,8 +1178,8 @@
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.otrcapital.otrmobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "daee3f0f-e164-4fe3-b2c3-10f0b800ef40";
+				PROVISIONING_PROFILE_SPECIFIER = otr_capital_llc_adhoc;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1191,9 +1195,9 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CODE_SIGN_IDENTITY = "iPhone Distribution: OTR Capital LLC (6K4B4QV4HQ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 6K4B4QV4HQ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1217,8 +1221,8 @@
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.otrcapital.otrmobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "daee3f0f-e164-4fe3-b2c3-10f0b800ef40";
+				PROVISIONING_PROFILE_SPECIFIER = otr_capital_llc_adhoc;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
