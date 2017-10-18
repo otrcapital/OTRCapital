@@ -565,8 +565,6 @@
                 textField.text = [NSString stringWithFormat:@"%@0", textField.text];
             }
         }
-    }else {
-        textField.text = [NSString stringWithFormat:@"%@.00", textField.text];
     }
 }
 
