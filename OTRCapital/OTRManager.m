@@ -12,6 +12,8 @@
 #import "CrashlyticsManager.h"
 #import "DBHelper.h"
 
+#define fuelAdvanceListKey @"KEY_FUEL_ADVANCE_PREBUILD"
+
 @interface OTRManager()
 
 @property int documentCount;
@@ -73,6 +75,11 @@
     [self.otrInfo setObject:value forKey:key];
 }
 
+- (void) setOTRInfoValueOfTypeDouble: (double)value forKey: (NSString*)key
+{
+    [self.otrInfo setObject:[NSNumber numberWithDouble:value] forKey:key];
+}
+
 - (NSData *) getOTRInfoValueOfTypeDataForKey: (NSString*)key
 {
     return [self.otrInfo objectForKey:key];
@@ -112,7 +119,28 @@
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setValue:otrInfo forKey:key];
     [defaults synchronize];
+}
+
+
+- (void) saveToFuelAdvanceOrPrebuildInfoList {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary* dict = [defaults dictionaryForKey:fuelAdvanceListKey];
+    NSMutableDictionary *mDict = dict ? [dict mutableCopy] : [NSMutableDictionary new];
+    [mDict setValue:self.otrInfo forKey:self.currentDocumentFolder];
     
+    [defaults setObject:mDict forKey:fuelAdvanceListKey];
+    [defaults synchronize];
+}
+
+- (NSArray *) getFuelAdvanceOrPrebuildInfoList {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSDictionary* dict = [defaults dictionaryForKey:fuelAdvanceListKey];
+    NSMutableArray *mPrebuildInfoList = [NSMutableArray new];
+    
+    for (NSString *note in [dict allKeys]) {
+        [mPrebuildInfoList addObject:dict[note]];
+    }
+    return mPrebuildInfoList;
 }
 
 - (NSDictionary *) getOtrInfoWithKey: (NSString *)key{

@@ -23,4 +23,8 @@
 @property (nonatomic, strong) NSArray *directoryContents;
 @property (nonatomic, strong) NSDictionary *otrDataFixed;
 
++ (instancetype)createFromInfo:(NSDictionary *)info;
+
+- (void)fillWithOtrData:(NSDictionary *)otrData;
+
 @end

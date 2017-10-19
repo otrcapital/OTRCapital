@@ -37,6 +37,7 @@
 #define KEY_DOC_PROPERTY_INVOICE                @"invoice"
 #define KEY_DOC_PROPERTY_TYPES_LIST             @"doc_types_list"
 #define KEY_OTR_RECORD_FETCH_DATE               @"otr_record_fetch_date"
+#define KEY_DATE                                @"date"
 
 @interface OTRDefaults : NSObject
 

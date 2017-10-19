@@ -75,21 +75,7 @@
         
         NSDictionary *otrData = [[OTRManager sharedManager] getOtrInfoWithKey:folderName];
         if (otrData) {
-            note.otrDataFixed = otrData;
-            NSString *title = [otrData objectForKey:KEY_BROKER_NAME];
-            if(title) note.title = title;
-            NSString *email = [otrData objectForKey:KEY_LOGIN_USER_NAME];
-            if(email) note.email = email;
-            NSString *status = [otrData objectForKey:KEY_OTR_INFO_STATUS];
-            if(status) note.status = status;
-            NSString *loadNo = [otrData objectForKey:KEY_LOAD_NO];
-            if(loadNo) note.loadNo = loadNo;
-            NSString *invoiceString = [otrData objectForKey:KEY_INVOICE_AMOUNT];
-            note.invoiceAmount = invoiceString;
-            NSString *advReqAmount = [otrData objectForKey:KEY_ADV_REQ_AMOUT];
-            if (advReqAmount) {
-                note.advReqAmount = advReqAmount;
-            }
+            [note fillWithOtrData:otrData];
         }
         
         NSDate *date =  [NSDate dateWithTimeIntervalSince1970:[folderName doubleValue]];

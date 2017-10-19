@@ -1082,7 +1082,7 @@
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
-                                            <segue destination="jHQ-JH-Qrp" kind="show" identifier="LoadFactorViewController" id="jea-P5-YsB"/>
+                                            <segue destination="kBo-SY-a5H" kind="show" id="iOt-aC-SjO"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -3512,6 +3512,80 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="DkS-Te-QR0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-6081" y="-485"/>
+        </scene>
+        <!--Open Fuel Advances-->
+        <scene sceneID="jfb-ts-7kb">
+            <objects>
+                <viewController storyboardIdentifier="OpenFuelAdvancesController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="kBo-SY-a5H" customClass="OpenFuelAdvancesController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="A42-ej-HTW"/>
+                        <viewControllerLayoutGuide type="bottom" id="qNo-d9-wLM"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="EDq-R6-dkG">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_truck.png" translatesAutoresizingMaskIntoConstraints="NO" id="hK1-Da-Q0I">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="692"/>
+                            </imageView>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" image="otr_logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="pTT-KO-Fr6">
+                                <rect key="frame" x="12" y="70" width="390" height="158"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="pTT-KO-Fr6" secondAttribute="height" multiplier="805:326" id="Hs6-Lu-2Vh"/>
+                                </constraints>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Stz-sm-bLp">
+                                <rect key="frame" x="112" y="640" width="190" height="38"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="38" id="0ma-7F-RNc"/>
+                                    <constraint firstAttribute="width" constant="190" id="VMh-sF-peg"/>
+                                </constraints>
+                                <state key="normal" title="Factor a New Load " backgroundImage="button_blue_dark.png">
+                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="onPhotoGalleryButtonPressed:" destination="jHQ-JH-Qrp" eventType="touchUpInside" id="Nd3-zU-gKy"/>
+                                    <segue destination="jHQ-JH-Qrp" kind="show" id="VsX-fx-pRW"/>
+                                </connections>
+                            </button>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="E6T-pb-V6L">
+                                <rect key="frame" x="20" y="252" width="374" height="368"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="kBo-SY-a5H" id="wA1-Yp-Psy"/>
+                                    <outlet property="delegate" destination="kBo-SY-a5H" id="aa8-mR-Aoa"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="qNo-d9-wLM" firstAttribute="top" secondItem="Stz-sm-bLp" secondAttribute="bottom" constant="14" id="8dZ-gR-ejJ"/>
+                            <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="pTT-KO-Fr6" secondAttribute="trailing" constant="12" id="8x6-Hc-clD"/>
+                            <constraint firstItem="pTT-KO-Fr6" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="EDq-R6-dkG" secondAttribute="leading" constant="12" id="JxJ-sO-SSX"/>
+                            <constraint firstItem="E6T-pb-V6L" firstAttribute="top" secondItem="pTT-KO-Fr6" secondAttribute="bottom" constant="24" id="LRn-5O-xTR"/>
+                            <constraint firstAttribute="trailing" secondItem="hK1-Da-Q0I" secondAttribute="trailing" id="PXg-F9-axF"/>
+                            <constraint firstItem="hK1-Da-Q0I" firstAttribute="leading" secondItem="EDq-R6-dkG" secondAttribute="leading" id="PlR-yh-E7m"/>
+                            <constraint firstItem="E6T-pb-V6L" firstAttribute="leading" secondItem="EDq-R6-dkG" secondAttribute="leadingMargin" id="QjF-1G-fdf"/>
+                            <constraint firstItem="hK1-Da-Q0I" firstAttribute="top" secondItem="EDq-R6-dkG" secondAttribute="top" id="V79-g8-7Qh"/>
+                            <constraint firstItem="Stz-sm-bLp" firstAttribute="top" secondItem="E6T-pb-V6L" secondAttribute="bottom" constant="20" id="af9-Ip-LbD"/>
+                            <constraint firstItem="qNo-d9-wLM" firstAttribute="top" secondItem="hK1-Da-Q0I" secondAttribute="bottom" id="fVU-4P-5yW"/>
+                            <constraint firstItem="E6T-pb-V6L" firstAttribute="trailing" secondItem="EDq-R6-dkG" secondAttribute="trailingMargin" id="lhA-Tz-fvL"/>
+                            <constraint firstItem="Stz-sm-bLp" firstAttribute="centerX" secondItem="EDq-R6-dkG" secondAttribute="centerX" id="ogB-1t-Q8i"/>
+                            <constraint firstItem="pTT-KO-Fr6" firstAttribute="top" secondItem="EDq-R6-dkG" secondAttribute="top" constant="70" id="y8s-kw-eWM"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Open Fuel Advances" id="agw-tm-r0S"/>
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="lightContent"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
+                    <simulatedToolbarMetrics key="simulatedBottomBarMetrics"/>
+                    <connections>
+                        <outlet property="tableView" destination="E6T-pb-V6L" id="THs-Qg-h2Z"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7gE-cP-9BS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-7752.1739130434789" y="-485.054347826087"/>
         </scene>
     </scenes>
     <resources>

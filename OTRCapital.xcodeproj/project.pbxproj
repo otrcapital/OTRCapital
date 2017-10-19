@@ -146,11 +146,14 @@
 		88F6C8880C3F9BD5A0E3A25C /* libPods-OTRCapital.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A79AF0D66C552716E09B2A42 /* libPods-OTRCapital.a */; };
 		B62377D31E97EF4700776898 /* OTRHud.m in Sources */ = {isa = PBXBuildFile; fileRef = B62377D21E97EF4700776898 /* OTRHud.m */; };
 		B63AF0581F97AC61000C7F63 /* ic_scan_button.png in Resources */ = {isa = PBXBuildFile; fileRef = B63AF0571F97AC5E000C7F63 /* ic_scan_button.png */; };
+		B643E4801F98C8B400094B8F /* OpenFuelAdvancesController.m in Sources */ = {isa = PBXBuildFile; fileRef = B643E47F1F98C8B400094B8F /* OpenFuelAdvancesController.m */; };
+		B643E4841F98CB6B00094B8F /* OpenFuelAdvanceCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B643E4821F98CB6B00094B8F /* OpenFuelAdvanceCell.m */; };
+		B643E4851F98CB6B00094B8F /* OpenFuelAdvanceCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B643E4831F98CB6B00094B8F /* OpenFuelAdvanceCell.xib */; };
+		B643E4901F98D77000094B8F /* OTRCapital.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B643E48C1F98D77000094B8F /* OTRCapital.xcdatamodeld */; };
 		B646BEDA1E9BEE00009FB15A /* OTRNote.m in Sources */ = {isa = PBXBuildFile; fileRef = B646BED91E9BEE00009FB15A /* OTRNote.m */; };
 		B66B2D171E9B9B9500C3E6D2 /* NSDictionary+OTRJSONString.m in Sources */ = {isa = PBXBuildFile; fileRef = B66B2D161E9B9B9400C3E6D2 /* NSDictionary+OTRJSONString.m */; };
 		B66B2D1A1E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.m in Sources */ = {isa = PBXBuildFile; fileRef = B66B2D191E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.m */; };
 		B68F20401E9F8AF000971B0E /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B68F203F1E9F8AF000971B0E /* CoreData.framework */; };
-		B68F20441E9F8B6000971B0E /* OTRCapital.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = B68F20421E9F8B6000971B0E /* OTRCapital.xcdatamodeld */; };
 		B68F20471E9F91DA00971B0E /* DBHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = B68F20461E9F91DA00971B0E /* DBHelper.m */; };
 		B68F204B1E9F944A00971B0E /* OTRCustomer.m in Sources */ = {isa = PBXBuildFile; fileRef = B68F204A1E9F944A00971B0E /* OTRCustomer.m */; };
 		B68F204F1E9FC26200971B0E /* OTRCustomer+DB.m in Sources */ = {isa = PBXBuildFile; fileRef = B68F204E1E9FC26200971B0E /* OTRCustomer+DB.m */; };
@@ -336,6 +339,14 @@
 		B62377D11E97EF4700776898 /* OTRHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRHud.h; path = Utils/OTRHud.h; sourceTree = "<group>"; };
 		B62377D21E97EF4700776898 /* OTRHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRHud.m; path = Utils/OTRHud.m; sourceTree = "<group>"; };
 		B63AF0571F97AC5E000C7F63 /* ic_scan_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_scan_button.png; sourceTree = "<group>"; };
+		B643E47E1F98C8B400094B8F /* OpenFuelAdvancesController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenFuelAdvancesController.h; sourceTree = "<group>"; };
+		B643E47F1F98C8B400094B8F /* OpenFuelAdvancesController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenFuelAdvancesController.m; sourceTree = "<group>"; };
+		B643E4811F98CB6B00094B8F /* OpenFuelAdvanceCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OpenFuelAdvanceCell.h; sourceTree = "<group>"; };
+		B643E4821F98CB6B00094B8F /* OpenFuelAdvanceCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = OpenFuelAdvanceCell.m; sourceTree = "<group>"; };
+		B643E4831F98CB6B00094B8F /* OpenFuelAdvanceCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OpenFuelAdvanceCell.xib; sourceTree = "<group>"; };
+		B643E48D1F98D77000094B8F /*  2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = " 2.xcdatamodel"; sourceTree = "<group>"; };
+		B643E48E1F98D77000094B8F /* 1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = 1.xcdatamodel; sourceTree = "<group>"; };
+		B643E48F1F98D77000094B8F /* OTRCapital.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OTRCapital.xcdatamodel; sourceTree = "<group>"; };
 		B646BED81E9BEE00009FB15A /* OTRNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRNote.h; path = Model/OTRNote.h; sourceTree = "<group>"; };
 		B646BED91E9BEE00009FB15A /* OTRNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRNote.m; path = Model/OTRNote.m; sourceTree = "<group>"; };
 		B66B2D151E9B9B9400C3E6D2 /* NSDictionary+OTRJSONString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDictionary+OTRJSONString.h"; path = "Categories/NSDictionary+OTRJSONString.h"; sourceTree = "<group>"; };
@@ -343,7 +354,6 @@
 		B66B2D181E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSArray+OTRJSONString.h"; path = "Categories/NSArray+OTRJSONString.h"; sourceTree = "<group>"; };
 		B66B2D191E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSArray+OTRJSONString.m"; path = "Categories/NSArray+OTRJSONString.m"; sourceTree = "<group>"; };
 		B68F203F1E9F8AF000971B0E /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		B68F20431E9F8B6000971B0E /* OTRCapital.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = OTRCapital.xcdatamodel; sourceTree = "<group>"; };
 		B68F20451E9F91DA00971B0E /* DBHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DBHelper.h; path = DB/DBHelper.h; sourceTree = "<group>"; };
 		B68F20461E9F91DA00971B0E /* DBHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DBHelper.m; path = DB/DBHelper.m; sourceTree = "<group>"; };
 		B68F20491E9F944A00971B0E /* OTRCustomer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRCustomer.h; path = DB/Model/OTRCustomer.h; sourceTree = "<group>"; };
@@ -354,8 +364,6 @@
 		B6A3AE041EA8AF4D00F40BA5 /* OTRUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRUser.m; path = DB/Model/OTRUser.m; sourceTree = "<group>"; };
 		B6A3AE061EA8B04F00F40BA5 /* OTRUser+DB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "OTRUser+DB.h"; path = "DB/Extensions/OTRUser+DB.h"; sourceTree = "<group>"; };
 		B6A3AE071EA8B04F00F40BA5 /* OTRUser+DB.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "OTRUser+DB.m"; path = "DB/Extensions/OTRUser+DB.m"; sourceTree = "<group>"; };
-		B6A3AE091EA8B39200F40BA5 /*  2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = " 2.xcdatamodel"; sourceTree = "<group>"; };
-		B6F25EDC1EA7919B00C0DFB8 /* 1.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = 1.xcdatamodel; sourceTree = "<group>"; };
 		B6FADF4A1E978D4200773B6F /* OTRApi.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRApi.h; path = Web/OTRApi.h; sourceTree = "<group>"; };
 		B6FADF4B1E978D4200773B6F /* OTRApi.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRApi.m; path = Web/OTRApi.m; sourceTree = "<group>"; };
 		B6FADF4E1E979BCF00773B6F /* OTRDefaults.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRDefaults.h; path = Utils/OTRDefaults.h; sourceTree = "<group>"; };
@@ -558,6 +566,8 @@
 				185D7C241B5A1BE300CB196A /* BrokerDetailViewController.m */,
 				18696DD31B6CAFAF0001E49A /* SplashScreenViewController.h */,
 				18696DD41B6CAFAF0001E49A /* SplashScreenViewController.m */,
+				B643E47E1F98C8B400094B8F /* OpenFuelAdvancesController.h */,
+				B643E47F1F98C8B400094B8F /* OpenFuelAdvancesController.m */,
 			);
 			name = ViewControllers;
 			sourceTree = "<group>";
@@ -672,6 +682,9 @@
 				189900DA1B59278B00C007EF /* HistoryDetailCell.m */,
 				18B8FB621B52DE92002A5670 /* HistoryTableViewCell.xib */,
 				189900D71B5925F600C007EF /* HistoryDetailCell.xib */,
+				B643E4811F98CB6B00094B8F /* OpenFuelAdvanceCell.h */,
+				B643E4821F98CB6B00094B8F /* OpenFuelAdvanceCell.m */,
+				B643E4831F98CB6B00094B8F /* OpenFuelAdvanceCell.xib */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -708,9 +721,9 @@
 		B68F20411E9F8B2B00971B0E /* DB */ = {
 			isa = PBXGroup;
 			children = (
+				B643E48C1F98D77000094B8F /* OTRCapital.xcdatamodeld */,
 				B68F204C1E9FC23800971B0E /* Extensions */,
 				B68F20481E9F942900971B0E /* Entities */,
-				B68F20421E9F8B6000971B0E /* OTRCapital.xcdatamodeld */,
 				B68F20451E9F91DA00971B0E /* DBHelper.h */,
 				B68F20461E9F91DA00971B0E /* DBHelper.m */,
 			);
@@ -906,6 +919,7 @@
 				18B8FB131B524E5F002A5670 /* left_center.png in Resources */,
 				18B8FB021B524E5F002A5670 /* button_contact_us_blue_light.png in Resources */,
 				18B8FB061B524E5F002A5670 /* button_signup_blue_light.png in Resources */,
+				B643E4851F98CB6B00094B8F /* OpenFuelAdvanceCell.xib in Resources */,
 				1864FCA61B636D0A00855C09 /* f-setting-rotate@2x.png in Resources */,
 				18B8FB1A1B524E5F002A5670 /* right_top.png in Resources */,
 				1879EEB51B65250B0094553F /* arrow_blue.png in Resources */,
@@ -1016,6 +1030,7 @@
 				B6A3AE051EA8AF4D00F40BA5 /* OTRUser.m in Sources */,
 				18B8FAD41B524993002A5670 /* LoadFactorViewController.m in Sources */,
 				18B8FAD51B524993002A5670 /* LoginViewController.m in Sources */,
+				B643E4841F98CB6B00094B8F /* OpenFuelAdvanceCell.m in Sources */,
 				B66B2D1A1E9B9BFA00C3E6D2 /* NSArray+OTRJSONString.m in Sources */,
 				189900DE1B592AC900C007EF /* HistoryDetailViewController.m in Sources */,
 				18B8FB261B5258B5002A5670 /* DocumentEditViewController.m in Sources */,
@@ -1033,13 +1048,14 @@
 				B6FADF4C1E978D4200773B6F /* OTRApi.m in Sources */,
 				189900F11B593F0300C007EF /* SignUpViewController.m in Sources */,
 				18B8FB4B1B52C03F002A5670 /* OTRManager.m in Sources */,
+				B643E4801F98C8B400094B8F /* OpenFuelAdvancesController.m in Sources */,
 				18B8FAD31B524993002A5670 /* DashboardViewController.m in Sources */,
 				B68F204F1E9FC26200971B0E /* OTRCustomer+DB.m in Sources */,
 				1864FC461B634DDA00855C09 /* UIImage+fixOrientation.m in Sources */,
 				B6A3AE081EA8B04F00F40BA5 /* OTRUser+DB.m in Sources */,
 				1864FC451B634DDA00855C09 /* MAOpenCV.mm in Sources */,
+				B643E4901F98D77000094B8F /* OTRCapital.xcdatamodeld in Sources */,
 				1864FC411B634DDA00855C09 /* MADrawRect.m in Sources */,
-				B68F20441E9F8B6000971B0E /* OTRCapital.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1252,14 +1268,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCVersionGroup section */
-		B68F20421E9F8B6000971B0E /* OTRCapital.xcdatamodeld */ = {
+		B643E48C1F98D77000094B8F /* OTRCapital.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
-				B6A3AE091EA8B39200F40BA5 /*  2.xcdatamodel */,
-				B6F25EDC1EA7919B00C0DFB8 /* 1.xcdatamodel */,
-				B68F20431E9F8B6000971B0E /* OTRCapital.xcdatamodel */,
+				B643E48D1F98D77000094B8F /*  2.xcdatamodel */,
+				B643E48E1F98D77000094B8F /* 1.xcdatamodel */,
+				B643E48F1F98D77000094B8F /* OTRCapital.xcdatamodel */,
 			);
-			currentVersion = B6A3AE091EA8B39200F40BA5 /*  2.xcdatamodel */;
+			currentVersion = B643E48D1F98D77000094B8F /*  2.xcdatamodel */;
 			name = OTRCapital.xcdatamodeld;
 			path = DB/OTRCapital.xcdatamodeld;
 			sourceTree = "<group>";

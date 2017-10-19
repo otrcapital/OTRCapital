@@ -255,17 +255,20 @@
         NSData *pdfFile = [[OTRManager sharedManager] makePDFOfCurrentImages];
         
         NSDictionary *otrInfo = [[OTRManager sharedManager] getOTRInfo];
-        [[OTRApi instance] sendDataToServer:otrInfo withPDF:pdfFile completionBlock:^(NSDictionary *responseData, NSError *error) {
-            if(!error) {
-                [self onOTRRequestSuccess];
-            }else {
-                [self onOTRRequestFailWithError:error.localizedDescription];
-            }
-        }];
+//        [[OTRApi instance] sendDataToServer:otrInfo withPDF:pdfFile completionBlock:^(NSDictionary *responseData, NSError *error) {
+//            if(!error) {
+//                [self onOTRRequestSuccess];
+//            }else {
+//                [self onOTRRequestFailWithError:error.localizedDescription];
+//            }
+//        }];
         
         NSString *email = [OTRUser getEmail];
         [[OTRManager sharedManager] setOTRInfoValueOfTypeString:email forKey:KEY_LOGIN_USER_NAME];
+        [[OTRManager sharedManager] setOTRInfoValueOfTypeDouble:[[NSDate date] timeIntervalSince1970] forKey:KEY_DATE];
         [[OTRManager sharedManager] saveOTRInfo];
+        [[OTRManager sharedManager] saveToFuelAdvanceOrPrebuildInfoList];
+        [self onOTRRequestSuccess];
     }
 }
 

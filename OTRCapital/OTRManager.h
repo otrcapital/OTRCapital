@@ -22,11 +22,14 @@
 - (void) setOTRInfoValueOfTypeData: (NSData *)value forKey: (NSString*)key;
 - (void) setOTRInfoValueOfTypeString: (NSString *)value forKey: (NSString*)key;
 - (void) setOTRInfoValueOfTypeArray: (NSArray *)value forKey: (NSString*)key;
+- (void) setOTRInfoValueOfTypeDouble: (double)value forKey: (NSString*)key;
 
 - (void) saveImage: (UIImage *)image;
 - (void) saveOTRInfo;
+- (void) saveToFuelAdvanceOrPrebuildInfoList;
 - (void) updateOTRInfo: (NSDictionary *)otrInfo forKey: (NSString*)key;
 - (NSDictionary *) getOtrInfoWithKey: (NSString *)key;
+- (NSArray *) getFuelAdvanceOrPrebuildInfoList;
 
 - (NSData *) getOTRInfoValueOfTypeDataForKey: (NSString*)key;
 - (NSString *) getOTRInfoValueOfTypeStringForKey: (NSString*)key;
