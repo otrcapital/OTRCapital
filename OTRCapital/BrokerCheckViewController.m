@@ -145,7 +145,9 @@
     {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:@"CellIdentifier"];
     }
-    cell.textLabel.text = [muary_Interest_Sub objectAtIndex:indexPath.row];
+    if (indexPath.row < [muary_Interest_Sub count]) {
+        cell.textLabel.text = [muary_Interest_Sub objectAtIndex:indexPath.row];
+    }
     return cell;
     
 }

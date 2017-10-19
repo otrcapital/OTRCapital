@@ -267,7 +267,9 @@
         [[OTRManager sharedManager] setOTRInfoValueOfTypeString:email forKey:KEY_LOGIN_USER_NAME];
         [[OTRManager sharedManager] setOTRInfoValueOfTypeDouble:[[NSDate date] timeIntervalSince1970] forKey:KEY_DATE];
         [[OTRManager sharedManager] saveOTRInfo];
-        [[OTRManager sharedManager] saveToFuelAdvanceOrPrebuildInfoList];
+        if (self.type == 2) {
+             [[OTRManager sharedManager] saveToFuelAdvanceOrPrebuildInfoList];
+        }
         [self onOTRRequestSuccess];
     }
 }

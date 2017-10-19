@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "MAImagePickerController.h"
 
+@class OTRNote;
+
 @interface LoadFactorViewController : UIViewController<UINavigationControllerDelegate, MAImagePickerControllerDelegate, UITextFieldDelegate, UITableViewDelegate, UIAlertViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, retain) NSDictionary *data;
+@property (nonatomic, strong) OTRNote *OTRInfo;
 
 @end

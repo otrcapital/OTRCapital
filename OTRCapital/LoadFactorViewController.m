@@ -12,6 +12,7 @@
 #import "DocumentOptionalPropertiesViewController.h"
 #import "AssetsLibrary/AssetsLibrary.h"
 #import "OTRCustomer+DB.h"
+#import "OTRNote.h"
 
 #define SLIDER_VIEW_SHIFT_BY_Y 10
 
@@ -46,6 +47,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:DATA_TYPE_LOAD_FACTOR forKey:KEY_FACTOR_TYPE];
+    
     self.txtFdBrokerName.delegate = self;
     self.txtFdLoadNo.delegate = self;
     self.txtFdTotalPay.delegate = self;
@@ -67,6 +71,16 @@
 
     if (self.data && [self.data objectForKey:@"Name"]) {
         self.txtFdBrokerName.text = [self.data objectForKey:@"Name"];
+    }
+    
+    if (self.OTRInfo) {
+        self.txtFdBrokerName.text = self.OTRInfo.title;
+        self.txtFdLoadNo.text = self.OTRInfo.loadNo;
+        self.txtFdTotalPay.text = self.OTRInfo.invoiceAmount;
+        self.txtFdTotalDeduction.text = self.OTRInfo.advReqAmount;
+        
+        self.txtFdBrokerName.enabled = NO;
+        self.txtFdLoadNo.enabled = NO;
     }
 }
 

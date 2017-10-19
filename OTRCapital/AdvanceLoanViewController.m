@@ -53,6 +53,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    [[OTRManager sharedManager] initOTRInfo];
+    [[OTRManager sharedManager] setOTRInfoValueOfTypeString:DATA_TYPE_ADVANCE_LOAN forKey:KEY_FACTOR_TYPE];
+    
     self.txtFdBrokerName.delegate = self;
     self.txtFdLoadNo.delegate = self;
     self.txtFdTotalPay.delegate = self;

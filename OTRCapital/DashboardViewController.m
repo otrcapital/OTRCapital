@@ -221,13 +221,6 @@
 #pragma merk - Segue methods
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if([[segue identifier] isEqualToString:@"AdvanceLoanViewController"]) {
-        [[OTRManager sharedManager] initOTRInfo];
-        [[OTRManager sharedManager] setOTRInfoValueOfTypeString:DATA_TYPE_ADVANCE_LOAN forKey:KEY_FACTOR_TYPE];
-    }else if ([[segue identifier] isEqualToString:@"LoadFactorViewController"]) {
-        [[OTRManager sharedManager] initOTRInfo];
-        [[OTRManager sharedManager] setOTRInfoValueOfTypeString:DATA_TYPE_LOAD_FACTOR forKey:KEY_FACTOR_TYPE];
-    }
 }
 
 

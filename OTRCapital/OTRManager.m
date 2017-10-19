@@ -13,6 +13,7 @@
 #import "DBHelper.h"
 
 #define fuelAdvanceListKey @"KEY_FUEL_ADVANCE_PREBUILD"
+#define documentCountKey @"KEY_DOCUMENT_COUNT"
 
 @interface OTRManager()
 
@@ -36,16 +37,9 @@
 - (id) init{
     if ([super init]) {
         self.imageCache = [NSMutableDictionary new];
+        self.otrInfo = [NSMutableDictionary new];
     }
     return self;
-}
-
-- (void) initOTRInfo
-{
-    [self setOtrInfo: [NSMutableDictionary new]];
-    [self initDocumnetCount];
-    [self setCurrentDocumentFolder:TimeStamp];
-    [self setOTRInfoValueOfTypeString:self.currentDocumentFolder forKey:KEY_IMAGE_FILE_NAME];
 }
 
 - (void) createDirectoryAtCurrentPath{
@@ -110,8 +104,28 @@
     [self deleteFolderAtPath:key];
 }
 
+- (void) initOTRInfo {
+    [self setOtrInfo: [NSMutableDictionary new]];
+    [self initDocumnetCount];
+    [self setCurrentDocumentFolder:TimeStamp];
+    [self setOTRInfoValueOfTypeString:self.currentDocumentFolder forKey:KEY_IMAGE_FILE_NAME];
+}
+
+- (void) setCurrentOTRInfo:(NSDictionary *)info {
+    [self setOtrInfo: [info mutableCopy]];
+    
+    NSNumber *numberObject = [info objectForKey:documentCountKey];
+    if (numberObject) {
+        self.documentCount = [numberObject intValue];
+    }
+    self.currentDocumentFolder = [info objectForKey:KEY_IMAGE_FILE_NAME];
+}
+
 - (void) saveOTRInfo{
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [self.otrInfo setObject:[NSNumber numberWithInt:self.documentCount] forKey:documentCountKey];
+    [self setOTRInfoValueOfTypeString:self.currentDocumentFolder forKey:KEY_IMAGE_FILE_NAME];
+    
     [defaults setValue:self.otrInfo forKey:self.currentDocumentFolder];
     [defaults synchronize];
 }

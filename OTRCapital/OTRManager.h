@@ -26,6 +26,7 @@
 
 - (void) saveImage: (UIImage *)image;
 - (void) saveOTRInfo;
+- (void) setCurrentOTRInfo:(NSDictionary *)info;
 - (void) saveToFuelAdvanceOrPrebuildInfoList;
 - (void) updateOTRInfo: (NSDictionary *)otrInfo forKey: (NSString*)key;
 - (NSDictionary *) getOtrInfoWithKey: (NSString *)key;
