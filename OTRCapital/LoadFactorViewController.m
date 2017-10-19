@@ -123,6 +123,15 @@
     [UIView animateWithDuration:0.2 animations:^{
         [self.view layoutIfNeeded];
     }];
+    
+    if (textField == self.txtFdTotalPay || textField == self.txtFdTotalDeduction) {
+        if ([textField.text length] == 0) {
+            textField.text = @".00";
+            UITextPosition *beginning = [textField beginningOfDocument];
+            [textField setSelectedTextRange:[textField textRangeFromPosition:beginning
+                                                                  toPosition:beginning]];
+        }
+    }
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
@@ -421,9 +430,11 @@
     
     //for post decimal characters limitation
     NSArray *arrayOfSubStrings = [textField.text componentsSeparatedByString:@"."];
+    NSRange rangeOfDot = [textField.text rangeOfString:@"."];
+    
     if (arrayOfSubStrings.count > 1 && string.length > 0) {
         NSString *stringPostDecimal = arrayOfSubStrings.lastObject;
-        if (stringPostDecimal.length > 1) {
+        if (stringPostDecimal.length > 1 && rangeOfDot.location < range.location) {
             return NO;
         }
     }
@@ -438,13 +449,21 @@
         NSArray *arrayOfSubStrings = [textField.text componentsSeparatedByString:@"."];
         
         if (arrayOfSubStrings.count > 1) {
+            NSString *stringBeforeDecimal = arrayOfSubStrings[0];
             NSString *stringPostDecimal = arrayOfSubStrings[1];
-            if (stringPostDecimal.length == 0) {
-                textField.text = [NSString stringWithFormat:@"%@00", textField.text];
-            }else if (stringPostDecimal.length == 1){
-                textField.text = [NSString stringWithFormat:@"%@0", textField.text];
+            
+            if ([stringBeforeDecimal isEqualToString:@""]) {
+                textField.text = @"";
+            }else {
+                if (stringPostDecimal.length == 0) {
+                    textField.text = [NSString stringWithFormat:@"%@00", textField.text];
+                }else if (stringPostDecimal.length == 1){
+                    textField.text = [NSString stringWithFormat:@"%@0", textField.text];
+                }
             }
         }
+    }else {
+        textField.text = [NSString stringWithFormat:@"%@.00", textField.text];
     }
 }
 
