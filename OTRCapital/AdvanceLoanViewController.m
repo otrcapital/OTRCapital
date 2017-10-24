@@ -128,15 +128,6 @@
     [UIView animateWithDuration:0.2 animations:^{
         [self.view layoutIfNeeded];
     }];
-    
-    if (textField == self.txtFdTotalPay || textField == self.txtFdTotalDeduction) {
-        if ([textField.text length] == 0) {
-            textField.text = @".00";
-            UITextPosition *beginning = [textField beginningOfDocument];
-            [textField setSelectedTextRange:[textField textRangeFromPosition:beginning
-                                                                  toPosition:beginning]];
-        }
-    }
 }
 
 - (void)textFieldDidEndEditing:(UITextField *)textField {
