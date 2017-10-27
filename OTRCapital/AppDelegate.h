@@ -10,8 +10,9 @@
 #import "ViewController.h"
 #import "OTRManager.h"
 #import "LoginViewController.h"
+@import Firebase;
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate, FIRMessagingDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
