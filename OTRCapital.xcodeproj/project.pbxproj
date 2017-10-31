@@ -145,7 +145,6 @@
 		18CF17931BC43575006A1B46 /* email_icon_doc.png in Resources */ = {isa = PBXBuildFile; fileRef = 18CF17921BC43575006A1B46 /* email_icon_doc.png */; };
 		88F6C8880C3F9BD5A0E3A25C /* libPods-OTRCapital.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A79AF0D66C552716E09B2A42 /* libPods-OTRCapital.a */; };
 		B62377D31E97EF4700776898 /* OTRHud.m in Sources */ = {isa = PBXBuildFile; fileRef = B62377D21E97EF4700776898 /* OTRHud.m */; };
-		B62D0F261FA3769C00366AE2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = B62D0F251FA3769C00366AE2 /* GoogleService-Info.plist */; };
 		B63AF0581F97AC61000C7F63 /* ic_scan_button.png in Resources */ = {isa = PBXBuildFile; fileRef = B63AF0571F97AC5E000C7F63 /* ic_scan_button.png */; };
 		B646BEDA1E9BEE00009FB15A /* OTRNote.m in Sources */ = {isa = PBXBuildFile; fileRef = B646BED91E9BEE00009FB15A /* OTRNote.m */; };
 		B66B2D171E9B9B9500C3E6D2 /* NSDictionary+OTRJSONString.m in Sources */ = {isa = PBXBuildFile; fileRef = B66B2D161E9B9B9400C3E6D2 /* NSDictionary+OTRJSONString.m */; };
@@ -336,8 +335,6 @@
 		A79AF0D66C552716E09B2A42 /* libPods-OTRCapital.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-OTRCapital.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		B62377D11E97EF4700776898 /* OTRHud.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRHud.h; path = Utils/OTRHud.h; sourceTree = "<group>"; };
 		B62377D21E97EF4700776898 /* OTRHud.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRHud.m; path = Utils/OTRHud.m; sourceTree = "<group>"; };
-		B62D0F241FA3711600366AE2 /* OTRCapital.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OTRCapital.entitlements; sourceTree = "<group>"; };
-		B62D0F251FA3769C00366AE2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		B63AF0571F97AC5E000C7F63 /* ic_scan_button.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ic_scan_button.png; sourceTree = "<group>"; };
 		B646BED81E9BEE00009FB15A /* OTRNote.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OTRNote.h; path = Model/OTRNote.h; sourceTree = "<group>"; };
 		B646BED91E9BEE00009FB15A /* OTRNote.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OTRNote.m; path = Model/OTRNote.m; sourceTree = "<group>"; };
@@ -480,7 +477,6 @@
 		18B8FA961B5248D3002A5670 = {
 			isa = PBXGroup;
 			children = (
-				B62D0F251FA3769C00366AE2 /* GoogleService-Info.plist */,
 				1864FBCA1B6349E000855C09 /* Frameworks */,
 				18B8FAA11B5248D3002A5670 /* OTRCapital */,
 				18B8FAA01B5248D3002A5670 /* Products */,
@@ -499,7 +495,6 @@
 		18B8FAA11B5248D3002A5670 /* OTRCapital */ = {
 			isa = PBXGroup;
 			children = (
-				B62D0F241FA3711600366AE2 /* OTRCapital.entitlements */,
 				B68F20411E9F8B2B00971B0E /* DB */,
 				B646BED71E9BED32009FB15A /* Classes */,
 				B646BED51E9BEC8B009FB15A /* Controllers & UI */,
@@ -804,12 +799,7 @@
 					18B8FA9E1B5248D3002A5670 = {
 						CreatedOnToolsVersion = 6.2;
 						DevelopmentTeam = 6K4B4QV4HQ;
-						ProvisioningStyle = Automatic;
-						SystemCapabilities = {
-							com.apple.Push = {
-								enabled = 1;
-							};
-						};
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -913,7 +903,6 @@
 				1879EEB61B65250B0094553F /* arrow_white.png in Resources */,
 				18B8FB0D1B524E5F002A5670 /* icon_history.png in Resources */,
 				1879EEB81B65250B0094553F /* blue_light_rect.png in Resources */,
-				B62D0F261FA3769C00366AE2 /* GoogleService-Info.plist in Resources */,
 				18B8FB131B524E5F002A5670 /* left_center.png in Resources */,
 				18B8FB021B524E5F002A5670 /* button_contact_us_blue_light.png in Resources */,
 				18B8FB061B524E5F002A5670 /* button_signup_blue_light.png in Resources */,
@@ -1165,17 +1154,15 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CODE_SIGN_ENTITLEMENTS = OTRCapital/OTRCapital.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer: John Nguyen (M29QGYG7MW)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 6K4B4QV4HQ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/OTRCapital/Frameworks",
 				);
-				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/OTRCapital/OTRCapital-prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -1194,8 +1181,8 @@
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.otrcapital.otrmobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "981adb7e-75ed-4213-86ec-a20f7a2b82ba";
+				PROVISIONING_PROFILE_SPECIFIER = otr_capital_llc_adhoc;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -1210,17 +1197,15 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
-				CODE_SIGN_ENTITLEMENTS = OTRCapital/OTRCapital.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: OTR Capital LLC (6K4B4QV4HQ)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = 6K4B4QV4HQ;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/OTRCapital/Frameworks",
 				);
-				GCC_C_LANGUAGE_STANDARD = "compiler-default";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/OTRCapital/OTRCapital-prefix.pch";
 				HEADER_SEARCH_PATHS = (
@@ -1239,8 +1224,8 @@
 				OTHER_LIBTOOLFLAGS = "$(OTHER_LDFLAGS)";
 				PRODUCT_BUNDLE_IDENTIFIER = com.otrcapital.otrmobile;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE = "981adb7e-75ed-4213-86ec-a20f7a2b82ba";
+				PROVISIONING_PROFILE_SPECIFIER = otr_capital_llc_adhoc;
 				SCAN_ALL_SOURCE_FILES_FOR_INCLUDES = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
