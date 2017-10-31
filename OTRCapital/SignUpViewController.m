@@ -36,6 +36,12 @@
     self.lcLogoHeight.active = IS_IPHONE_4;
 }
 
+- (void)viewDidLayoutSubviews {
+    [super viewDidLayoutSubviews];
+    
+    [self.tvDescription setContentOffset:CGPointZero animated:NO];
+}
+
 
 - (IBAction)onFbButtonPressed:(id)sender {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[[OTRManager sharedManager] urlFacebook]]];
