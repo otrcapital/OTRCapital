@@ -15,6 +15,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *cellLabel;
 @property (nonatomic, weak) IBOutlet UILabel *faxLabel;
 @property (nonatomic, weak) IBOutlet UILabel *emailLabel;
+@property (nonatomic, weak) IBOutlet UILabel *addressLabel;
 
 - (IBAction)onFbButtonPressed:(id)sender;
 - (IBAction)onGPlusButtonPressed:(id)sender;
@@ -35,6 +36,10 @@
     [self.cellLabel setText:[[OTRManager sharedManager] telNumber]];
     [self.faxLabel setText:[[OTRManager sharedManager] faxNumber]];
     [self.emailLabel setText:[[OTRManager sharedManager] contactEmail]];
+    
+    NSString *address = [[OTRManager sharedManager] contactAddress];
+    address = [address stringByReplacingOccurrencesOfString:@"\\n" withString:@"\n"];
+    [self.addressLabel setText:address];
 }
 
 - (IBAction)onFbButtonPressed:(id)sender {
