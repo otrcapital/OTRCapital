@@ -5,4 +5,5 @@ target "OTRCapital" do
 	pod 'MagicalRecord'
 	pod 'Firebase/Core'
 	pod 'Firebase/Messaging'
+	pod 'Firebase/RemoteConfig'
 end

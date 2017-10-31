@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>tel_contact</key>
+	<string>(770) 882-0124</string>
+	<key>tel_fax</key>
+	<string>(770) 882-0125</string>
+	<key>contact_email</key>
+	<string>info@otrcapital.com</string>
+	<key>contact_address</key>
+	<string>OTR Capital, LLC \n1000 Holcomb Woods Parkway\nBldg 300, Suite 315-A\nRoswell, GA 30076</string>
+	<key>url_sign_up</key>
+	<string>https://otrcapital.com/online-application</string>
+	<key>url_facebook</key>
+	<string>https://www.facebook.com/pages/OTR-Capital/473947932696034</string>
+	<key>url_google_plus</key>
+	<string>https://plus.google.com/112871732199319272036?hl=en</string>
+	<key>url_twitter</key>
+	<string>https://twitter.com/otrcapitalllc</string>
+	<key>url_instagram</key>
+	<string>https://instagram.com/otrcapital/</string>
+	<key>url_linkedin</key>
+	<string>https://www.linkedin.com/company/otr-capital</string>
+</dict>
+</plist>

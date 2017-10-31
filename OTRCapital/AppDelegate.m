@@ -44,7 +44,8 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
     
     [DBHelper instance];
     
-    [FIRApp configure];
+    [OTRManager sharedManager];
+    
     [FIRMessaging messaging].delegate = self;
     
     if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_9_x_Max) {
@@ -91,7 +92,7 @@ NSString *const kGCMMessageIDKey = @"gcm.message_id";
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    [[OTRManager sharedManager] fetchSettings];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {

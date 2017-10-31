@@ -10,7 +10,6 @@
 
 #define TimeStamp [NSString stringWithFormat:@"%f",[[NSDate date] timeIntervalSince1970]]
 #define IMAGE_SIZE CGSizeMake(595, 842)
-#define OTR_CONTACT_NO                          @"tel:7708820124"
 
 @interface OTRManager : NSObject
 
@@ -18,6 +17,7 @@
 
 - (void) initOTRInfo;
 - (NSDictionary*) getOTRInfo;
+- (void)fetchSettings;
 
 - (void) setOTRInfoValueOfTypeData: (NSData *)value forKey: (NSString*)key;
 - (void) setOTRInfoValueOfTypeString: (NSString *)value forKey: (NSString*)key;
@@ -49,5 +49,17 @@
 - (UIImage*) getUIImageForKey: (NSString*) key;
 
 + (UIImage *)imageWithImage:(UIImage *)image scaledToSize:(CGSize)newSize;
+
+- (NSString *)telNumber;
+- (NSString *)telNumberFormatted;
+- (NSString *)faxNumber;
+- (NSString *)contactEmail;
+- (NSString *)contactAddress;
+- (NSString *)urlSignUp;
+- (NSString *)urlFacebook;
+- (NSString *)urlGooglePlus;
+- (NSString *)urlTwitter;
+- (NSString *)urlInstagram;
+- (NSString *)urlLinkedin;
 
 @end

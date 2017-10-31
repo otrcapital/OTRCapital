@@ -7,6 +7,7 @@
 //
 
 #import "SignUpViewController.h"
+#import "OTRManager.h"
 
 @interface SignUpViewController ()
 
@@ -57,7 +58,8 @@
 }
 
 - (IBAction)onCallButtonPressed:(id)sender {
-    NSString *phoneNumber = @"tel:07708820124";
+    NSString *phoneNumber = [[OTRManager sharedManager] telNumberFormatted];
+    
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
 }
 

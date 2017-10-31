@@ -45,7 +45,8 @@
         self.txtcreditCheckResult.textColor = [UIColor redColor];
         
         NSRange range = [self.txtcreditCheckResult.text rangeOfString:self.txtcreditCheckResult.text];
-        [self.txtcreditCheckResult addLinkToPhoneNumber:OTR_CONTACT_NO withRange:range];
+        NSString *phoneNumber = [[OTRManager sharedManager] telNumberFormatted];
+        [self.txtcreditCheckResult addLinkToPhoneNumber:phoneNumber withRange:range];
         [self.txtcreditCheckResult setDelegate:self];
     }
     else{

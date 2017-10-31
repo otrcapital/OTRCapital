@@ -12,6 +12,7 @@
 @interface ContactUsViewController ()
 
 @property (nonatomic, weak) IBOutlet UIImageView *logo;
+@property (nonatomic, weak) IBOutlet UILabel *cellLabel;
 
 - (IBAction)onFbButtonPressed:(id)sender;
 - (IBAction)onGPlusButtonPressed:(id)sender;
@@ -28,6 +29,8 @@
     [super viewDidLoad];
     
     self.logo.hidden = IS_IPHONE_4;
+    
+    [self.cellLabel setText:[[OTRManager sharedManager] telNumber]];
 }
 
 - (IBAction)onFbButtonPressed:(id)sender {
@@ -51,7 +54,8 @@
 }
 
 - (IBAction)onCallButtonPressed:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:OTR_CONTACT_NO]];
+    NSString *phoneNumber = [[OTRManager sharedManager] telNumberFormatted];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:phoneNumber]];
 }
 
 - (IBAction)onEmailButtonTap:(id)sender {

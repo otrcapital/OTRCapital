@@ -11,6 +11,8 @@
 #import <stdio.h>
 #import "CrashlyticsManager.h"
 #import "DBHelper.h"
+@import Firebase;
+@import FirebaseRemoteConfig;
 
 @interface OTRManager()
 
@@ -18,6 +20,7 @@
 @property (nonatomic, retain) NSString* currentDocumentFolder;
 @property (nonatomic,retain) NSMutableDictionary *otrInfo;
 @property (nonatomic, retain) NSMutableDictionary *imageCache;
+@property (nonatomic, retain) FIRRemoteConfig *remoteConfig;
 @end
 
 @implementation OTRManager
@@ -33,9 +36,74 @@
 
 - (id) init{
     if ([super init]) {
+        [FIRApp configure];
+        
+        self.remoteConfig = [FIRRemoteConfig remoteConfig];
+        FIRRemoteConfigSettings *remoteConfigSettings = [[FIRRemoteConfigSettings alloc] initWithDeveloperModeEnabled:YES];
+        self.remoteConfig.configSettings = remoteConfigSettings;
+        [self.remoteConfig setDefaultsFromPlistFileName:@"RemoteConfigDefaults"];
+        
         self.imageCache = [NSMutableDictionary new];
     }
     return self;
+}
+
+- (void)fetchSettings {
+    int expirationDuration = 0;
+    [self.remoteConfig fetchWithExpirationDuration:expirationDuration completionHandler:^(FIRRemoteConfigFetchStatus status, NSError * _Nullable error) {
+        if (status == FIRRemoteConfigFetchStatusSuccess) {
+            [self.remoteConfig activateFetched];
+        }
+    }];
+}
+
+- (NSString *)telNumber {
+    return self.remoteConfig[@"tel_contact"].stringValue ?: @"";
+}
+
+- (NSString *)telNumberFormatted {
+    NSString *phoneNumber = [self telNumber];
+    phoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@"(" withString:@""];
+    phoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@")" withString:@""];
+    phoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@" " withString:@""];
+    phoneNumber = [phoneNumber stringByReplacingOccurrencesOfString:@"-" withString:@""];
+    return [NSString stringWithFormat:@"tel:%@", phoneNumber];
+}
+
+- (NSString *)faxNumber {
+    return self.remoteConfig[@"tel_fax"].stringValue ?: @"";
+}
+
+- (NSString *)contactEmail {
+    return self.remoteConfig[@"contact_email"].stringValue ?: @"";
+}
+
+- (NSString *)contactAddress {
+    return self.remoteConfig[@"contact_address"].stringValue ?: @"";
+}
+
+- (NSString *)urlSignUp {
+    return self.remoteConfig[@"url_sign_up"].stringValue ?: @"";
+}
+
+- (NSString *)urlFacebook {
+    return self.remoteConfig[@"url_facebook"].stringValue ?: @"";
+}
+
+- (NSString *)urlGooglePlus {
+    return self.remoteConfig[@"url_google_plus"].stringValue ?: @"";
+}
+
+- (NSString *)urlTwitter {
+    return self.remoteConfig[@"url_twitter"].stringValue ?: @"";
+}
+
+- (NSString *)urlInstagram {
+    return self.remoteConfig[@"url_instagram"].stringValue ?: @"";
+}
+
+- (NSString *)urlLinkedin {
+    return self.remoteConfig[@"url_linkedin"].stringValue ?: @"";
 }
 
 - (void) initOTRInfo

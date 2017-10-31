@@ -250,8 +250,8 @@
                                             <constraint firstAttribute="width" secondItem="VtV-2m-f5L" secondAttribute="height" multiplier="23:20" id="LA3-sZ-AZe"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(770) 882-0124" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Ha-pF-0jG">
-                                        <rect key="frame" x="82" y="22" width="282" height="21"/>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="phone" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Ha-pF-0jG">
+                                        <rect key="frame" x="82" y="22.666666666666686" width="282" height="20.333333333333329"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
                                     </label>
@@ -552,6 +552,7 @@
                     <navigationItem key="navigationItem" title="Contact Us" id="DMR-6v-pZH"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
                     <connections>
+                        <outlet property="cellLabel" destination="5Ha-pF-0jG" id="77U-Kq-6YM"/>
                         <outlet property="logo" destination="Ez9-Xz-bTt" id="f0E-2X-6St"/>
                     </connections>
                 </viewController>
