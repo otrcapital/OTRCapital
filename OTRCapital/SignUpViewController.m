@@ -64,7 +64,7 @@
 }
 
 - (IBAction)onEmailButtonPressed:(id)sender {
-    NSArray *toRecipents = [NSArray arrayWithObject:@"info@otrcapital.com"];
+    NSArray *toRecipents = [NSArray arrayWithObject:[[OTRManager sharedManager] contactEmail]];
     MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
     mc.mailComposeDelegate = self;
     [mc setToRecipients:toRecipents];

@@ -14,6 +14,7 @@
 @property (nonatomic, weak) IBOutlet UIImageView *logo;
 @property (nonatomic, weak) IBOutlet UILabel *cellLabel;
 @property (nonatomic, weak) IBOutlet UILabel *faxLabel;
+@property (nonatomic, weak) IBOutlet UILabel *emailLabel;
 
 - (IBAction)onFbButtonPressed:(id)sender;
 - (IBAction)onGPlusButtonPressed:(id)sender;
@@ -33,6 +34,7 @@
     
     [self.cellLabel setText:[[OTRManager sharedManager] telNumber]];
     [self.faxLabel setText:[[OTRManager sharedManager] faxNumber]];
+    [self.emailLabel setText:[[OTRManager sharedManager] contactEmail]];
 }
 
 - (IBAction)onFbButtonPressed:(id)sender {
@@ -61,7 +63,7 @@
 }
 
 - (IBAction)onEmailButtonTap:(id)sender {
-    NSArray *toRecipents = [NSArray arrayWithObject:@"info@otrcapital.com"];
+    NSArray *toRecipents = [NSArray arrayWithObject:[[OTRManager sharedManager] contactEmail]];
     MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
     if (mc) {
         mc.mailComposeDelegate = self;
