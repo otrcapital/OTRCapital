@@ -148,19 +148,19 @@
 }
 
 - (IBAction)onFbButtonPressed:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.facebook.com/pages/OTR-Capital/473947932696034"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[[OTRManager sharedManager] urlFacebook]]];
 }
 
 - (IBAction)onGPlusButtonPressed:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://plus.google.com/112871732199319272036/about?hl=en"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[[OTRManager sharedManager] urlGooglePlus]]];
 }
 
 - (IBAction)onInstraButtonPressed:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://instagram.com/otrcapital/"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[[OTRManager sharedManager] urlInstagram]]];
 }
 
 - (IBAction)onLinkedInButtonPressed:(id)sender {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://www.linkedin.com/company/otr-capital"]];
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[[OTRManager sharedManager] urlLinkedin]]];
 }
 
 - (IBAction)onTwitterButtonPressed:(id)sender {
@@ -168,7 +168,7 @@
     self.emailTextField.text = @"MobileOTRCapital@otrcapital.com";
     self.passwordTextField.text = @"Portal123";
 #else
-     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://twitter.com/otrcapitalllc"]];
+     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:[[OTRManager sharedManager] urlTwitter]]];
 #endif
 }
 
