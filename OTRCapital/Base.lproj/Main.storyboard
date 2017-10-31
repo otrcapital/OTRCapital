@@ -302,7 +302,7 @@
                                             <constraint firstAttribute="width" secondItem="ywg-oQ-yV6" secondAttribute="height" multiplier="23:20" id="a2N-eq-oqi"/>
                                         </constraints>
                                     </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="(770) 882-0125" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qEn-GY-yny">
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="fax" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qEn-GY-yny">
                                         <rect key="frame" x="82" y="22" width="272" height="21"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="highlightedColor"/>
@@ -553,6 +553,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" barStyle="black" prompted="NO"/>
                     <connections>
                         <outlet property="cellLabel" destination="5Ha-pF-0jG" id="77U-Kq-6YM"/>
+                        <outlet property="faxLabel" destination="qEn-GY-yny" id="gnm-lk-9KI"/>
                         <outlet property="logo" destination="Ez9-Xz-bTt" id="f0E-2X-6St"/>
                     </connections>
                 </viewController>

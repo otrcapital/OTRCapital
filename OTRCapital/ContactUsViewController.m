@@ -13,6 +13,7 @@
 
 @property (nonatomic, weak) IBOutlet UIImageView *logo;
 @property (nonatomic, weak) IBOutlet UILabel *cellLabel;
+@property (nonatomic, weak) IBOutlet UILabel *faxLabel;
 
 - (IBAction)onFbButtonPressed:(id)sender;
 - (IBAction)onGPlusButtonPressed:(id)sender;
@@ -31,6 +32,7 @@
     self.logo.hidden = IS_IPHONE_4;
     
     [self.cellLabel setText:[[OTRManager sharedManager] telNumber]];
+    [self.faxLabel setText:[[OTRManager sharedManager] faxNumber]];
 }
 
 - (IBAction)onFbButtonPressed:(id)sender {
