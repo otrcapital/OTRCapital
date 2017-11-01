@@ -49,7 +49,7 @@
 }
 
 - (void)fetchSettings {
-    int expirationDuration = 0;
+    int expirationDuration = 3600;
     [self.remoteConfig fetchWithExpirationDuration:expirationDuration completionHandler:^(FIRRemoteConfigFetchStatus status, NSError * _Nullable error) {
         if (status == FIRRemoteConfigFetchStatusSuccess) {
             [self.remoteConfig activateFetched];
