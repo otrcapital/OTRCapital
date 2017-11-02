@@ -10,4 +10,7 @@
 #import <MessageUI/MessageUI.h>
 
 @interface ContactUsViewController : UIViewController <MFMailComposeViewControllerDelegate>
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *lcTopOffsetContainer;
+
 @end
