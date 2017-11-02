@@ -121,7 +121,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="background_truck.png" translatesAutoresizingMaskIntoConstraints="NO" id="kc9-e6-nmr">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                                <rect key="frame" x="0.0" y="64" width="414" height="672"/>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" image="otr_logo.png" translatesAutoresizingMaskIntoConstraints="NO" id="id3-gX-1Il">
                                 <rect key="frame" x="12" y="64" width="390" height="326"/>
@@ -157,8 +157,8 @@
                             </constraint>
                             <constraint firstItem="4Gk-7R-3h8" firstAttribute="top" secondItem="I4t-rc-9ji" secondAttribute="bottom" constant="22" id="GBM-2s-V8i"/>
                             <constraint firstItem="kc9-e6-nmr" firstAttribute="leading" secondItem="6HU-YN-l8k" secondAttribute="leading" id="Hc1-E0-oIc"/>
-                            <constraint firstAttribute="bottom" secondItem="kc9-e6-nmr" secondAttribute="bottom" id="LDS-UM-wQu"/>
-                            <constraint firstItem="kc9-e6-nmr" firstAttribute="top" secondItem="6HU-YN-l8k" secondAttribute="top" id="QK4-hD-a2Q"/>
+                            <constraint firstItem="4Gk-7R-3h8" firstAttribute="top" secondItem="kc9-e6-nmr" secondAttribute="bottom" id="LDS-UM-wQu"/>
+                            <constraint firstItem="kc9-e6-nmr" firstAttribute="top" secondItem="1GH-aw-Jbf" secondAttribute="bottom" id="QK4-hD-a2Q"/>
                             <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="id3-gX-1Il" secondAttribute="trailing" constant="12" id="SaU-Nw-4Q8">
                                 <variation key="heightClass=regular-widthClass=regular" constant="20"/>
                             </constraint>
@@ -1153,6 +1153,9 @@
                                 <variation key="heightClass=regular-widthClass=regular" constant="20"/>
                             </constraint>
                             <constraint firstItem="19Y-5w-Hid" firstAttribute="top" secondItem="3oM-JA-jsx" secondAttribute="bottom" constant="24" id="CpO-Yi-e9f"/>
+                            <constraint firstItem="VfS-Bx-18p" firstAttribute="leading" secondItem="395" secondAttribute="leadingMargin" constant="20" id="DQK-nZ-0Ek">
+                                <variation key="heightClass=regular-widthClass=regular" constant="80"/>
+                            </constraint>
                             <constraint firstItem="8jE-vM-xK2" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="395" secondAttribute="leading" constant="12" id="Dne-se-NRk">
                                 <variation key="heightClass=regular-widthClass=regular" constant="20"/>
                             </constraint>
@@ -1169,6 +1172,9 @@
                             </constraint>
                             <constraint firstAttribute="trailing" secondItem="1XA-FC-MXJ" secondAttribute="trailing" id="kg7-dQ-Nh0"/>
                             <constraint firstItem="dld-x9-O9A" firstAttribute="bottom" secondItem="3oM-JA-jsx" secondAttribute="bottom" id="mJT-o9-Cnn"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="VfS-Bx-18p" secondAttribute="trailing" constant="20" id="mUJ-L4-Z3Q">
+                                <variation key="heightClass=regular-widthClass=regular" constant="50"/>
+                            </constraint>
                             <constraint firstItem="dld-x9-O9A" firstAttribute="top" secondItem="TUu-Ls-5jp" secondAttribute="top" id="nfW-I2-1fT"/>
                             <constraint firstAttribute="trailingMargin" secondItem="dld-x9-O9A" secondAttribute="trailing" id="r7V-T1-ZAS"/>
                             <constraint firstItem="8jE-vM-xK2" firstAttribute="centerX" secondItem="395" secondAttribute="centerX" id="rK3-zB-NY9"/>
@@ -1179,14 +1185,12 @@
                         </constraints>
                         <variation key="heightClass=regular-widthClass=regular">
                             <mask key="constraints">
+                                <exclude reference="mUJ-L4-Z3Q"/>
                                 <exclude reference="vRy-Ms-cbG"/>
                             </mask>
                         </variation>
                     </view>
                     <nil key="simulatedTopBarMetrics"/>
-                    <connections>
-                        <outlet property="lcBottomCenterContainer" destination="fAB-F9-8Dx" id="XW7-om-XJd"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="396" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

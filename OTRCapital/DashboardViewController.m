@@ -16,7 +16,6 @@
 #import "AssetsLibrary/AssetsLibrary.h"
 
 @interface DashboardViewController () <UIActionSheetDelegate, MAImagePickerControllerDelegate>
-
 - (IBAction)onSignOutButtonPressed:(id)sender;
 
 @end
@@ -26,10 +25,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationController.navigationBar.barStyle = UIBarStyleBlackOpaque;
-    
-#ifdef IS_IPHONE_X
-    self.lcBottomCenterContainer.constant = 70.0f;
-#endif
 }
 
 - (void)viewWillAppear:(BOOL)animated {
