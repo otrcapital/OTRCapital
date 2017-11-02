@@ -16,6 +16,7 @@
 @property (nonatomic, weak) IBOutlet UILabel *faxLabel;
 @property (nonatomic, weak) IBOutlet UILabel *emailLabel;
 @property (nonatomic, weak) IBOutlet UILabel *addressLabel;
+@property (nonatomic, strong) IBOutlet NSLayoutConstraint *lcTopOffsetContainer;
 
 - (IBAction)onFbButtonPressed:(id)sender;
 - (IBAction)onGPlusButtonPressed:(id)sender;
@@ -32,6 +33,10 @@
     [super viewDidLoad];
     
     self.logo.hidden = IS_IPHONE_4;
+    
+#ifdef IS_IPHONE_X
+    self.lcTopOffsetContainer.constant = 74.0f;
+#endif
     
     [self.cellLabel setText:[[OTRManager sharedManager] telNumber]];
     [self.faxLabel setText:[[OTRManager sharedManager] faxNumber]];

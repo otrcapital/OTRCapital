@@ -491,10 +491,7 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="Nbl-mS-l3g" firstAttribute="top" secondItem="Ez9-Xz-bTt" secondAttribute="bottom" constant="20" id="0UC-FF-fds">
-                                <variation key="heightClass=regular-widthClass=compact" constant="20"/>
-                                <variation key="heightClass=regular-widthClass=regular" constant="30"/>
-                            </constraint>
+                            <constraint firstItem="Nbl-mS-l3g" firstAttribute="top" secondItem="Ez9-Xz-bTt" secondAttribute="bottom" constant="20" id="0UC-FF-fds"/>
                             <constraint firstItem="m5Q-A1-eY1" firstAttribute="leading" secondItem="Nbl-mS-l3g" secondAttribute="leading" id="1Eg-wu-I10"/>
                             <constraint firstAttribute="trailing" secondItem="Nbl-mS-l3g" secondAttribute="trailing" constant="20" id="2Ya-he-whc">
                                 <variation key="heightClass=regular-widthClass=regular" constant="40"/>
@@ -542,6 +539,7 @@
                         <outlet property="cellLabel" destination="5Ha-pF-0jG" id="77U-Kq-6YM"/>
                         <outlet property="emailLabel" destination="HyO-Nf-gCJ" id="5g9-yj-8Mt"/>
                         <outlet property="faxLabel" destination="qEn-GY-yny" id="gnm-lk-9KI"/>
+                        <outlet property="lcTopOffsetContainer" destination="0UC-FF-fds" id="8pL-KY-bN3"/>
                         <outlet property="logo" destination="Ez9-Xz-bTt" id="f0E-2X-6St"/>
                     </connections>
                 </viewController>
