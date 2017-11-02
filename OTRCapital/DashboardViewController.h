@@ -9,4 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface DashboardViewController : UIViewController
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *lcBottomCenterContainer;
+
 @end
