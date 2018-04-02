@@ -295,7 +295,16 @@
 }
 
 - (void)showShareImageDialog:(UIImage *)image {
-    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[image] applicationActivities:nil];
+    NSArray *documentsPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentPath = [[documentsPaths objectAtIndex:0] stringByAppendingString:@"/document.pdf"];
+    CGSize pdfPageSize = CGSizeMake(612.0, 792.0);
+    UIGraphicsBeginPDFContextToFile(documentPath, CGRectZero, nil);
+    UIGraphicsBeginPDFPageWithInfo(CGRectMake(0, 0, pdfPageSize.width, pdfPageSize.height), nil); // default pdf page size is 612 x 792.
+    [image drawInRect:CGRectMake(0.0, 0.0, pdfPageSize.width, pdfPageSize.height)];
+    UIGraphicsEndPDFContext();
+    
+    NSData *document = [NSData dataWithContentsOfFile:documentPath];
+    UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[document] applicationActivities:nil];
     controller.popoverPresentationController.sourceView = self.view;
     controller.excludedActivityTypes = @[UIActivityTypeAirDrop, UIActivityTypePostToFacebook];
     [controller setValue:@"DOCUMENT SENT USING OTR APP" forKey:@"subject"];
