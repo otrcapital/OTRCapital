@@ -43,36 +43,39 @@
     NSPredicate *predicate = [NSPredicate predicateWithBlock:^BOOL(id evaluatedObject, NSDictionary *bindings) {
         return ![evaluatedObject hasSuffix:@".pdf"];
     }];
-    
-    filePathsArray =  [filePathsArray filteredArrayUsingPredicate:predicate];
-    
+    filePathsArray = [filePathsArray filteredArrayUsingPredicate:predicate];
+    filePathsArray = [filePathsArray sortedArrayUsingComparator:^(id a, id b) {
+        double first = [a doubleValue];
+        double second = [b doubleValue];
+        return first >= second ? NSOrderedAscending : NSOrderedDescending;
+    }];
     NSMutableArray *tableData = [NSMutableArray new];
     
     for (int i = (int) filePathsArray.count - 1; i >= 0 ; i--) {
         OTRNote *note = [OTRNote new];
         NSString *folderName = [filePathsArray  objectAtIndex:i];
-        
+
         note.folderName = folderName;
-        
+
         NSString *directoryPath = [NSString stringWithFormat:@"%@/%@", rootDirectoryPath, folderName];
         NSArray *directoryContent = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:directoryPath error:NULL];
-        
+
         if (!directoryContent || directoryContent.count == 0) {
             continue;
         }
-        
+
         note.directoryPath = directoryPath;
         note.directoryContents = directoryContent;
-        
+
         NSString *imagePath = nil;
         @try {
             imagePath = [NSString stringWithFormat:@"%@/%@", directoryPath,[directoryContent objectAtIndex:0]];
         } @catch (NSException *exception) {}
-        
+
         if (imagePath) {
             note.imagePath = imagePath;
         }
-        
+
         NSDictionary *otrData = [[OTRManager sharedManager] getOtrInfoWithKey:folderName];
         if (otrData) {
             note.otrDataFixed = otrData;
@@ -91,15 +94,16 @@
                 note.advReqAmount = advReqAmount;
             }
         }
-        
+
         NSDate *date =  [NSDate dateWithTimeIntervalSince1970:[folderName doubleValue]];
         NSString *dateString = [NSDateFormatter localizedStringFromDate:date
                                                               dateStyle:NSDateFormatterShortStyle
                                                               timeStyle:NSDateFormatterShortStyle];
         note.time = dateString;
-        
+
         [tableData addObject:note];
     }
+    
     [self setTableData: tableData];
     [self.tableView reloadData];
 }
