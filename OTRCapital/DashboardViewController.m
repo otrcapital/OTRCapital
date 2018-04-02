@@ -298,6 +298,7 @@
     UIActivityViewController *controller = [[UIActivityViewController alloc] initWithActivityItems:@[image] applicationActivities:nil];
     controller.popoverPresentationController.sourceView = self.view;
     controller.excludedActivityTypes = @[UIActivityTypeAirDrop, UIActivityTypePostToFacebook];
+    [controller setValue:@"DOCUMENT SENT USING OTR APP" forKey:@"subject"];
     [self presentViewController:controller animated:YES completion:nil];
 }
 
