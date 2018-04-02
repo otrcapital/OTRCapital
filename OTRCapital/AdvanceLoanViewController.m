@@ -227,8 +227,8 @@
         NSInteger counter = 0;
         for(NSString *name in muary_Interest_Main)
         {
-            NSRange r = [name rangeOfString:str_Search_String options:NSCaseInsensitiveSearch];
-            if(r.length > 0)
+            BOOL hasPrefix = [name.lowercaseString hasPrefix:str_Search_String.lowercaseString];
+            if(hasPrefix)
             {
                 [muary_Interest_Sub addObject:name];
             }
