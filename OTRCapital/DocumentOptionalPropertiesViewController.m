@@ -34,7 +34,7 @@
 @property (weak, nonatomic) IBOutlet UISwitch *lf_switchRateConformation;
 @property (weak, nonatomic) IBOutlet UISwitch *ad_switchBillOfLanding;
 @property (weak, nonatomic) IBOutlet UISwitch *ad_switchRateConformation;
-@property (weak, nonatomic) IBOutlet UIButton *btnUploadDocument;
+@property (weak, nonatomic) IBOutlet UIButton *btnSubmitInvoice;
 
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *lcBottomViewTop;
 @property (strong, nonatomic) IBOutletCollection(UIView) NSArray *ocLoadFactor;
@@ -98,7 +98,7 @@
         self.lcBottomViewTop.constant = IS_IPAD ? 300 : 240;
     } else{
         [self.ocLoadFactor makeObjectsPerformSelector:@selector(setHidden:) withObject:@(YES)];
-        [self.btnUploadDocument setTitle:@"Request Fuel Advance" forState:UIControlStateNormal];
+        [self.btnSubmitInvoice setTitle:@"Request Fuel Advance" forState:UIControlStateNormal];
         self.lcBottomViewTop.constant = IS_IPAD ? 240 : 170;
     }
 }
@@ -242,7 +242,7 @@
     [controller dismissViewControllerAnimated:YES completion:NULL];
 }
 
-- (IBAction)onUploadDocumentButtonPressed:(id)sender {
+- (IBAction)onSubmitInvoiceButtonPressed:(id)sender {
     self.isUploaded = YES;
     if (![self isValidInfo]) {
         [self showAlertViewWithTitle:@"Information Missing" andWithMessage:@"Some of required fields are missing. You may have not selected any document type. Kindly correct it out to continue." andWithTag:TAG_ALERT_VIEW_INFO_MISSING];

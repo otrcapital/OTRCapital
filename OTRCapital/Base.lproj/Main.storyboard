@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="TWD-J6-SqV">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="TWD-J6-SqV">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
@@ -1490,7 +1490,7 @@
                                                         <rect key="frame" x="116" y="0.0" width="254" height="46"/>
                                                     </imageView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Phone Number:" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" minimumFontSize="14" translatesAutoresizingMaskIntoConstraints="NO" id="oOl-dE-Nd4">
-                                                        <rect key="frame" x="6" y="0.0" width="101" height="46"/>
+                                                        <rect key="frame" x="6" y="0.0" width="100.66666666666667" height="46"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -2314,7 +2314,7 @@
                                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no" keyboardType="decimalPad" returnKeyType="next"/>
                                             </textField>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Total Load Amount:" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="110" translatesAutoresizingMaskIntoConstraints="NO" id="6y4-io-58Q">
-                                                <rect key="frame" x="6" y="0.0" width="67" height="44"/>
+                                                <rect key="frame" x="6" y="0.0" width="66.333333333333329" height="44"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                 <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 <nil key="highlightedColor"/>
@@ -3282,8 +3282,8 @@
                                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blue_light_rect.png" translatesAutoresizingMaskIntoConstraints="NO" id="VQP-Sb-eLB">
                                                         <rect key="frame" x="0.0" y="0.0" width="370" height="44"/>
                                                     </imageView>
-                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rate Confirmation:" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nr4-rv-2V3">
-                                                        <rect key="frame" x="6" y="0.0" width="114" height="44"/>
+                                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Others:" lineBreakMode="clip" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nr4-rv-2V3">
+                                                        <rect key="frame" x="6" y="0.0" width="45" height="44"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <nil key="highlightedColor"/>
@@ -3396,11 +3396,11 @@
                                                         <variation key="heightClass=regular-widthClass=regular" constant="300"/>
                                                     </constraint>
                                                 </constraints>
-                                                <state key="normal" title="Upload this Document" backgroundImage="button_blue_dark.png">
+                                                <state key="normal" title="Submit Invoice" backgroundImage="button_blue_dark.png">
                                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="onUploadDocumentButtonPressed:" destination="XXg-UI-wYm" eventType="touchUpInside" id="h7k-yv-ELs"/>
+                                                    <action selector="onUploadDocumentButtonPressed:" destination="XXg-UI-wYm" eventType="touchUpInside" id="qQI-9S-Yqw"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -3494,7 +3494,7 @@
                     <connections>
                         <outlet property="ad_switchBillOfLanding" destination="Da0-vf-on0" id="E1x-nD-dIw"/>
                         <outlet property="ad_switchRateConformation" destination="1XD-RB-I9R" id="eTB-Vk-2iV"/>
-                        <outlet property="btnUploadDocument" destination="NZs-hp-O0G" id="pQC-xh-seK"/>
+                        <outlet property="btnSubmitInvoice" destination="NZs-hp-O0G" id="wYQ-fQ-4sb"/>
                         <outlet property="lblBrokerName" destination="aaQ-Xn-us6" id="e7M-Vn-DO4"/>
                         <outlet property="lcBottomViewTop" destination="prT-Ah-p2R" id="raD-rI-zFj"/>
                         <outlet property="lf_switchOthers" destination="OkV-Ke-tTg" id="je1-HO-enw"/>
