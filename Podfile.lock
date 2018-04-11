@@ -1,7 +1,7 @@
 PODS:
-  - Crashlytics (3.8.1):
-    - Fabric (~> 1.6.3)
-  - Fabric (1.6.8)
+  - Crashlytics (3.10.1):
+    - Fabric (~> 1.7.5)
+  - Fabric (1.7.6)
   - MagicalRecord (2.3.2):
     - MagicalRecord/Core (= 2.3.2)
   - MagicalRecord/Core (2.3.2)
@@ -16,8 +16,8 @@ DEPENDENCIES:
   - SDWebImage (~> 3.8)
 
 SPEC CHECKSUMS:
-  Crashlytics: 4391d8df0b125345e9f209c5db6e7f40a6a8435d
-  Fabric: 5755268d0171435ab167e3d0878a28a777deaf10
+  Crashlytics: aee1a064cbbf99b32efa3f056a5f458d846bc8ff
+  Fabric: f8d42c893bb187326a7968b62abe55c36a987a46
   MagicalRecord: 53bed74b4323b930992a725be713e53b37d19755
   SDWebImage: 098e97e6176540799c27e804c96653ee0833d13c
 
