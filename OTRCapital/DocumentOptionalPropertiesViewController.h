@@ -13,7 +13,7 @@
 
 @interface DocumentOptionalPropertiesViewController : UIViewController<UINavigationControllerDelegate, MAImagePickerControllerDelegate, UITextFieldDelegate, UIAlertViewDelegate, UITableViewDelegate, UITableViewDataSource, MFMailComposeViewControllerDelegate>
 
-- (IBAction)onUploadDocumentButtonPressed:(id)sender;
+- (IBAction)onSubmitInvoiceButtonPressed:(id)sender;
 - (IBAction)onScanMoreDocumentButtonPressed:(id)sender;
 - (void) initLoadFactor;
 - (void) initAdvanceLoan;

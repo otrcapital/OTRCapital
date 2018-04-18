@@ -460,7 +460,7 @@
             [self.navigationController popToRootViewControllerAnimated:YES];
         }
         else{
-            [self onUploadDocumentButtonPressed:nil];
+            [self onSubmitInvoiceButtonPressed:nil];
         }
     }
 }

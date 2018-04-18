@@ -3400,7 +3400,7 @@
                                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                 </state>
                                                 <connections>
-                                                    <action selector="onUploadDocumentButtonPressed:" destination="XXg-UI-wYm" eventType="touchUpInside" id="qQI-9S-Yqw"/>
+                                                    <action selector="onSubmitInvoiceButtonPressed:" destination="XXg-UI-wYm" eventType="touchUpInside" id="m92-dF-JO2"/>
                                                 </connections>
                                             </button>
                                         </subviews>
